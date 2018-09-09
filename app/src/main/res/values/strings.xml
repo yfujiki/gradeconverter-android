@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">GradeConverter</string>
     <string name="edit">Edit</string>
+    <string name="info">Info</string>
 </resources>
