@@ -1,10 +1,13 @@
 package com.yfujiki.gradeconverter
 
+import android.app.Dialog
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -12,6 +15,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val googleApiAvailability = GoogleApiAvailability.getInstance()
+        val resultCode = googleApiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            googleApiAvailability.getErrorDialog(this, resultCode, 0).show()
+        }
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
