@@ -3,8 +3,10 @@ package com.yfujiki.gradeconverter
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import kotlinx.android.synthetic.main.action_bar_title_view.view.*
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -19,6 +21,8 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
+
+        customizeTitleView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -36,5 +40,15 @@ class MainActivity : AppCompatActivity() {
             R.id.info_menu_item -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun customizeTitleView() {
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        val inflater = LayoutInflater.from(this)
+        val titleView = inflater.inflate(R.layout.action_bar_title_view, null)
+        titleView.title.setText(this.title)
+        supportActionBar?.setCustomView(titleView)
     }
 }
