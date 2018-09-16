@@ -15,9 +15,9 @@ class GradeSystemTableTest {
         val appContext = InstrumentationRegistry.getTargetContext()
         GradeSystemTable.init(appContext)
 
-        assertEquals(17, GradeSystemTable.tableBody.count())
+        assertEquals(16, GradeSystemTable.tableBody.count())
         assertTrue(GradeSystemTable.tableBody.keys.contains("Yosemite Decimal System-Sports"))
         assertTrue(GradeSystemTable.tableBody.keys.contains("Brazil-Boulder"))
-        assertEquals(30, GradeSystemTable.tableBody["Yosemite Decimal System-Sports"]?.grades?.count())
+        assertEquals(42, GradeSystemTable.tableBody["Yosemite Decimal System-Sports"]?.grades?.count())
     }
 }

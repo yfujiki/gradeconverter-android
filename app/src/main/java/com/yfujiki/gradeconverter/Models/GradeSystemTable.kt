@@ -1,10 +1,8 @@
 package com.yfujiki.gradeconverter.Models
 
-import android.annotation.SuppressLint
 import android.content.Context
 import java.io.File
 import java.io.InputStream
-import java.nio.file.Files
 import java.util.HashMap
 
 object GradeSystemTable {
@@ -12,9 +10,9 @@ object GradeSystemTable {
     lateinit var context: Context
     var tableBody: HashMap<String, GradeSystem> = hashMapOf<String, GradeSystem>()
 
-    public fun assetFile(): File = File("GradeSystemTable.csv")
+    private fun assetFileInputStream(): InputStream = context.assets.open("GradeSystemTable.csv")
 
-    public fun driveFile(): File = File(context.filesDir, "GradeSystemTable.csv")
+    private fun driveFile(): File = File(context.filesDir, "GradeSystemTable.csv")
 
     // We first need to call this method in order to use this singleton
     fun init(context: Context) {
@@ -29,17 +27,19 @@ object GradeSystemTable {
             return
         }
 
-        val inputStream = assetFile().inputStream()
-        val outputStream = driveFile().outputStream()
+        val inputStream = assetFileInputStream()
+        var inputReader = inputStream.bufferedReader()
+        val outputWriter = driveFile().bufferedWriter()
 
-        inputStream.bufferedReader().useLines {
+        inputReader.useLines {
             it.forEach {
-                outputStream.write(it.toByteArray())
+                outputWriter.write(it)
+                outputWriter.newLine()
             }
         }
 
         inputStream.close()
-        outputStream.close()
+        outputWriter.close()
     }
 
     private fun readContentsOfFile() {
@@ -47,8 +47,14 @@ object GradeSystemTable {
 
         var lines = listOf<String>()
         inputStream.bufferedReader().useLines {
-            lines = it.toList()
+            it.forEach {
+                var mutableList = lines.toMutableList()
+                mutableList.add(it)
+                lines = mutableList
+            }
         }
+
+        inputStream.close()
 
         val names = lines[0].split(",")
         val categories = lines[1].split(",")
@@ -70,7 +76,7 @@ object GradeSystemTable {
 
             for(i in 0 until names.count()) {
                 val key = "${names[i]}-${categories[i]}"
-                tableBody[key]?.grades = gradesOfSameLevel
+                tableBody[key]?.addGrade(gradesOfSameLevel[i])
             }
         }
     }

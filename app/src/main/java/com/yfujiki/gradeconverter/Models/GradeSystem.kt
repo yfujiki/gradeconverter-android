@@ -16,7 +16,9 @@ class GradeSystem : Comparable<GradeSystem> {
     public fun key(): String = "${name}-${category}"
 
     public fun addGrade(grade: String) {
-        grades.toMutableList().add(grade)
+        var mutableList = grades.toMutableList()
+        mutableList.add(grade)
+        grades = mutableList
     }
 
     public override fun compareTo(other: GradeSystem): Int {
