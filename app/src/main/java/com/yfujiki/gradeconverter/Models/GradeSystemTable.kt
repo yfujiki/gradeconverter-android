@@ -80,4 +80,6 @@ object GradeSystemTable {
             }
         }
     }
+
+    fun gradeSystemForNameCategory(name: String, category: String): GradeSystem? = tableBody["${name}-${category}"]
 }
