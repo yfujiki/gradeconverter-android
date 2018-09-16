@@ -2,6 +2,8 @@ package com.yfujiki.gradeconverter.Utilities
 
 import android.content.Context
 import android.graphics.Typeface
+import android.support.v4.content.res.ResourcesCompat
+import com.yfujiki.gradeconverter.R
 import java.util.*
 
 class Localization {
@@ -54,28 +56,22 @@ class Localization {
             }
         }
 
-        fun fontFileForCurrentLang(): String {
-            return when (currentLang()) {
-                Lang.EN -> "font/rounded_mplus_2p_light.ttf"
-                Lang.JA -> "font/nicomoji_plus.ttf"
-                Lang.OTHERS -> "font/rounded_mplus_2p_light.ttf"
+        fun typefaceForCurrentLang(context: Context): Typeface? {
+            val resourceId = when (currentLang()) {
+                Lang.EN -> R.font.rounded_mplus_2p_light
+                Lang.JA -> R.font.nicomoji_plus
+                Lang.OTHERS -> R.font.rounded_mplus_2p_light
             }
+            return ResourcesCompat.getFont(context, resourceId)
         }
 
-        fun boldFontFileForCurrentLang(): String {
-            return when (currentLang()) {
-                Lang.EN -> "font/rounded_mplus_2p_heavy.ttf"
-                Lang.JA -> "font/nicomoji_plus.ttf"
-                Lang.OTHERS -> "font/rounded_mplus_2p_heavy.ttf"
+        fun boldTypefaceForCurrentLang(context: Context): Typeface? {
+            val resourceId = when (currentLang()) {
+                Lang.EN -> R.font.rounded_mplus_2p_heavy
+                Lang.JA -> R.font.nicomoji_plus
+                Lang.OTHERS -> R.font.rounded_mplus_2p_heavy
             }
-        }
-
-        fun typefaceForCurrentLang(context: Context): Typeface {
-            return Typeface.createFromAsset(context.assets, fontFileForCurrentLang())
-        }
-
-        fun boldTypefaceForCurrentLang(context: Context): Typeface {
-            return Typeface.createFromAsset(context.assets, boldFontFileForCurrentLang())
+            return ResourcesCompat.getFont(context, resourceId)
         }
     }
 }
