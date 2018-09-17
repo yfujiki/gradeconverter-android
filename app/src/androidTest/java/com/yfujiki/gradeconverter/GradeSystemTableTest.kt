@@ -30,13 +30,28 @@ class GradeSystemTableTest {
         setup()
 
         assertEquals("Brazil",
-                GradeSystemTable.gradeSystemForNameCategory("Brazil", "Sports")?.name)
+                GradeSystemTable.gradeSystemsForNameCategory("Brazil", "Sports")?.name)
         assertEquals("Sports",
-                GradeSystemTable.gradeSystemForNameCategory("Brazil", "Sports")?.category)
+                GradeSystemTable.gradeSystemsForNameCategory("Brazil", "Sports")?.category)
         assertEquals("Brazil",
-                GradeSystemTable.gradeSystemForNameCategory("Brazil", "Boulder")?.name)
+                GradeSystemTable.gradeSystemsForNameCategory("Brazil", "Boulder")?.name)
         assertEquals("Boulder",
-                GradeSystemTable.gradeSystemForNameCategory("Brazil", "Boulder")?.category)
+                GradeSystemTable.gradeSystemsForNameCategory("Brazil", "Boulder")?.category)
 
+    }
+
+    @Test
+    fun testGradeSystemForCountyCode() {
+        setup()
+
+        val gradeSystemsForUS = GradeSystemTable.gradeSystemsForCountryCode("US")
+        assertEquals("US grade should have Hueco and Yosemite",2, gradeSystemsForUS.count())
+        assertEquals("US grade should have Hueo and Yosemite", "Hueco", gradeSystemsForUS[0].name)
+        assertEquals("US grade should have Hueo and Yosemite", "Yosemite Decimal System", gradeSystemsForUS[1].name)
+
+        val gradeSystemsForJP = GradeSystemTable.gradeSystemsForCountryCode("JP")
+        assertEquals("Japan Grade should have Ogawayama and Toyota", 2, gradeSystemsForJP.count())
+        assertEquals("Japan Grade should have Ogawayama and Toyota", "Ogawayama", gradeSystemsForJP[0].name)
+        assertEquals("Japan Grade should have Ogawayama and Toyota", "Toyota", gradeSystemsForJP[1].name)
     }
 }

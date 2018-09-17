@@ -81,5 +81,13 @@ object GradeSystemTable {
         }
     }
 
-    fun gradeSystemForNameCategory(name: String, category: String): GradeSystem? = tableBody["${name}-${category}"]
+    fun gradeSystemsForNameCategory(name: String, category: String): GradeSystem? = tableBody["${name}-${category}"]
+
+    fun gradeSystemsForCountryCode(countryCode: String):List<GradeSystem> {
+        return tableBody.filter {
+            it.value.countryCodes.contains(countryCode)
+        }.values.sortedBy {
+            it.name
+        }
+    }
 }
