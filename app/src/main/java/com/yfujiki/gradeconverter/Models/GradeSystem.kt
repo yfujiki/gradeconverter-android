@@ -106,7 +106,7 @@ class GradeSystem : Comparable<GradeSystem> {
         }
     }
 
-    private fun higherGradeAtIndex(index: Int): String? {
+    fun higherGradeAtIndex(index: Int): String? {
         for (i in index until grades.count()) {
             if (grades[i].isNotEmpty()) {
                 return grades[i]
@@ -115,7 +115,7 @@ class GradeSystem : Comparable<GradeSystem> {
         return null
     }
 
-    private fun lowerGradeAtIndex(index: Int): String? {
+    fun lowerGradeAtIndex(index: Int): String? {
         for (i in (0 until index).reversed()) {
             if (grades[i].isNotEmpty()) {
                 return grades[i]
@@ -124,7 +124,7 @@ class GradeSystem : Comparable<GradeSystem> {
         return null
     }
 
-    private fun indexesForGrade(grade: String): List<Int> {
+    fun indexesForGrade(grade: String): List<Int> {
         var indexes = listOf<Int>().toMutableList()
 
         for (i in 0 until grades.count()) {
@@ -136,11 +136,11 @@ class GradeSystem : Comparable<GradeSystem> {
         return indexes
     }
 
-    private fun higherGradeFromIndexes(indexes: List<Int>): String? {
+    fun higherGradeFromIndexes(indexes: List<Int>): String? {
         return nextGradeFromIndexes(indexes, true)
     }
 
-    private fun lowerGradeFromIndexes(indexes: List<Int>): String? {
+    fun lowerGradeFromIndexes(indexes: List<Int>): String? {
         return nextGradeFromIndexes(indexes, false)
     }
 

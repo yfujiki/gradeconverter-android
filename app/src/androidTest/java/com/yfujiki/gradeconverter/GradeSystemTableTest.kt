@@ -83,4 +83,32 @@ class GradeSystemTableTest {
         assertEquals("Grade should match", "5.11a/5.11b", yosemiteGrade?.localizedGradeAtIndexes((22..23).toList(), appContext!!))
     }
 
+    @Test
+    fun textIndexesForGrade() {
+        setup()
+
+        val huecoGrade = GradeSystemTable.gradeSystemForNameCategory("Hueco", "Boulder")
+
+        assertEquals((0..14).toList(), huecoGrade?.indexesForGrade("VB"))
+        assertEquals((28..29).toList(), huecoGrade?.indexesForGrade("V6"))
+    }
+
+    @Test
+    fun testLowerHigherGradeFromIndexes() {
+        setup()
+
+        val huecoGrade = GradeSystemTable.gradeSystemForNameCategory("Hueco", "Boulder")
+
+        assertEquals("VB", huecoGrade?.lowerGradeFromIndexes((15..16).toList()))
+        assertEquals("V0+", huecoGrade?.higherGradeFromIndexes((15..16).toList()))
+
+        assertEquals("V0", huecoGrade?.lowerGradeFromIndexes((15..19).toList()))
+        assertEquals("V1", huecoGrade?.higherGradeFromIndexes((15..19).toList()))
+
+        assertEquals("V3", huecoGrade?.lowerGradeFromIndexes((21..24).toList()))
+        assertEquals("V4", huecoGrade?.higherGradeFromIndexes((21..24).toList()))
+
+        assertEquals("V3", huecoGrade?.lowerGradeFromIndexes((21..25).toList()))
+        assertEquals("V5", huecoGrade?.higherGradeFromIndexes((21..25).toList()))
+    }
 }
