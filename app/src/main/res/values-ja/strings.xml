@@ -4,4 +4,47 @@
     <string name="edit">編集</string>
     <string name="info">情報</string>
     <string name="hello">はろーワールド・世界</string>
+
+    <string name="sports">ルート</string>
+    <string name="boulder">ボルダー</string>
+
+    <string name="yosemite_decimal_system">ヨセミテ</string>
+    <string name="british_technical">ブリティッシュ テクニカル</string>
+    <string name="british_adjective">ブリティッシュ</string>
+    <string name="french">フレンチ</string>
+    <string name="uiaa">UIAA</string>
+    <string name="saxon">サクソン</string>
+    <string name="ewbank_aus_nz">オーストラリア</string>
+    <string name="ewbank_south_africa">南アフリカ</string>
+    <string name="nordic_fin">フィンランド</string>
+    <string name="nordic_swe_nor">スウェーデン・ノルウェー</string>
+    <string name="brazil">ブラジル</string>
+    <string name="hueco">フエコ Vグレード</string>
+    <string name="ogawayama">小川山</string>
+    <string name="fontainebleu">フォンテーヌブロー</string>
+    <string name="toyota">豊田</string>
+
+    <string name="ju_kyu">十級</string>
+    <string name="kyu_kyu">九級</string>
+    <string name="hachi_kyu">八級</string>
+    <string name="nana_kyu">七級</string>
+    <string name="roku_kyu">六級</string>
+    <string name="go_kyu">五級</string>
+    <string name="yon_kyu">四級</string>
+    <string name="san_kyu">三級</string>
+    <string name="ni_kyu">二級</string>
+    <string name="ikk_kyu">一級</string>
+    <string name="sho_dan">初段</string>
+    <string name="ni_dan">二段</string>
+    <string name="san_dan">三段</string>
+    <string name="yon_dan">四段</string>
+    <string name="go_dan">五段</string>
+    <string name="roku_dan">六段</string>
+    <string name="nana_dan">七段</string>
+    <string name="hachi_dan">八段</string>
+    <string name="kyu_dan">九段</string>
+
+    <string name="support_title">【サポート】クライミンググレード変換アプリについて</string>
+    <string name="update_alert">グレード表が更新されました。データをリロードします。</string>
+    <string name="ok">OK</string>
 </resources>

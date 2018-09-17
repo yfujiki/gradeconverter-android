@@ -1,5 +1,6 @@
 package com.yfujiki.gradeconverter
 
+import android.content.Context
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.yfujiki.gradeconverter.Models.GradeSystemTable
@@ -10,9 +11,11 @@ import org.junit.Assert.*
 @RunWith(AndroidJUnit4::class)
 class GradeSystemTableTest {
 
+    var appContext: Context? = null
+
     fun setup() {
-        val appContext = InstrumentationRegistry.getTargetContext()
-        GradeSystemTable.init(appContext)
+        appContext = InstrumentationRegistry.getTargetContext()
+        GradeSystemTable.init(appContext!!)
     }
 
     @Test
@@ -30,13 +33,13 @@ class GradeSystemTableTest {
         setup()
 
         assertEquals("Brazil",
-                GradeSystemTable.gradeSystemsForNameCategory("Brazil", "Sports")?.name)
+                GradeSystemTable.gradeSystemForNameCategory("Brazil", "Sports")?.name)
         assertEquals("Sports",
-                GradeSystemTable.gradeSystemsForNameCategory("Brazil", "Sports")?.category)
+                GradeSystemTable.gradeSystemForNameCategory("Brazil", "Sports")?.category)
         assertEquals("Brazil",
-                GradeSystemTable.gradeSystemsForNameCategory("Brazil", "Boulder")?.name)
+                GradeSystemTable.gradeSystemForNameCategory("Brazil", "Boulder")?.name)
         assertEquals("Boulder",
-                GradeSystemTable.gradeSystemsForNameCategory("Brazil", "Boulder")?.category)
+                GradeSystemTable.gradeSystemForNameCategory("Brazil", "Boulder")?.category)
 
     }
 
@@ -59,12 +62,25 @@ class GradeSystemTableTest {
     fun testGradeAtIndex() {
         setup()
 
-        val yosemiteGrade = GradeSystemTable.gradeSystemsForNameCategory("Yosemite Decimal System", "Sports")
+        val yosemiteGrade = GradeSystemTable.gradeSystemForNameCategory("Yosemite Decimal System", "Sports")
         assertEquals("Lowest grade should be 5.1", "5.1", yosemiteGrade?.gradeAtIndex(0, true))
         assertEquals("Highest grade should be 5.15c", "5.15c", yosemiteGrade?.gradeAtIndex(yosemiteGrade?.grades.count() - 1, false))
 
-        val britishTechnical = GradeSystemTable.gradeSystemsForNameCategory("British Technical", "Sports")
+        val britishTechnical = GradeSystemTable.gradeSystemForNameCategory("British Technical", "Sports")
         assertEquals("Lowest grade should be 2", "2", britishTechnical?.gradeAtIndex(0, true))
         assertEquals("Highest grade should be 7b", "7b", britishTechnical?.gradeAtIndex(britishTechnical?.grades.count() - 1, false))
     }
+
+    @Test
+    fun testGradeAtIndexes() {
+        setup()
+
+        val yosemiteGrade = GradeSystemTable.gradeSystemForNameCategory("Yosemite Decimal System", "Sports")
+
+        assertEquals("Grade should match", "5.1/5.2", yosemiteGrade?.localizedGradeAtIndexes((0..2).toList(), appContext!!))
+        assertEquals("Grade should match", "5.10d ~ 5.11b", yosemiteGrade?.localizedGradeAtIndexes((20..23).toList(), appContext!!))
+        assertEquals("Grade should match", "5.10d ~ 5.11b", yosemiteGrade?.localizedGradeAtIndexes((20..22).toList(), appContext!!))
+        assertEquals("Grade should match", "5.11a/5.11b", yosemiteGrade?.localizedGradeAtIndexes((22..23).toList(), appContext!!))
+    }
+
 }

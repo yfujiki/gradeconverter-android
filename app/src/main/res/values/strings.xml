@@ -3,4 +3,47 @@
     <string name="edit">Edit</string>
     <string name="info">Info</string>
     <string name="hello">Hello World</string>
+
+    <string name="sports">sports</string>
+    <string name="boulder">boulder</string>
+
+    <string name="yosemite_decimal_system">Yosemite Decimal System</string>
+    <string name="british_technical">British Technical</string>
+    <string name="british_adjective">British Adjective</string>
+    <string name="french">French</string>
+    <string name="uiaa">UIAA</string>
+    <string name="saxon">Saxon</string>
+    <string name="ewbank_aus_nz">Australia</string>
+    <string name="ewbank_south_africa">South Africa</string>
+    <string name="nordic_fin">Finland</string>
+    <string name="nordic_swe_nor">Sweden/Norway</string>
+    <string name="brazil">Brazil</string>
+    <string name="hueco">Hueco</string>
+    <string name="ogawayama">Ogawayama</string>
+    <string name="fontainebleu">Fontainebleu</string>
+    <string name="toyota">Toyota</string>
+
+    <string name="ju_kyu">10-kyu</string>
+    <string name="kyu_kyu">9-kyu</string>
+    <string name="hachi_kyu">8-kyu</string>
+    <string name="nana_kyu">7-kyu</string>
+    <string name="roku_kyu">6-kyu</string>
+    <string name="go_kyu">5-kyu</string>
+    <string name="yon_kyu">4-kyu</string>
+    <string name="san_kyu">3-kyu</string>
+    <string name="ni_kyu">2-kyu</string>
+    <string name="ikk_kyu">1-kyu</string>
+    <string name="sho_dan">1-dan</string>
+    <string name="ni_dan">2-dan</string>
+    <string name="san_dan">3-dan</string>
+    <string name="yon_dan">4-dan</string>
+    <string name="go_dan">5-dan</string>
+    <string name="roku_dan">6-dan</string>
+    <string name="nana_dan">7-dan</string>
+    <string name="hachi_dan">8-dan</string>
+    <string name="kyu_dan">9-dan</string>
+
+    <string name="support_title">[Support] About Grade Converter</string>
+    <string name="update_alert">The grade table is updated. Data will reload.</string>
+    <string name="ok">OK</string>
 </resources>

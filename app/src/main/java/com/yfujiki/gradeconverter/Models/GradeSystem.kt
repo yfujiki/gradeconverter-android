@@ -1,5 +1,8 @@
 package com.yfujiki.gradeconverter.Models
 
+import android.content.Context
+import com.yfujiki.gradeconverter.Utilities.Localization
+
 class GradeSystem : Comparable<GradeSystem> {
     val name: String
     val category:String
@@ -48,9 +51,64 @@ class GradeSystem : Comparable<GradeSystem> {
         return grade
     }
 
+    fun localizedGradeAtIndexes(indexes: List<Int>, context: Context): String {
+        val sortedIndexes = indexes.sorted()
+
+        val lowGrade = gradeAtIndex(sortedIndexes[0], false)
+        val highGrade = gradeAtIndex(sortedIndexes[indexes.count() - 1], true)
+
+        if (lowGrade == highGrade) {
+            Localization.stringResourceFor(lowGrade)?.let {
+                return context.getString(it)
+            } ?: run {
+                return lowGrade
+            }
+        } else if (lowGrade.isEmpty()) {
+            Localization.stringResourceFor(highGrade)?.let {
+                return "~ ${context.getString(it)}"
+            } ?: run {
+                return "~ ${highGrade}"
+            }
+        } else if (highGrade.isEmpty()) {
+            Localization.stringResourceFor(lowGrade)?.let {
+                return "${context.getString(it)} ~"
+            } ?: run {
+                return "${lowGrade} ~"
+            }
+        } else if (areAdjacentGrades(lowGrade, highGrade)) {
+            var lowGradeString = ""
+            var highGradeString = ""
+            Localization.stringResourceFor(lowGrade)?.let {
+                lowGradeString = context.getString(it)
+            } ?: run {
+                lowGradeString = lowGrade
+            }
+            Localization.stringResourceFor(highGrade)?.let {
+                highGradeString = context.getString(it)
+            } ?: run {
+                highGradeString = highGrade
+            }
+            return "${lowGradeString}/${highGradeString}"
+        } else {
+            var lowGradeString = ""
+            var highGradeString = ""
+            Localization.stringResourceFor(lowGrade)?.let {
+                lowGradeString = context.getString(it)
+            } ?: run {
+                lowGradeString = lowGrade
+            }
+            Localization.stringResourceFor(highGrade)?.let {
+                highGradeString = context.getString(it)
+            } ?: run {
+                highGradeString = highGrade
+            }
+            return "${lowGradeString} ~ ${highGradeString}"
+        }
+    }
+
     private fun higherGradeAtIndex(index: Int): String? {
         for (i in index until grades.count()) {
-            if (grades[i].isEmpty()) {
+            if (grades[i].isNotEmpty()) {
                 return grades[i]
             }
         }
@@ -64,6 +122,69 @@ class GradeSystem : Comparable<GradeSystem> {
             }
         }
         return null
+    }
+
+    private fun indexesForGrade(grade: String): List<Int> {
+        var indexes = listOf<Int>().toMutableList()
+
+        for (i in 0 until grades.count()) {
+            if (grades[i] == grade) {
+                indexes.add(i)
+            }
+        }
+
+        return indexes
+    }
+
+    private fun higherGradeFromIndexes(indexes: List<Int>): String? {
+        return nextGradeFromIndexes(indexes, true)
+    }
+
+    private fun lowerGradeFromIndexes(indexes: List<Int>): String? {
+        return nextGradeFromIndexes(indexes, false)
+    }
+
+    private fun nextGradeFromIndexes(indexes: List<Int>, higher: Boolean): String? {
+        val sortedIndexes = indexes.sorted()
+
+        val lowGrade = gradeAtIndex(sortedIndexes[0], false)
+        val highGrade = gradeAtIndex(sortedIndexes[indexes.count() - 1], true)
+
+        var nextGrade: String? = null
+
+        if (lowGrade == highGrade) {
+            if (higher) {
+                for (i in sortedIndexes[indexes.count() - 1] until grades.count()) {
+                    if (grades[i].isNotEmpty() && grades[i] != highGrade) {
+                        nextGrade = grades[i]
+                        break
+                    }
+                }
+            } else {
+                for (i in (0 .. sortedIndexes[0]).reversed()) {
+                    if (grades[i].isNotEmpty() && grades[i] != lowGrade) {
+                        nextGrade = grades[i]
+                        break
+                    }
+                }
+            }
+        } else {
+            if (higher && highGrade.isNotEmpty()) {
+                nextGrade = highGrade
+            } else if (!higher && lowGrade.isNotEmpty()) {
+                nextGrade = lowGrade
+            }
+        }
+
+        return nextGrade
+    }
+
+    // Assuming lowGrade and highGrade are different grade strings and order is low => high.
+    private fun areAdjacentGrades(lowGrade: String, highGrade: String): Boolean {
+        val lowIndexes = indexesForGrade(lowGrade)
+        val nextToLowGrade = higherGradeFromIndexes(lowIndexes)
+
+        return nextToLowGrade == highGrade
     }
 
     override fun compareTo(other: GradeSystem): Int {

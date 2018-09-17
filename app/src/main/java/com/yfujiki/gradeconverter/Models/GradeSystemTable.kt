@@ -81,7 +81,7 @@ object GradeSystemTable {
         }
     }
 
-    fun gradeSystemsForNameCategory(name: String, category: String): GradeSystem? = tableBody["${name}-${category}"]
+    fun gradeSystemForNameCategory(name: String, category: String): GradeSystem? = tableBody["${name}-${category}"]
 
     fun gradeSystemsForCountryCode(countryCode: String):List<GradeSystem> {
         return tableBody.filter {
