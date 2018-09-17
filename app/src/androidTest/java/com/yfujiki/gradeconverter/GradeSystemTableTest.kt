@@ -54,4 +54,17 @@ class GradeSystemTableTest {
         assertEquals("Japan Grade should have Ogawayama and Toyota", "Ogawayama", gradeSystemsForJP[0].name)
         assertEquals("Japan Grade should have Ogawayama and Toyota", "Toyota", gradeSystemsForJP[1].name)
     }
+
+    @Test
+    fun testGradeAtIndex() {
+        setup()
+
+        val yosemiteGrade = GradeSystemTable.gradeSystemsForNameCategory("Yosemite Decimal System", "Sports")
+        assertEquals("Lowest grade should be 5.1", "5.1", yosemiteGrade?.gradeAtIndex(0, true))
+        assertEquals("Highest grade should be 5.15c", "5.15c", yosemiteGrade?.gradeAtIndex(yosemiteGrade?.grades.count() - 1, false))
+
+        val britishTechnical = GradeSystemTable.gradeSystemsForNameCategory("British Technical", "Sports")
+        assertEquals("Lowest grade should be 2", "2", britishTechnical?.gradeAtIndex(0, true))
+        assertEquals("Highest grade should be 7b", "7b", britishTechnical?.gradeAtIndex(britishTechnical?.grades.count() - 1, false))
+    }
 }
