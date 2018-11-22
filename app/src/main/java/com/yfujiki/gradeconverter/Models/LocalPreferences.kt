@@ -40,7 +40,7 @@ object LocalPreferences {
     fun setCurrentIndexes(indexes: List<Int>) {
         val gsonString = gson.toJson(indexes)
         body.edit()
-            .putString(gsonString, CURRENT_INDEXES_KEY)
+            .putString(CURRENT_INDEXES_KEY, gsonString)
             .apply()
     }
 
@@ -66,7 +66,7 @@ object LocalPreferences {
 
         val gsonString = gson.toJson(systemKeys)
         body.edit()
-            .putString(gsonString, SELECTED_GRADE_SYSTEMS_KEY)
+            .putString(SELECTED_GRADE_SYSTEMS_KEY, gsonString)
             .apply()
 
         // TODO :send notification (LocalBroadcastManager)
@@ -93,13 +93,18 @@ object LocalPreferences {
             return DEFAULT_GRADE_SYSTEM
         }
 
-        val type = object : TypeToken<HashMap<String, String>>() {}.type
-        val gradeSystems = gson.fromJson<HashMap<String, String>>(gsonString, type)
+        val type = object : TypeToken<List<Map<String, String>>>() {}.type
+        val gradeSystems = gson.fromJson<List<Map<String, String>>>(gsonString, type)
 
         return gradeSystems.mapNotNull {
-            val name = it.key
-            val category = it.value
-            GradeSystemTable.gradeSystemForNameCategory(name, category)
+            val name = it[GRADE_NAME_KEY]
+            val category = it[GRADE_CATEGORY_KEY]
+
+            if (name == null || category == null) {
+                null
+            } else {
+                GradeSystemTable.gradeSystemForNameCategory(name, category)
+            }
         }
     }
 
