@@ -7,29 +7,26 @@ import java.util.HashMap
 
 object GradeSystemTable {
 
-    lateinit var context: Context
     var tableBody: HashMap<String, GradeSystem> = hashMapOf<String, GradeSystem>()
 
-    private fun assetFileInputStream(): InputStream = context.assets.open("GradeSystemTable.csv")
+    private fun assetFileInputStream(context: Context): InputStream = context.assets.open("GradeSystemTable.csv")
 
-    private fun driveFile(): File = File(context.filesDir, "GradeSystemTable.csv")
+    private fun driveFile(context: Context): File = File(context.filesDir, "GradeSystemTable.csv")
 
     // We first need to call this method in order to use this singleton
     fun init(context: Context) {
-        this.context = context
-
-        moveFileToDrive()
-        readContentsOfFile()
+        moveFileToDrive(context)
+        readContentsOfFile(context)
     }
 
-    private fun moveFileToDrive() {
-        if (driveFile().exists()) {
+    private fun moveFileToDrive(context: Context) {
+        if (driveFile(context).exists()) {
             return
         }
 
-        val inputStream = assetFileInputStream()
-        var inputReader = inputStream.bufferedReader()
-        val outputWriter = driveFile().bufferedWriter()
+        val inputStream = assetFileInputStream(context)
+        val inputReader = inputStream.bufferedReader()
+        val outputWriter = driveFile(context).bufferedWriter()
 
         inputReader.useLines {
             it.forEach {
@@ -42,13 +39,13 @@ object GradeSystemTable {
         outputWriter.close()
     }
 
-    private fun readContentsOfFile() {
-        val inputStream = driveFile().inputStream()
+    private fun readContentsOfFile(context: Context) {
+        val inputStream = driveFile(context).inputStream()
 
         var lines = listOf<String>()
         inputStream.bufferedReader().useLines {
             it.forEach {
-                var mutableList = lines.toMutableList()
+                val mutableList = lines.toMutableList()
                 mutableList.add(it)
                 lines = mutableList
             }

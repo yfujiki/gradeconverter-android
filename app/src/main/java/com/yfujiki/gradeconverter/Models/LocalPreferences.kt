@@ -30,19 +30,18 @@ object LocalPreferences {
 
     val KEY = "com.yfujiki.gradeconverter.sharedpreferences"
 
-    private lateinit var context: Context
     private lateinit var body: SharedPreferences
     private val gson = GsonBuilder().create()
 
     fun init(context: Context) {
-        this.context = context
         this.body = context.getSharedPreferences(KEY, Context.MODE_PRIVATE)
     }
 
     fun setCurrentIndexes(indexes: List<Int>) {
         val gsonString = gson.toJson(indexes)
-        body.edit().putString(gsonString, CURRENT_INDEXES_KEY)
-        body.edit().apply()
+        body.edit()
+            .putString(gsonString, CURRENT_INDEXES_KEY)
+            .apply()
     }
 
     fun currentIndexes(): List<Int> {
@@ -66,15 +65,16 @@ object LocalPreferences {
         }
 
         val gsonString = gson.toJson(systemKeys)
-        body.edit().putString(gsonString, SELECTED_GRADE_SYSTEMS_KEY)
-        body.edit().apply()
+        body.edit()
+            .putString(gsonString, SELECTED_GRADE_SYSTEMS_KEY)
+            .apply()
 
         // TODO :send notification (LocalBroadcastManager)
 //        NotificationCenter.default.post(name: Notification.Name(rawValue: kNSUserDefaultsSystemSelectionChangedNotification), object: nil)
     }
 
     fun addSelectedGradeSystem(gradeSystem: GradeSystem) {
-        var gradeSystems = selectedGradeSystems().toMutableList()
+        val gradeSystems = selectedGradeSystems().toMutableList()
         gradeSystems.add(gradeSystem)
         setSelectedGradeSystems(gradeSystems)
     }
