@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import com.yfujiki.gradeconverter.Models.GradeSystem
+import com.yfujiki.gradeconverter.Models.GradeSystemTable
+import com.yfujiki.gradeconverter.Models.LocalPreferences
 import kotlinx.android.synthetic.main.action_bar_title_view.view.*
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -14,6 +17,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initializeApp()
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
@@ -40,6 +45,17 @@ class MainActivity : AppCompatActivity() {
             R.id.info_menu_item -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun initializeApp() {
+        GradeSystemTable.init(applicationContext)
+        LocalPreferences.init(applicationContext)
+        LocalPreferences.setSelectedGradeSystems(
+                // ToDo : tailor for countries
+                GradeSystemTable.gradeSystemsForCountryCode("US")
+        )
+        // ToDo : tailor for optimal index
+        LocalPreferences.setCurrentIndexes(listOf(0))
     }
 
     private fun customizeTitleView() {

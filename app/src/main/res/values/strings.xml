@@ -46,4 +46,8 @@
     <string name="support_title">[Support] About Grade Converter</string>
     <string name="update_alert">The grade table is updated. Data will reload.</string>
     <string name="ok">OK</string>
+
+    <string name="left_arrow">Left arrow</string>
+    <string name="right_arrow">Right arrow</string>
+    <string name="grade_category">Grade category</string>
 </resources>

@@ -47,4 +47,8 @@
     <string name="support_title">【サポート】クライミンググレード変換アプリについて</string>
     <string name="update_alert">グレード表が更新されました。データをリロードします。</string>
     <string name="ok">OK</string>
+
+    <string name="left_arrow">左矢印</string>
+    <string name="right_arrow">右矢印</string>
+    <string name="grade_category">カテゴリー</string>
 </resources>
