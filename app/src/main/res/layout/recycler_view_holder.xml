@@ -2,7 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/rounded_rect_shape">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -18,21 +23,25 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content">
 
-        <TextView
+        <com.yfujiki.gradeconverter.Views.GCTextView
             android:id="@+id/gradeNameTextView"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#000000"
             android:text="Yosemite Decimal"
             android:drawableRight="@drawable/boulder"
             android:drawablePadding="8dp"
             />
 
-        <TextView
+        <com.yfujiki.gradeconverter.Views.GCTextView
             android:id="@+id/gradeValueTextView"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="32sp"
             android:text="5.10a"
             />
 

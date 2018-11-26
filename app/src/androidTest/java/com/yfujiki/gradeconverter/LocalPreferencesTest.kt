@@ -36,7 +36,6 @@ class LocalPreferencesTest {
         assertEquals(indexes, currentIndexes)
     }
 
-
     @Test
     fun testAddGradeSystem() {
         setup()
