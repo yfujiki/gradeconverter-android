@@ -12,22 +12,8 @@ import kotlinx.android.synthetic.main.recycler_view_holder.view.*
 class MainRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     fun setGrade(grade: GradeSystem) {
-        itemView.gradeNameTextView.text = grade.name
-        val drawable: Drawable?
-        if (grade.category.toLowerCase() == "boulder") {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                drawable = itemView.context.resources.getDrawable(R.drawable.boulder, null)
-            } else {
-                drawable = itemView.context.resources.getDrawable(R.drawable.boulder)
-            }
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                drawable = itemView.context.resources.getDrawable(R.drawable.sports, null)
-            } else {
-                drawable = itemView.context.resources.getDrawable(R.drawable.sports)
-            }
-        }
-        itemView.gradeNameTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
+        setGradeName(grade.name)
+        setGradeCategory(grade.category)
     }
 
     fun setIndexes(indexes: List<Int>, grade: GradeSystem) {
@@ -44,13 +30,32 @@ class MainRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) 
             gradeValueString = "$minGradeValueString ~ $maxGradeValueString"
         }
 
-        itemView.gradeValueTextView.text = gradeValueString
+        setGradeValue(gradeValueString)
     }
-    fun setGradeName(gradeName: String) {
+
+    private fun setGradeName(gradeName: String) {
         itemView.gradeNameTextView.text = gradeName
     }
 
-    fun setGradeValue(gradeValue: String) {
+    private fun setGradeValue(gradeValue: String) {
         itemView.gradeValueTextView.text = gradeValue
+    }
+
+    private fun setGradeCategory(gradeCategory: String) {
+        val drawable: Drawable?
+        if (gradeCategory.toLowerCase() == "boulder") {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                drawable = itemView.context.resources.getDrawable(R.drawable.boulder, null)
+            } else {
+                drawable = itemView.context.resources.getDrawable(R.drawable.boulder)
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                drawable = itemView.context.resources.getDrawable(R.drawable.sports, null)
+            } else {
+                drawable = itemView.context.resources.getDrawable(R.drawable.sports)
+            }
+        }
+        itemView.gradeNameTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
     }
 }

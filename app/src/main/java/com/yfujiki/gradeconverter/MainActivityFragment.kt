@@ -14,10 +14,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.yfujiki.gradeconverter.Models.GradeSystem
 import com.yfujiki.gradeconverter.Models.GradeSystemTable
 import com.yfujiki.gradeconverter.Models.LocalPreferences
 import com.yfujiki.gradeconverter.Views.MainRecyclerViewHolder
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.recycler_view_holder.view.*
 import timber.log.Timber
 
 /**
@@ -48,26 +50,12 @@ class MainActivityFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-
-                val gradeSystem = LocalPreferences.selectedGradeSystems()[position]
-
-                val currentIndexes = LocalPreferences.currentIndexes()
-                val nextGrade: String?
-
+                val mainRecyclerViewAdapter = recyclerView.adapter as MainRecyclerViewAdapter
                 if (direction == LEFT) {
-                    // Higher
-                    nextGrade = gradeSystem.higherGradeFromIndexes(currentIndexes)
+                    mainRecyclerViewAdapter.swipeLeft(viewHolder, position)
                 } else {
-                    // Lower
-                    nextGrade = gradeSystem.lowerGradeFromIndexes(currentIndexes)
+                    mainRecyclerViewAdapter.swipeRight(viewHolder, position)
                 }
-
-                if (nextGrade != null) {
-                    val nextIndexes = gradeSystem.indexesForGrade(nextGrade)
-                    LocalPreferences.setCurrentIndexes(nextIndexes)
-                }
-
-                recyclerView.adapter!!.notifyDataSetChanged()
             }
         }
 
@@ -75,7 +63,6 @@ class MainActivityFragment : Fragment() {
 
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
-
 }
 
 private class MainRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -94,5 +81,36 @@ private class MainRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
         val grade = LocalPreferences.selectedGradeSystems()[p1]
         viewHolder.setGrade(grade)
         viewHolder.setIndexes(LocalPreferences.currentIndexes(), grade)
+
+        viewHolder.itemView.rightArrow.setOnClickListener {
+            swipeLeft(p0, p1)
+        }
+
+        viewHolder.itemView.leftArrow.setOnClickListener {
+            swipeRight(p0, p1)
+        }
+    }
+
+    fun swipeLeft(viewHolder: RecyclerView.ViewHolder, position: Int) {
+        val gradeSystem = LocalPreferences.selectedGradeSystems()[position]
+        val currentIndexes = LocalPreferences.currentIndexes()
+        val nextGrade = gradeSystem.higherGradeFromIndexes(currentIndexes)
+        moveToNextGrade(nextGrade, gradeSystem)
+    }
+
+    fun swipeRight(viewHolder: RecyclerView.ViewHolder, position: Int) {
+        val gradeSystem = LocalPreferences.selectedGradeSystems()[position]
+        val currentIndexes = LocalPreferences.currentIndexes()
+        val nextGrade = gradeSystem.lowerGradeFromIndexes(currentIndexes)
+        moveToNextGrade(nextGrade, gradeSystem)
+    }
+
+    private fun moveToNextGrade(nextGrade: String?, gradeSystem: GradeSystem) {
+        if (nextGrade != null) {
+            val nextIndexes = gradeSystem.indexesForGrade(nextGrade)
+            LocalPreferences.setCurrentIndexes(nextIndexes)
+        }
+
+        notifyDataSetChanged()
     }
 }

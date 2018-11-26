@@ -10,9 +10,11 @@
     android:background="@drawable/rounded_rect_shape">
 
     <ImageView
+        android:id="@+id/leftArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:foreground="?attr/selectableItemBackground"
         android:background="@drawable/ic_chevron_left_black_24dp"
         android:contentDescription="@string/left_arrow"/>
 
@@ -48,9 +50,11 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/rightArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:background="@drawable/ic_chevron_right_black_24dp"
         android:contentDescription="@string/right_arrow"
         />
