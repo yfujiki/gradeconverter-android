@@ -17,8 +17,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initializeApp()
-
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
@@ -45,17 +43,6 @@ class MainActivity : AppCompatActivity() {
             R.id.info_menu_item -> true
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun initializeApp() {
-        GradeSystemTable.init(applicationContext)
-        LocalPreferences.init(applicationContext)
-        LocalPreferences.setSelectedGradeSystems(
-                // ToDo : tailor for countries
-                GradeSystemTable.gradeSystemsForCountryCode("US")
-        )
-        // ToDo : tailor for optimal index
-        LocalPreferences.setCurrentIndexes(listOf(0))
     }
 
     private fun customizeTitleView() {
