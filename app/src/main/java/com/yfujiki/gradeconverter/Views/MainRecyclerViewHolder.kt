@@ -34,12 +34,13 @@ class MainRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) 
         val minIndex = indexes.min() ?: 0
         val maxIndex = indexes.max() ?: 0
 
+        val minGradeValueString = grade.gradeAtIndex(minIndex, false)
+        val maxGradeValueString = grade.gradeAtIndex(maxIndex, true)
         val gradeValueString: String?
-        if (minIndex == maxIndex) {
-            gradeValueString = grade.gradeAtIndex(minIndex, false)
+
+        if (minGradeValueString == maxGradeValueString) {
+            gradeValueString = minGradeValueString
         } else {
-            val minGradeValueString = grade.gradeAtIndex(minIndex, false)
-            val maxGradeValueString = grade.gradeAtIndex(maxIndex, true)
             gradeValueString = "$minGradeValueString ~ $maxGradeValueString"
         }
 
