@@ -1,6 +1,7 @@
 package com.yfujiki.gradeconverter.Views
 
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.yfujiki.gradeconverter.Models.GradeSystem
@@ -14,9 +15,17 @@ class MainRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) 
         itemView.gradeNameTextView.text = grade.name
         val drawable: Drawable?
         if (grade.category.toLowerCase() == "boulder") {
-            drawable = itemView.context.resources.getDrawable(R.drawable.boulder)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                drawable = itemView.context.resources.getDrawable(R.drawable.boulder, null)
+            } else {
+                drawable = itemView.context.resources.getDrawable(R.drawable.boulder)
+            }
         } else {
-            drawable = itemView.context.resources.getDrawable(R.drawable.sports)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                drawable = itemView.context.resources.getDrawable(R.drawable.sports, null)
+            } else {
+                drawable = itemView.context.resources.getDrawable(R.drawable.sports)
+            }
         }
         itemView.gradeNameTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
     }
