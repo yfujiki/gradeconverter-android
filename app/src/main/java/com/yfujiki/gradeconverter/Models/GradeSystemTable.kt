@@ -7,7 +7,10 @@ import java.util.HashMap
 
 object GradeSystemTable {
 
-    var tableBody: HashMap<String, GradeSystem> = hashMapOf<String, GradeSystem>()
+    private var tableBody: HashMap<String, GradeSystem> = hashMapOf<String, GradeSystem>()
+
+    val tableSize: Int
+        get() = tableBody.size
 
     private fun assetFileInputStream(context: Context): InputStream = context.assets.open("GradeSystemTable.csv")
 
@@ -85,6 +88,22 @@ object GradeSystemTable {
             it.value.countryCodes.contains(countryCode)
         }.values.sortedBy {
             it.name
+        }
+    }
+
+    fun forEach(action: (GradeSystem) -> Unit) {
+        tableBody.values.forEach {
+            action(it)
+        }
+    }
+
+    fun gradeSystemsToAdd(): List<GradeSystem>{
+        return tableBody.values.mapNotNull {
+            if (LocalPreferences.selectedGradeSystems().contains(it)) {
+                null
+            } else {
+                it
+            }
         }
     }
 }

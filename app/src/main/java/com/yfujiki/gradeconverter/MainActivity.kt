@@ -2,30 +2,44 @@ package com.yfujiki.gradeconverter
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.*
 import com.yfujiki.gradeconverter.Models.GradeSystem
 import com.yfujiki.gradeconverter.Models.GradeSystemTable
 import com.yfujiki.gradeconverter.Models.LocalPreferences
+import com.yfujiki.gradeconverter.Views.AddRecyclerViewHolder
+import com.yfujiki.gradeconverter.Views.MainRecyclerViewHolder
 import kotlinx.android.synthetic.main.action_bar_title_view.view.*
+import kotlinx.android.synthetic.main.activity_add.view.*
 
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.recycler_view_holder.view.*
 
 class MainActivity : AppCompatActivity() {
+
+    var dialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        fab.setOnClickListener { _ ->
+            openAddAlertDialog()
         }
 
         customizeTitleView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if (dialog != null && dialog?.isShowing == true) {
+            dialog?.dismiss()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -53,5 +67,44 @@ class MainActivity : AppCompatActivity() {
         val titleView = inflater.inflate(R.layout.action_bar_title_view, null)
         titleView.title.setText(this.title)
         supportActionBar?.setCustomView(titleView)
+    }
+
+    private fun openAddAlertDialog() {
+        val builder = AlertDialog.Builder(this)
+
+        if (dialog != null && dialog?.isShowing == true) {
+            return
+        }
+
+        dialog = builder.create()
+
+        val dialogView = LayoutInflater.from(this)
+                .inflate(R.layout.activity_add, null, false)
+
+        dialogView.recyclerView.layoutManager = LinearLayoutManager(this)
+        dialogView.recyclerView.adapter = AddRecyclerViewAdapter()
+        dialog?.setView(dialogView)
+        dialog?.setCancelable(true)
+        dialog?.show()
+    }
+}
+
+private class AddRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
+        val itemView = LayoutInflater.from(p0.context).inflate(R.layout.add_recycler_view_holder, p0, false)
+        return AddRecyclerViewHolder(itemView)
+    }
+
+    override fun getItemCount(): Int {
+        val totalCount = GradeSystemTable.tableSize
+        val selectedCount = LocalPreferences.selectedGradeSystems().size
+        return totalCount - selectedCount
+    }
+
+    override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
+        val viewHolder = p0 as AddRecyclerViewHolder
+        val gradeSystem = GradeSystemTable.gradeSystemsToAdd()[p1]
+        viewHolder.setGrade(gradeSystem)
     }
 }
