@@ -51,4 +51,6 @@
     <string name="right_arrow">Right arrow</string>
     <string name="grade_category">Grade category</string>
     <string name="add_button">Add button</string>
+    <string name="add_grade">Add Grade</string>
+    <string name="close">Close</string>
 </resources>

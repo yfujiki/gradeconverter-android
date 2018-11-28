@@ -11,10 +11,11 @@
 
     <ImageView
         android:id="@+id/leftArrow"
+        android:padding="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:foreground="?attr/selectableItemBackground"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:background="@drawable/ic_chevron_left_black_24dp"
         android:contentDescription="@string/left_arrow"/>
 
@@ -32,7 +33,7 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="#000000"
-            android:text="Yosemite Decimal"
+            android:text="Yosemite Decimal System"
             android:drawableRight="@drawable/boulder"
             android:drawablePadding="8dp"
             />
@@ -51,6 +52,7 @@
 
     <ImageView
         android:id="@+id/rightArrow"
+        android:padding="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

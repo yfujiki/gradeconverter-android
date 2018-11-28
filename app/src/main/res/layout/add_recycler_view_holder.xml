@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:layout_marginTop="16dp"
-    android:layout_marginBottom="0dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
     android:background="@drawable/rounded_rect_shape">
 
     <ImageView
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:textSize="24sp"
             android:textColor="#000000"
-            android:text="Yosemite Decimal"
+            android:text="Yosemite Decimal System"
             />
 
         <com.yfujiki.gradeconverter.Views.GCTextView
