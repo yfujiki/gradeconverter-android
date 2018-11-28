@@ -1,24 +1,15 @@
 package com.yfujiki.gradeconverter
 
-import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.*
-import com.yfujiki.gradeconverter.Models.GradeSystem
-import com.yfujiki.gradeconverter.Models.GradeSystemTable
-import com.yfujiki.gradeconverter.Models.LocalPreferences
-import com.yfujiki.gradeconverter.Views.AddRecyclerViewHolder
-import com.yfujiki.gradeconverter.Views.MainRecyclerViewHolder
+import com.yfujiki.gradeconverter.Adapters.AddRecyclerViewAdapter
 import kotlinx.android.synthetic.main.action_bar_title_view.view.*
 import kotlinx.android.synthetic.main.activity_add.view.*
 
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.recycler_view_holder.view.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -89,43 +80,6 @@ class MainActivity : AppCompatActivity() {
             dialog?.dismiss()
         }
         dialog?.setView(dialogView)
-        dialog?.setCancelable(true)
         dialog?.show()
-    }
-}
-
-private class AddRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
-        val itemView = LayoutInflater.from(p0.context).inflate(R.layout.add_recycler_view_holder, p0, false)
-        val viewHolder = AddRecyclerViewHolder(itemView)
-        return viewHolder
-    }
-
-    override fun getItemCount(): Int {
-        val totalCount = GradeSystemTable.tableSize
-        val selectedCount = LocalPreferences.selectedGradeSystems().size
-        return totalCount - selectedCount
-    }
-
-    override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
-        val viewHolder = p0 as AddRecyclerViewHolder
-        val marginParams = viewHolder.itemView.layoutParams as ViewGroup.MarginLayoutParams
-
-        if(p1 == 0) {
-            marginParams.topMargin = 32
-            marginParams.bottomMargin = 16
-        } else if (p1 == itemCount - 1) {
-            marginParams.topMargin = 16
-            marginParams.bottomMargin = 32
-        } else {
-            marginParams.topMargin = 16
-            marginParams.bottomMargin = 16
-        }
-        viewHolder.itemView.layoutParams = marginParams
-        viewHolder.itemView.requestLayout()
-
-        val gradeSystem = GradeSystemTable.gradeSystemsToAdd()[p1]
-        viewHolder.setGrade(gradeSystem)
     }
 }
