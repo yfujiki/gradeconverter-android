@@ -15,6 +15,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.yfujiki.gradeconverter.Adapters.MainRecyclerViewAdapter
+import com.yfujiki.gradeconverter.Models.LocalPreferences
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_main.*
 
 /**
@@ -22,9 +25,19 @@ import kotlinx.android.synthetic.main.fragment_main.*
  */
 class MainActivityFragment : Fragment() {
 
+    var disposable = CompositeDisposable()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if (disposable != null && !disposable.isDisposed) {
+            disposable.dispose()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,6 +45,11 @@ class MainActivityFragment : Fragment() {
         recyclerView.setLayoutManager(LinearLayoutManager(context))
         recyclerView.adapter = MainRecyclerViewAdapter()
         addSwipeHandler(recyclerView)
+
+        LocalPreferences.selectedGradeSystemsChanged.subscribe {
+            (recyclerView.adapter as MainRecyclerViewAdapter).notifyDataSetChanged()
+        }.addTo(disposable)
+
     }
 
     private fun addSwipeHandler(recyclerView: RecyclerView) {

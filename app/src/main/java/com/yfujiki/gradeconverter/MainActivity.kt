@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import com.yfujiki.gradeconverter.Adapters.AddRecyclerViewAdapter
+import com.yfujiki.gradeconverter.Models.LocalPreferences
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.action_bar_title_view.view.*
 import kotlinx.android.synthetic.main.activity_add.view.*
 

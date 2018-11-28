@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.yfujiki.gradeconverter.Utilities.Localization
+import io.reactivex.subjects.PublishSubject
 
 object LocalPreferences {
     val CURRENT_INDEXES_KEY = "com.yfujiki.gradeConverter.currentIndexes"
@@ -33,6 +34,9 @@ object LocalPreferences {
     private lateinit var body: SharedPreferences
     private val gson = GsonBuilder().create()
 
+    public var selectedGradeSystemsChanged = PublishSubject.create<List<GradeSystem>>()
+    public var currentIndexesChanged = PublishSubject.create<List<Int>>()
+
     fun init(context: Context) {
         this.body = context.getSharedPreferences(KEY, Context.MODE_PRIVATE)
     }
@@ -42,6 +46,7 @@ object LocalPreferences {
         body.edit()
             .putString(CURRENT_INDEXES_KEY, gsonString)
             .apply()
+        currentIndexesChanged.onNext(indexes)
     }
 
     fun currentIndexes(): List<Int> {
@@ -69,8 +74,7 @@ object LocalPreferences {
             .putString(SELECTED_GRADE_SYSTEMS_KEY, gsonString)
             .apply()
 
-        // TODO :send notification (LocalBroadcastManager)
-//        NotificationCenter.default.post(name: Notification.Name(rawValue: kNSUserDefaultsSystemSelectionChangedNotification), object: nil)
+        selectedGradeSystemsChanged.onNext(gradeSystems)
     }
 
     fun addSelectedGradeSystem(gradeSystem: GradeSystem) {
