@@ -17,12 +17,18 @@ class GCApp: Application() {
     private fun configureData() {
         GradeSystemTable.init(applicationContext)
         LocalPreferences.init(applicationContext)
-        LocalPreferences.setSelectedGradeSystems(
-                // ToDo : tailor for countries
-                GradeSystemTable.gradeSystemsForCountryCode("US")
-        )
-        // ToDo : tailor for optimal index
-        LocalPreferences.setCurrentIndexes(listOf(0))
+
+        if (LocalPreferences.selectedGradeSystems().size == 0) {
+            LocalPreferences.setSelectedGradeSystems(
+                    // ToDo : Use different locale and different country code
+                    GradeSystemTable.gradeSystemsForCountryCode("US")
+            )
+        }
+
+        if (LocalPreferences.currentIndexes().size == 0) {
+            // ToDo : Check the number for iOS
+            LocalPreferences.setCurrentIndexes(listOf(10))
+        }
     }
 
     private fun initTimber() {
