@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                 .inflate(R.layout.activity_add, null, false)
 
         dialogView.recyclerView.layoutManager = LinearLayoutManager(this)
-        dialogView.recyclerView.adapter = AddRecyclerViewAdapter()
+        dialogView.recyclerView.adapter = AddRecyclerViewAdapter(this)
         dialogView.closeButton.setOnClickListener {
             dialog?.dismiss()
         }

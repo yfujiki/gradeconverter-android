@@ -3,12 +3,13 @@ package com.yfujiki.gradeconverter.Adapters
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.yfujiki.gradeconverter.MainActivity
 import com.yfujiki.gradeconverter.Models.GradeSystemTable
 import com.yfujiki.gradeconverter.Models.LocalPreferences
 import com.yfujiki.gradeconverter.R
 import com.yfujiki.gradeconverter.Views.AddRecyclerViewHolder
 
-class AddRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AddRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
         val itemView = LayoutInflater.from(p0.context).inflate(R.layout.add_recycler_view_holder, p0, false)
@@ -38,8 +39,13 @@ class AddRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
         viewHolder.itemView.layoutParams = marginParams
         viewHolder.itemView.requestLayout()
-
         val gradeSystem = GradeSystemTable.gradeSystemsToAdd()[p1]
         viewHolder.setGrade(gradeSystem)
+
+        viewHolder.itemView.setOnClickListener({
+            val position = GradeSystemTable.gradeSystemsToAdd().indexOf(gradeSystem)
+            LocalPreferences.addSelectedGradeSystem(gradeSystem)
+            notifyItemRemoved(position)
+        })
     }
 }
