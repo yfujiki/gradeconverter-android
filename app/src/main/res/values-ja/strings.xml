@@ -54,4 +54,6 @@
     <string name="add_button">追加ボタン</string>
     <string name="add_grade">グレードを追加</string>
     <string name="close">閉じる</string>
+    <string name="delete_button">削除ボタン</string>
+    <string name="handle">ハンドル</string>
 </resources>

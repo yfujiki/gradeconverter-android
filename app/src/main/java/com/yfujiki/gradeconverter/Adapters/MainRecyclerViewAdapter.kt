@@ -1,9 +1,13 @@
 package com.yfujiki.gradeconverter.Adapters
 
+import android.opengl.Visibility
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.webkit.RenderProcessGoneDetail
 import com.yfujiki.gradeconverter.MainActivity
+import com.yfujiki.gradeconverter.Models.AppState
 import com.yfujiki.gradeconverter.Models.GradeSystem
 import com.yfujiki.gradeconverter.Models.LocalPreferences
 import com.yfujiki.gradeconverter.R
@@ -30,12 +34,31 @@ class MainRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter
 
         setInterItemSpace(viewHolder, p1)
 
-        viewHolder.itemView.rightArrow.setOnClickListener {
-            swipeLeft(p0, p1)
-        }
+        when (AppState.mainViewMode) {
+            AppState.MainViewMode.normal -> {
+                viewHolder.itemView.deleteButton.visibility = View.GONE
+                viewHolder.itemView.handle.visibility = View.GONE
+                viewHolder.itemView.leftArrow.visibility = View.VISIBLE
+                viewHolder.itemView.rightArrow.visibility = View.VISIBLE
 
-        viewHolder.itemView.leftArrow.setOnClickListener {
-            swipeRight(p0, p1)
+                viewHolder.itemView.rightArrow.setOnClickListener {
+                    swipeLeft(p0, p1)
+                }
+
+                viewHolder.itemView.leftArrow.setOnClickListener {
+                    swipeRight(p0, p1)
+                }
+            }
+            AppState.MainViewMode.edit -> {
+                viewHolder.itemView.leftArrow.visibility = View.GONE
+                viewHolder.itemView.rightArrow.visibility = View.GONE
+                viewHolder.itemView.deleteButton.visibility = View.VISIBLE
+                viewHolder.itemView.handle.visibility = View.VISIBLE
+
+                viewHolder.itemView.deleteButton.setOnClickListener {
+                    deleteItemAt(p1)
+                }
+            }
         }
     }
 
@@ -60,6 +83,13 @@ class MainRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter
         }
 
         notifyDataSetChanged()
+    }
+
+    private fun deleteItemAt(index: Int) {
+        val gradeSystemToDelete = LocalPreferences.selectedGradeSystems()[index]
+        LocalPreferences.removeSelectedGradeSystem(gradeSystemToDelete)
+
+        notifyItemRemoved(index)
     }
 
     private fun setInterItemSpace(viewHolder: RecyclerView.ViewHolder, index: Int) {

@@ -53,4 +53,6 @@
     <string name="add_button">Add button</string>
     <string name="add_grade">Add Grade</string>
     <string name="close">Close</string>
+    <string name="delete_button">Delete button</string>
+    <string name="handle">Handle</string>
 </resources>
