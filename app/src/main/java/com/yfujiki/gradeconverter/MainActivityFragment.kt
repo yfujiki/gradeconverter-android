@@ -15,9 +15,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.yfujiki.gradeconverter.Adapters.MainRecyclerViewAdapter
+import com.yfujiki.gradeconverter.Models.AppState
 import com.yfujiki.gradeconverter.Models.LocalPreferences
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.fragment_main.*
 
 /**
@@ -29,6 +31,7 @@ class MainActivityFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        subscribeToAppState()
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
@@ -46,10 +49,9 @@ class MainActivityFragment : Fragment() {
         recyclerView.adapter = MainRecyclerViewAdapter(activity as MainActivity)
         addSwipeHandler(recyclerView)
 
-        LocalPreferences.selectedGradeSystemsChanged.subscribe {
+        disposable += LocalPreferences.selectedGradeSystemsChanged.subscribe {
             (recyclerView.adapter as MainRecyclerViewAdapter).notifyDataSetChanged()
-        }.addTo(disposable)
-
+        }
     }
 
     private fun addSwipeHandler(recyclerView: RecyclerView) {
@@ -75,5 +77,11 @@ class MainActivityFragment : Fragment() {
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
 
         itemTouchHelper.attachToRecyclerView(recyclerView)
+    }
+
+    private fun subscribeToAppState() {
+        disposable += AppState.mainViewModeSubject.subscribe {
+            recyclerView.adapter?.notifyDataSetChanged()
+        }
     }
 }

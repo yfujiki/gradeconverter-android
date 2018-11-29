@@ -1,14 +1,17 @@
 package com.yfujiki.gradeconverter
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import com.yfujiki.gradeconverter.Adapters.AddRecyclerViewAdapter
+import com.yfujiki.gradeconverter.Models.AppState
 import com.yfujiki.gradeconverter.Models.LocalPreferences
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.action_bar_title_view.view.*
 import kotlinx.android.synthetic.main.activity_add.view.*
 
@@ -17,6 +20,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     var dialog: AlertDialog? = null
+
+    val disposable: CompositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         customizeTitleView()
+        subscribeToAppState()
     }
 
     override fun onDestroy() {
@@ -35,6 +41,10 @@ class MainActivity : AppCompatActivity() {
 
         if (dialog != null && dialog?.isShowing == true) {
             dialog?.dismiss()
+        }
+
+        if (!disposable.isDisposed) {
+            disposable.dispose()
         }
     }
 
@@ -44,12 +54,27 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val editMenuItem = menu?.findItem(R.id.edit_menu_item)
+        when (AppState.mainViewMode) {
+            AppState.MainViewMode.normal ->
+                editMenuItem?.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_edit_white_24dp))
+            AppState.MainViewMode.edit ->
+                editMenuItem?.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_done_white_24dp))
+        }
+
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.edit_menu_item -> true
+            R.id.edit_menu_item -> {
+                AppState.toggleMainViewMode()
+                true
+            }
             R.id.info_menu_item -> true
             else -> super.onOptionsItemSelected(item)
         }
@@ -84,5 +109,11 @@ class MainActivity : AppCompatActivity() {
         }
         dialog?.setView(dialogView)
         dialog?.show()
+    }
+
+    private fun subscribeToAppState() {
+        disposable += AppState.mainViewModeSubject.subscribe {
+            invalidateOptionsMenu()
+        }
     }
 }
