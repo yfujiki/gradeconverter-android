@@ -3,13 +3,15 @@ package com.yfujiki.gradeconverter.Adapters
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.yfujiki.gradeconverter.MainActivity
 import com.yfujiki.gradeconverter.Models.GradeSystem
 import com.yfujiki.gradeconverter.Models.LocalPreferences
 import com.yfujiki.gradeconverter.R
+import com.yfujiki.gradeconverter.Utilities.Screen
 import com.yfujiki.gradeconverter.Views.MainRecyclerViewHolder
 import kotlinx.android.synthetic.main.recycler_view_holder.view.*
 
-class MainRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MainRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
         val itemView = LayoutInflater.from(p0.context).inflate(R.layout.recycler_view_holder, p0, false)
@@ -25,6 +27,8 @@ class MainRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         val grade = LocalPreferences.selectedGradeSystems()[p1]
         viewHolder.setGrade(grade)
         viewHolder.setIndexes(LocalPreferences.currentIndexes(), grade)
+
+        setInterItemSpace(viewHolder, p1)
 
         viewHolder.itemView.rightArrow.setOnClickListener {
             swipeLeft(p0, p1)
@@ -56,5 +60,21 @@ class MainRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         }
 
         notifyDataSetChanged()
+    }
+
+    private fun setInterItemSpace(viewHolder: RecyclerView.ViewHolder, index: Int) {
+        val marginParams = viewHolder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+
+        if(index == 0) {
+            marginParams.topMargin = if (Screen.isSparseScreen(activity)) 8 else 16
+            marginParams.bottomMargin = if (Screen.isSparseScreen(activity)) 6 else 8
+        } else if (index == itemCount - 1) {
+            marginParams.topMargin = if (Screen.isSparseScreen(activity)) 6 else 8
+            marginParams.bottomMargin = if (Screen.isSparseScreen(activity)) 8 else 16
+        } else {
+            marginParams.topMargin = if (Screen.isSparseScreen(activity)) 6 else 8
+            marginParams.bottomMargin = if (Screen.isSparseScreen(activity)) 6 else 8
+        }
+        viewHolder.itemView.layoutParams = marginParams
     }
 }

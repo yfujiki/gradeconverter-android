@@ -7,6 +7,7 @@ import com.yfujiki.gradeconverter.MainActivity
 import com.yfujiki.gradeconverter.Models.GradeSystemTable
 import com.yfujiki.gradeconverter.Models.LocalPreferences
 import com.yfujiki.gradeconverter.R
+import com.yfujiki.gradeconverter.Utilities.Screen
 import com.yfujiki.gradeconverter.Views.AddRecyclerViewHolder
 
 class AddRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -25,19 +26,9 @@ class AddRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
         val viewHolder = p0 as AddRecyclerViewHolder
-        val marginParams = viewHolder.itemView.layoutParams as ViewGroup.MarginLayoutParams
 
-        if(p1 == 0) {
-            marginParams.topMargin = 32
-            marginParams.bottomMargin = 16
-        } else if (p1 == itemCount - 1) {
-            marginParams.topMargin = 16
-            marginParams.bottomMargin = 32
-        } else {
-            marginParams.topMargin = 16
-            marginParams.bottomMargin = 16
-        }
-        viewHolder.itemView.layoutParams = marginParams
+        setInterItemSpace(viewHolder, p1)
+
         viewHolder.itemView.requestLayout()
         val gradeSystem = GradeSystemTable.gradeSystemsToAdd()[p1]
         viewHolder.setGrade(gradeSystem)
@@ -47,5 +38,21 @@ class AddRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter<
             LocalPreferences.addSelectedGradeSystem(gradeSystem)
             notifyItemRemoved(position)
         })
+    }
+
+    private fun setInterItemSpace(viewHolder: RecyclerView.ViewHolder, index: Int) {
+        val marginParams = viewHolder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+
+        if(index == 0) {
+            marginParams.topMargin = if (Screen.isSparseScreen(activity)) 24 else 32
+            marginParams.bottomMargin = if (Screen.isSparseScreen(activity)) 12 else 16
+        } else if (index == itemCount - 1) {
+            marginParams.topMargin = if (Screen.isSparseScreen(activity)) 12 else 16
+            marginParams.bottomMargin = if (Screen.isSparseScreen(activity)) 24 else 32
+        } else {
+            marginParams.topMargin = if (Screen.isSparseScreen(activity)) 12 else 16
+            marginParams.bottomMargin = if (Screen.isSparseScreen(activity)) 12 else 16
+        }
+        viewHolder.itemView.layoutParams = marginParams
     }
 }

@@ -35,7 +35,7 @@ class MainActivityFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
 
-        if (disposable != null && !disposable.isDisposed) {
+        if (!disposable.isDisposed) {
             disposable.dispose()
         }
     }
@@ -43,7 +43,7 @@ class MainActivityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.setLayoutManager(LinearLayoutManager(context))
-        recyclerView.adapter = MainRecyclerViewAdapter()
+        recyclerView.adapter = MainRecyclerViewAdapter(activity as MainActivity)
         addSwipeHandler(recyclerView)
 
         LocalPreferences.selectedGradeSystemsChanged.subscribe {
