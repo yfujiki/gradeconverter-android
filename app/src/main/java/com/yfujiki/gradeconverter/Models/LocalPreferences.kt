@@ -59,7 +59,7 @@ object LocalPreferences {
         return gson.fromJson<List<Int>>(gsonString, type)
     }
 
-    fun setSelectedGradeSystems(gradeSystems: List<GradeSystem>) {
+    fun setSelectedGradeSystems(gradeSystems: List<GradeSystem>, notify: Boolean = true) {
         val systemKeys = gradeSystems.map {
             val name = it.name
             val category = it.category
@@ -74,21 +74,23 @@ object LocalPreferences {
             .putString(SELECTED_GRADE_SYSTEMS_KEY, gsonString)
             .apply()
 
-        selectedGradeSystemsChanged.onNext(gradeSystems)
+        if (notify) {
+            selectedGradeSystemsChanged.onNext(gradeSystems)
+        }
     }
 
-    fun addSelectedGradeSystem(gradeSystem: GradeSystem) {
+    fun addSelectedGradeSystem(gradeSystem: GradeSystem, notify: Boolean = true) {
         val gradeSystems = selectedGradeSystems().toMutableList()
         gradeSystems.add(gradeSystem)
-        setSelectedGradeSystems(gradeSystems)
+        setSelectedGradeSystems(gradeSystems, notify)
     }
 
-    fun removeSelectedGradeSystem(gradeSystemToRemove: GradeSystem) {
+    fun removeSelectedGradeSystem(gradeSystemToRemove: GradeSystem, notify: Boolean = true) {
         var gradeSystems = selectedGradeSystems()
         gradeSystems = gradeSystems.filter {
             it != gradeSystemToRemove
         }
-        setSelectedGradeSystems(gradeSystems)
+        setSelectedGradeSystems(gradeSystems, notify)
     }
 
     fun selectedGradeSystems(): List<GradeSystem> {

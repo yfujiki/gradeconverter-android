@@ -56,7 +56,7 @@ class MainRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter
                 viewHolder.itemView.handle.visibility = View.VISIBLE
 
                 viewHolder.itemView.deleteButton.setOnClickListener {
-                    deleteItemAt(p1)
+                    deleteItemAt(viewHolder.layoutPosition)
                 }
             }
         }
@@ -87,7 +87,7 @@ class MainRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter
 
     private fun deleteItemAt(index: Int) {
         val gradeSystemToDelete = LocalPreferences.selectedGradeSystems()[index]
-        LocalPreferences.removeSelectedGradeSystem(gradeSystemToDelete)
+        LocalPreferences.removeSelectedGradeSystem(gradeSystemToDelete, false)
 
         notifyItemRemoved(index)
     }

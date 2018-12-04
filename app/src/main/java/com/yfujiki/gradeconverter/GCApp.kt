@@ -21,7 +21,8 @@ class GCApp: Application() {
         if (LocalPreferences.selectedGradeSystems().size == 0) {
             LocalPreferences.setSelectedGradeSystems(
                     // ToDo : Use different locale and different country code
-                    GradeSystemTable.gradeSystemsForCountryCode("US")
+                    GradeSystemTable.gradeSystemsForCountryCode("US"),
+                    false
             )
         }
 

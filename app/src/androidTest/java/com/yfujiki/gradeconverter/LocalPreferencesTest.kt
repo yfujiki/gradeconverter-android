@@ -19,7 +19,7 @@ class LocalPreferencesTest {
         GradeSystemTable.init(appContext!!)
         LocalPreferences.init(appContext!!)
         LocalPreferences.setCurrentIndexes(listOf())
-        LocalPreferences.setSelectedGradeSystems(listOf())
+        LocalPreferences.setSelectedGradeSystems(listOf(), false)
     }
 
     fun tearDown() {
