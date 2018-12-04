@@ -27,7 +27,36 @@ import kotlinx.android.synthetic.main.fragment_main.*
  */
 class MainActivityFragment : Fragment() {
 
-    var disposable = CompositeDisposable()
+    private var disposable = CompositeDisposable()
+
+    private val itemTouchHelper by lazy {
+        val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, LEFT or RIGHT) {
+
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                                target: RecyclerView.ViewHolder): Boolean {
+                return AppState.mainViewMode == AppState.MainViewMode.edit
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val mainRecyclerViewAdapter = recyclerView.adapter as MainRecyclerViewAdapter
+                if (direction == LEFT) {
+                    mainRecyclerViewAdapter.swipeLeft(viewHolder, position)
+                } else {
+                    mainRecyclerViewAdapter.swipeRight(viewHolder, position)
+                }
+            }
+
+            override fun getSwipeDirs(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+                if (AppState.mainViewMode == AppState.MainViewMode.edit) {
+                    return 0 // no swipe
+                }
+                return super.getSwipeDirs(recyclerView, viewHolder)
+            }
+        }
+
+        ItemTouchHelper(simpleItemTouchCallback)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -55,27 +84,6 @@ class MainActivityFragment : Fragment() {
     }
 
     private fun addSwipeHandler(recyclerView: RecyclerView) {
-
-        val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, LEFT or RIGHT) {
-
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                                target: RecyclerView.ViewHolder): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                val mainRecyclerViewAdapter = recyclerView.adapter as MainRecyclerViewAdapter
-                if (direction == LEFT) {
-                    mainRecyclerViewAdapter.swipeLeft(viewHolder, position)
-                } else {
-                    mainRecyclerViewAdapter.swipeRight(viewHolder, position)
-                }
-            }
-        }
-
-        val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
-
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
