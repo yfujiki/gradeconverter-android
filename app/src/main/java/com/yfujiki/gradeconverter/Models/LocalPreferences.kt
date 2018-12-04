@@ -93,6 +93,28 @@ object LocalPreferences {
         setSelectedGradeSystems(gradeSystems, notify)
     }
 
+    fun moveGradeSystem(fromIndex: Int, toIndex: Int, notify: Boolean = true) {
+        var gradeSystems = selectedGradeSystems().toMutableList()
+        if (fromIndex < 0 || fromIndex >= gradeSystems.size) {
+            return
+        }
+
+        if (toIndex < 0 || toIndex >= gradeSystems.size) {
+            return
+        }
+
+        val itemToMove = gradeSystems[fromIndex]
+
+        gradeSystems.removeAt(fromIndex)
+        if (toIndex < fromIndex) {
+            gradeSystems.add(toIndex, itemToMove)
+        } else {
+            gradeSystems.add(toIndex - 1, itemToMove)
+        }
+
+        setSelectedGradeSystems(gradeSystems.toList(), notify)
+    }
+
     fun selectedGradeSystems(): List<GradeSystem> {
         val gsonString = body.getString(SELECTED_GRADE_SYSTEMS_KEY, null)
         if (gsonString == null) {

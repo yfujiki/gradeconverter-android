@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.yfujiki.gradeconverter.Adapters.MainRecyclerViewAdapter
 import com.yfujiki.gradeconverter.Models.AppState
+import com.yfujiki.gradeconverter.Models.GradeSystemTable
 import com.yfujiki.gradeconverter.Models.LocalPreferences
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -34,7 +35,18 @@ class MainActivityFragment : Fragment() {
 
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                                 target: RecyclerView.ViewHolder): Boolean {
-                return AppState.mainViewMode == AppState.MainViewMode.edit
+                if (viewHolder == target) {
+                    return false
+                }
+
+                val fromPosition = viewHolder.layoutPosition
+                val toPosition = target.layoutPosition
+
+                LocalPreferences.moveGradeSystem(fromPosition, toPosition, false)
+
+                recyclerView.adapter?.notifyItemMoved(fromPosition, toPosition)
+
+                return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -47,11 +59,36 @@ class MainActivityFragment : Fragment() {
                 }
             }
 
-            override fun getSwipeDirs(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-                if (AppState.mainViewMode == AppState.MainViewMode.edit) {
-                    return 0 // no swipe
+            override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+                return when (AppState.mainViewMode) {
+                    AppState.MainViewMode.edit -> ItemTouchHelper.Callback.makeMovementFlags(
+                            ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,
+                            0)
+                    AppState.MainViewMode.normal -> ItemTouchHelper.Callback.makeMovementFlags(
+                            0,
+                            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
                 }
-                return super.getSwipeDirs(recyclerView, viewHolder)
+            }
+
+            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                    viewHolder?.itemView?.alpha = 0.8f
+                }
+                super.onSelectedChanged(viewHolder, actionState)
+            }
+
+            override fun isLongPressDragEnabled(): Boolean {
+                println("Long press drag is triggered");
+                return AppState.mainViewMode == AppState.MainViewMode.edit
+            }
+
+            override fun isItemViewSwipeEnabled(): Boolean {
+                return AppState.mainViewMode == AppState.MainViewMode.normal
+            }
+
+            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                viewHolder.itemView.alpha = 1.0f
+                super.clearView(recyclerView, viewHolder)
             }
         }
 
