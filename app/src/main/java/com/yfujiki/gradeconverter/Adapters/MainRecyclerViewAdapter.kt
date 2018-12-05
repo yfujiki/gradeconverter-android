@@ -66,6 +66,9 @@ class MainRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter
                 }
 
                 viewHolder.itemView.handle.setOnTouchListener { view, event ->
+                    if (AppState.mainViewMode == AppState.MainViewMode.normal) {
+                        return@setOnTouchListener true
+                    }
                     if (event.actionMasked == MotionEvent.ACTION_DOWN) {
                         AppState.startDraggingOnMainViewHolder(viewHolder)
                     }
@@ -73,6 +76,9 @@ class MainRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter
                 }
 
                 viewHolder.itemView.setOnTouchListener { view, event ->
+                    if (AppState.mainViewMode == AppState.MainViewMode.normal) {
+                        return@setOnTouchListener true
+                    }
                     if (event.actionMasked == MotionEvent.ACTION_DOWN) {
                         AppState.startDraggingOnMainViewHolder(viewHolder)
                     }
