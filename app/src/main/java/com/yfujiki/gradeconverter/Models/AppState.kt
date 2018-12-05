@@ -12,9 +12,9 @@ class AppState {
 
     class DraggingViewHolder {
         var dragging: Boolean = false
-        var viewHolder: RecyclerView.ViewHolder? = null
+        var viewHolder: RecyclerView.ViewHolder
 
-        constructor(sorting: Boolean, viewHolder: RecyclerView.ViewHolder?) {
+        constructor(sorting: Boolean, viewHolder: RecyclerView.ViewHolder) {
             this.dragging = sorting
             this.viewHolder = viewHolder
         }
@@ -43,8 +43,8 @@ class AppState {
             mainViewDraggingViewHolderSubject.onNext(draggingViewHolder)
         }
 
-        fun stopDraggingOnMainViewHolder() {
-            val noDraggingViewHolder = DraggingViewHolder(false, null)
+        fun stopDraggingOnMainViewHolder(viewHolder: RecyclerView.ViewHolder) {
+            val noDraggingViewHolder = DraggingViewHolder(false, viewHolder)
             mainViewDraggingViewHolderSubject.onNext(noDraggingViewHolder)
         }
     }

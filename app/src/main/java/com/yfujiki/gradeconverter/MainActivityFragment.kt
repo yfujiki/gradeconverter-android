@@ -81,7 +81,7 @@ class MainActivityFragment : Fragment() {
 
             override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
                 viewHolder.itemView.alpha = 1.0f
-                AppState.stopDraggingOnMainViewHolder()
+                AppState.stopDraggingOnMainViewHolder(viewHolder)
                 super.clearView(recyclerView, viewHolder)
             }
         }
