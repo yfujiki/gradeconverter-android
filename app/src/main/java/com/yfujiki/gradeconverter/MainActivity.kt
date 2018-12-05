@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.content.res.AppCompatResources
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import com.yfujiki.gradeconverter.Adapters.AddRecyclerViewAdapter
@@ -58,9 +59,9 @@ class MainActivity : AppCompatActivity() {
         val editMenuItem = menu?.findItem(R.id.edit_menu_item)
         when (AppState.mainViewMode) {
             AppState.MainViewMode.normal ->
-                editMenuItem?.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_edit_white_24dp))
+                editMenuItem?.setIcon(AppCompatResources.getDrawable(this, R.drawable.ic_edit_white_24dp))
             AppState.MainViewMode.edit ->
-                editMenuItem?.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_done_white_24dp))
+                editMenuItem?.setIcon(AppCompatResources.getDrawable(this, R.drawable.ic_done_white_24dp))
         }
 
         return super.onPrepareOptionsMenu(menu)

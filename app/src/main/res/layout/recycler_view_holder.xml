@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,8 +16,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
-        android:background="@drawable/delete_button"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:srcCompat="@drawable/delete_button"
         android:visibility="gone"
         android:contentDescription="@string/delete_button"/>
 
@@ -26,8 +27,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
-        android:background="@drawable/ic_chevron_left_black_24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:srcCompat="@drawable/ic_chevron_left_black_24dp"
         android:contentDescription="@string/left_arrow"/>
 
     <LinearLayout
@@ -46,7 +47,7 @@
             android:textColor="#000000"
             android:textAlignment="center"
             android:text="Yosemite Decimal System"
-            android:drawableRight="@drawable/boulder"
+            android:drawableEnd="@drawable/boulder"
             android:drawablePadding="8dp"
             />
 
@@ -69,8 +70,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
-        android:background="@drawable/ic_chevron_right_black_24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:srcCompat="@drawable/ic_chevron_right_black_24dp"
         android:contentDescription="@string/right_arrow"
         />
 
@@ -80,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/handle"
+        app:srcCompat="@drawable/handle"
         android:visibility="gone"
         android:contentDescription="@string/handle"
         />
