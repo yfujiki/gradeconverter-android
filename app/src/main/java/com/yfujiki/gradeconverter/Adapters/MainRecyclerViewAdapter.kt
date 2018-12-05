@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import com.yfujiki.gradeconverter.MainActivity
 import com.yfujiki.gradeconverter.Models.AppState
 import com.yfujiki.gradeconverter.Models.GradeSystem
@@ -15,6 +16,10 @@ import com.yfujiki.gradeconverter.Views.MainRecyclerViewHolder
 import kotlinx.android.synthetic.main.recycler_view_holder.view.*
 
 class MainRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val animation by lazy {
+        AnimationUtils.loadAnimation(activity, R.anim.wobble)
+    }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
         val itemView = LayoutInflater.from(p0.context).inflate(R.layout.recycler_view_holder, p0, false)
@@ -47,6 +52,8 @@ class MainRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter
                 viewHolder.itemView.leftArrow.setOnClickListener {
                     swipeRight(p0, p1)
                 }
+
+                viewHolder.itemView.clearAnimation()
             }
             AppState.MainViewMode.edit -> {
                 viewHolder.itemView.leftArrow.visibility = View.GONE
@@ -71,6 +78,8 @@ class MainRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter
                     }
                     return@setOnTouchListener true
                 }
+
+                viewHolder.itemView.startAnimation(animation)
             }
         }
     }
