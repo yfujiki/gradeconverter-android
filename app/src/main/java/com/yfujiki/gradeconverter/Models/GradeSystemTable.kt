@@ -104,6 +104,8 @@ object GradeSystemTable {
             } else {
                 it
             }
+        }.sortedBy {
+            "${it.category}-${it.name}"
         }
     }
 }
