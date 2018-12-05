@@ -1,11 +1,10 @@
 package com.yfujiki.gradeconverter.Adapters
 
-import android.opengl.Visibility
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.RenderProcessGoneDetail
 import com.yfujiki.gradeconverter.MainActivity
 import com.yfujiki.gradeconverter.Models.AppState
 import com.yfujiki.gradeconverter.Models.GradeSystem
@@ -57,6 +56,20 @@ class MainRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter
 
                 viewHolder.itemView.deleteButton.setOnClickListener {
                     deleteItemAt(viewHolder.layoutPosition)
+                }
+
+                viewHolder.itemView.handle.setOnTouchListener { view, event ->
+                    if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+                        AppState.startDraggingOnMainViewHolder(viewHolder)
+                    }
+                    return@setOnTouchListener true
+                }
+
+                viewHolder.itemView.setOnTouchListener { view, event ->
+                    if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+                        AppState.startDraggingOnMainViewHolder(viewHolder)
+                    }
+                    return@setOnTouchListener true
                 }
             }
         }

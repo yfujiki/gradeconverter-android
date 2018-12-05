@@ -1,25 +1,19 @@
 package com.yfujiki.gradeconverter
 
-import android.graphics.Canvas
-import android.graphics.RectF
 import android.support.v4.app.Fragment
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.support.v7.widget.helper.ItemTouchHelper.LEFT
 import android.support.v7.widget.helper.ItemTouchHelper.RIGHT
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.yfujiki.gradeconverter.Adapters.MainRecyclerViewAdapter
 import com.yfujiki.gradeconverter.Models.AppState
-import com.yfujiki.gradeconverter.Models.GradeSystemTable
 import com.yfujiki.gradeconverter.Models.LocalPreferences
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.fragment_main.*
 
@@ -78,8 +72,7 @@ class MainActivityFragment : Fragment() {
             }
 
             override fun isLongPressDragEnabled(): Boolean {
-                println("Long press drag is triggered");
-                return AppState.mainViewMode == AppState.MainViewMode.edit
+                return false
             }
 
             override fun isItemViewSwipeEnabled(): Boolean {
@@ -88,6 +81,7 @@ class MainActivityFragment : Fragment() {
 
             override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
                 viewHolder.itemView.alpha = 1.0f
+                AppState.stopDraggingOnMainViewHolder()
                 super.clearView(recyclerView, viewHolder)
             }
         }
@@ -127,6 +121,12 @@ class MainActivityFragment : Fragment() {
     private fun subscribeToAppState() {
         disposable += AppState.mainViewModeSubject.subscribe {
             recyclerView.adapter?.notifyDataSetChanged()
+        }
+
+        disposable += AppState.mainViewDraggingViewHolderSubject.subscribe {
+            if (it.dragging) {
+                itemTouchHelper.startDrag(it.viewHolder!!)
+            }
         }
     }
 }

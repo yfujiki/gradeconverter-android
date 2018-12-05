@@ -1,5 +1,6 @@
 package com.yfujiki.gradeconverter.Models
 
+import android.support.v7.widget.RecyclerView
 import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
@@ -9,8 +10,20 @@ class AppState {
         edit
     }
 
+    class DraggingViewHolder {
+        var dragging: Boolean = false
+        var viewHolder: RecyclerView.ViewHolder? = null
+
+        constructor(sorting: Boolean, viewHolder: RecyclerView.ViewHolder?) {
+            this.dragging = sorting
+            this.viewHolder = viewHolder
+        }
+    }
+
     companion object {
         val mainViewModeSubject: PublishSubject<MainViewMode> = PublishSubject.create()
+
+        val mainViewDraggingViewHolderSubject: PublishSubject<DraggingViewHolder> = PublishSubject.create()
 
         var mainViewMode: MainViewMode by Delegates.observable(MainViewMode.normal){
             property, oldValue, newValue ->
@@ -23,6 +36,16 @@ class AppState {
                 MainViewMode.normal -> MainViewMode.edit
                 MainViewMode.edit -> MainViewMode.normal
             }
+        }
+
+        fun startDraggingOnMainViewHolder(viewHolder: RecyclerView.ViewHolder) {
+            val draggingViewHolder = DraggingViewHolder(true, viewHolder)
+            mainViewDraggingViewHolderSubject.onNext(draggingViewHolder)
+        }
+
+        fun stopDraggingOnMainViewHolder() {
+            val noDraggingViewHolder = DraggingViewHolder(false, null)
+            mainViewDraggingViewHolderSubject.onNext(noDraggingViewHolder)
         }
     }
 }
