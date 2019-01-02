@@ -1,5 +1,10 @@
 package com.yfujiki.gradeconverter.Adapters
 
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import com.yfujiki.gradeconverter.MainActivity
 import com.yfujiki.gradeconverter.Models.AppState
