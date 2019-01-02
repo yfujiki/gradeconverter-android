@@ -74,16 +74,16 @@ object GradeSystemTable {
 
             val gradesOfSameLevel = grades.split(",")
 
-            for(i in 0 until names.count()) {
+            for (i in 0 until names.count()) {
                 val key = "${names[i]}-${categories[i]}"
                 tableBody[key]?.addGrade(gradesOfSameLevel[i])
             }
         }
     }
 
-    fun gradeSystemForNameCategory(name: String, category: String): GradeSystem? = tableBody["${name}-${category}"]
+    fun gradeSystemForNameCategory(name: String, category: String): GradeSystem? = tableBody["$name-$category"]
 
-    fun gradeSystemsForCountryCode(countryCode: String):List<GradeSystem> {
+    fun gradeSystemsForCountryCode(countryCode: String): List<GradeSystem> {
         return tableBody.filter {
             it.value.countryCodes.contains(countryCode)
         }.values.sortedBy {
@@ -97,7 +97,7 @@ object GradeSystemTable {
         }
     }
 
-    fun gradeSystemsToAdd(): List<GradeSystem>{
+    fun gradeSystemsToAdd(): List<GradeSystem> {
         return tableBody.values.mapNotNull {
             if (LocalPreferences.selectedGradeSystems().contains(it)) {
                 null

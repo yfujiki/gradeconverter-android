@@ -40,7 +40,6 @@ class GradeSystemTableTest {
                 GradeSystemTable.gradeSystemForNameCategory("Brazil", "Boulder")?.name)
         assertEquals("Boulder",
                 GradeSystemTable.gradeSystemForNameCategory("Brazil", "Boulder")?.category)
-
     }
 
     @Test
@@ -48,7 +47,7 @@ class GradeSystemTableTest {
         setup()
 
         val gradeSystemsForUS = GradeSystemTable.gradeSystemsForCountryCode("US")
-        assertEquals("US grade should have Hueco and Yosemite",2, gradeSystemsForUS.count())
+        assertEquals("US grade should have Hueco and Yosemite", 2, gradeSystemsForUS.count())
         assertEquals("US grade should have Hueo and Yosemite", "Hueco", gradeSystemsForUS[0].name)
         assertEquals("US grade should have Hueo and Yosemite", "Yosemite Decimal System", gradeSystemsForUS[1].name)
 

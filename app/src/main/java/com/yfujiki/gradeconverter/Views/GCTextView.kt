@@ -2,14 +2,11 @@ package com.yfujiki.gradeconverter.Views
 
 import android.content.Context
 import android.graphics.Typeface
-import android.os.Build
-import android.support.annotation.RequiresApi
 import android.util.AttributeSet
 import android.support.v7.widget.AppCompatTextView
-import android.widget.TextView
 import com.yfujiki.gradeconverter.Utilities.Localization
 
-class GCTextView: AppCompatTextView {
+class GCTextView : AppCompatTextView {
     constructor(context: Context): super(context) {
         init()
     }

@@ -5,7 +5,7 @@ import android.view.View
 import com.yfujiki.gradeconverter.Models.GradeSystem
 import kotlinx.android.synthetic.main.add_recycler_view_holder.view.*
 
-class AddRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+class AddRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun setGrade(grade: GradeSystem) {
         setGradeName(grade.name)

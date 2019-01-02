@@ -12,7 +12,7 @@ class AppState {
     companion object {
         val mainViewModeSubject: PublishSubject<MainViewMode> = PublishSubject.create()
 
-        var mainViewMode: MainViewMode by Delegates.observable(MainViewMode.normal){
+        var mainViewMode: MainViewMode by Delegates.observable(MainViewMode.normal) {
             property, oldValue, newValue ->
             mainViewModeSubject.onNext(newValue)
         }
