@@ -1,10 +1,7 @@
 package com.yfujiki.gradeconverter.Utilities
 
 import android.content.Context
-import android.widget.Toast
 import android.util.DisplayMetrics
-
-
 
 class Screen {
     companion object {

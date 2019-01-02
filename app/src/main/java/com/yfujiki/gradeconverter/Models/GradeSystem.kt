@@ -5,7 +5,7 @@ import com.yfujiki.gradeconverter.Utilities.Localization
 
 class GradeSystem : Comparable<GradeSystem> {
     val name: String
-    val category:String
+    val category: String
     val countryCodes: List<String>
     var grades: List<String> = listOf<String>()
     var isBaseSystem: Boolean = false
@@ -16,7 +16,7 @@ class GradeSystem : Comparable<GradeSystem> {
         this.countryCodes = countryCodes
     }
 
-    fun key(): String = "${name}-${category}"
+    fun key(): String = "$name-$category"
 
     fun addGrade(grade: String) {
         var mutableList = grades.toMutableList()
@@ -67,13 +67,13 @@ class GradeSystem : Comparable<GradeSystem> {
             Localization.stringResourceFor(highGrade)?.let {
                 return "~ ${context.getString(it)}"
             } ?: run {
-                return "~ ${highGrade}"
+                return "~ $highGrade"
             }
         } else if (highGrade.isEmpty()) {
             Localization.stringResourceFor(lowGrade)?.let {
                 return "${context.getString(it)} ~"
             } ?: run {
-                return "${lowGrade} ~"
+                return "$lowGrade ~"
             }
         } else if (areAdjacentGrades(lowGrade, highGrade)) {
             var lowGradeString = ""
@@ -88,7 +88,7 @@ class GradeSystem : Comparable<GradeSystem> {
             } ?: run {
                 highGradeString = highGrade
             }
-            return "${lowGradeString}/${highGradeString}"
+            return "$lowGradeString/$highGradeString"
         } else {
             var lowGradeString = ""
             var highGradeString = ""
@@ -102,7 +102,7 @@ class GradeSystem : Comparable<GradeSystem> {
             } ?: run {
                 highGradeString = highGrade
             }
-            return "${lowGradeString} ~ ${highGradeString}"
+            return "$lowGradeString ~ $highGradeString"
         }
     }
 
@@ -161,7 +161,7 @@ class GradeSystem : Comparable<GradeSystem> {
                     }
                 }
             } else {
-                for (i in (0 .. sortedIndexes[0]).reversed()) {
+                for (i in (0..sortedIndexes[0]).reversed()) {
                     if (grades[i].isNotEmpty() && grades[i] != lowGrade) {
                         nextGrade = grades[i]
                         break
@@ -189,7 +189,7 @@ class GradeSystem : Comparable<GradeSystem> {
 
     override fun compareTo(other: GradeSystem): Int {
         var result = name.compareTo(other.name)
-        if (result !=  0) {
+        if (result != 0) {
             return result
         }
 

@@ -5,7 +5,7 @@ import com.yfujiki.gradeconverter.Models.GradeSystemTable
 import com.yfujiki.gradeconverter.Models.LocalPreferences
 import timber.log.Timber
 
-class GCApp: Application() {
+class GCApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
@@ -37,5 +37,4 @@ class GCApp: Application() {
             Timber.plant(Timber.DebugTree())
         }
     }
-
 }

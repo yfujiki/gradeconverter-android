@@ -1,10 +1,5 @@
 package com.yfujiki.gradeconverter.Adapters
 
-import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import com.yfujiki.gradeconverter.MainActivity
 import com.yfujiki.gradeconverter.Models.AppState
@@ -123,7 +118,7 @@ class MainRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter
     private fun setInterItemSpace(viewHolder: RecyclerView.ViewHolder, index: Int) {
         val marginParams = viewHolder.itemView.layoutParams as ViewGroup.MarginLayoutParams
 
-        if(index == 0) {
+        if (index == 0) {
             marginParams.topMargin = if (Screen.isSparseScreen(activity)) 8 else 16
             marginParams.bottomMargin = if (Screen.isSparseScreen(activity)) 6 else 8
         } else if (index == itemCount - 1) {

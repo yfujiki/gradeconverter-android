@@ -43,7 +43,7 @@ class AddRecyclerViewAdapter(val activity: MainActivity) : RecyclerView.Adapter<
     private fun setInterItemSpace(viewHolder: RecyclerView.ViewHolder, index: Int) {
         val marginParams = viewHolder.itemView.layoutParams as ViewGroup.MarginLayoutParams
 
-        if(index == 0) {
+        if (index == 0) {
             marginParams.topMargin = if (Screen.isSparseScreen(activity)) 24 else 32
             marginParams.bottomMargin = if (Screen.isSparseScreen(activity)) 12 else 16
         } else if (index == itemCount - 1) {

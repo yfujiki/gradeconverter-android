@@ -25,7 +25,7 @@ class AppState {
 
         val mainViewDraggingViewHolderSubject: PublishSubject<DraggingViewHolder> = PublishSubject.create()
 
-        var mainViewMode: MainViewMode by Delegates.observable(MainViewMode.normal){
+        var mainViewMode: MainViewMode by Delegates.observable(MainViewMode.normal) {
             property, oldValue, newValue ->
             mainViewModeSubject.onNext(newValue)
         }

@@ -15,7 +15,7 @@ class Localization {
         OTHERS(-1);
 
         fun string(): String {
-            return when(this) {
+            return when (this) {
                 US -> "US"
                 JP -> "JP"
                 OTHERS -> "OTHERS"
@@ -29,12 +29,11 @@ class Localization {
         OTHERS(-1);
 
         fun string(): String {
-            return when(this) {
+            return when (this) {
                 EN -> "EN"
                 JA -> "JA"
                 OTHERS -> "OTHERS"
             }
-
         }
     }
 
