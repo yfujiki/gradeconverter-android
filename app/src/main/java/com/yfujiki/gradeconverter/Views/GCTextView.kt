@@ -5,10 +5,11 @@ import android.graphics.Typeface
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.util.AttributeSet
+import android.support.v7.widget.AppCompatTextView
 import android.widget.TextView
 import com.yfujiki.gradeconverter.Utilities.Localization
 
-class GCTextView: TextView {
+class GCTextView: AppCompatTextView {
     constructor(context: Context): super(context) {
         init()
     }
@@ -19,12 +20,6 @@ class GCTextView: TextView {
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int):
             super(context, attrs, defStyleAttr) {
-        init()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int):
-            super(context, attrs, defStyleAttr, defStyleRes) {
         init()
     }
 
