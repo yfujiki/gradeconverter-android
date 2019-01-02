@@ -7,12 +7,22 @@ import com.yfujiki.gradeconverter.Models.LocalPreferences
 import timber.log.Timber
 
 class GCApp : Application() {
+    companion object {
+        private lateinit var instance: GCApp
+
+        public fun getInstance(): GCApp {
+            return instance
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
 
         initTimber()
         initLeakCanary()
         configureData()
+
+        instance = this
     }
 
     private fun configureData() {
