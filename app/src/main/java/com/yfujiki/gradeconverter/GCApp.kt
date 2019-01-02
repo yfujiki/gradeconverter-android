@@ -1,6 +1,7 @@
 package com.yfujiki.gradeconverter
 
 import android.app.Application
+import com.squareup.leakcanary.LeakCanary
 import com.yfujiki.gradeconverter.Models.GradeSystemTable
 import com.yfujiki.gradeconverter.Models.LocalPreferences
 import timber.log.Timber
@@ -10,7 +11,7 @@ class GCApp : Application() {
         super.onCreate()
 
         initTimber()
-
+        initLeakCanary()
         configureData()
     }
 
@@ -36,5 +37,14 @@ class GCApp : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+    }
+
+    private fun initLeakCanary() {
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return
+        }
+        LeakCanary.install(this)
     }
 }
