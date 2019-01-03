@@ -51,16 +51,11 @@
             android:drawablePadding="8dp"
             />
 
-        <com.yfujiki.gradeconverter.Views.GCTextView
-            android:id="@+id/gradeValueTextView"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textSize="@dimen/large_text"
-            android:textAlignment="center"
-            android:text="5.10a"
-            />
+            android:layout_height="48dp"/>
 
     </LinearLayout>
 

@@ -6,7 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import com.yfujiki.gradeconverter.MainActivity
+import com.yfujiki.gradeconverter.GCApp
 import com.yfujiki.gradeconverter.Models.AppState
 import com.yfujiki.gradeconverter.Models.GradeSystem
 import com.yfujiki.gradeconverter.Models.LocalPreferences
@@ -23,6 +23,7 @@ class MainRecyclerViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
         val itemView = LayoutInflater.from(p0.context).inflate(R.layout.recycler_view_holder, p0, false)
+
         return MainRecyclerViewHolder(itemView)
     }
 
@@ -33,8 +34,8 @@ class MainRecyclerViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
     override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
         val viewHolder = p0 as MainRecyclerViewHolder
         val grade = LocalPreferences.selectedGradeSystems()[p1]
+
         viewHolder.setGrade(grade)
-        viewHolder.setIndexes(LocalPreferences.currentIndexes(), grade)
 
         setInterItemSpace(viewHolder, p1)
 
