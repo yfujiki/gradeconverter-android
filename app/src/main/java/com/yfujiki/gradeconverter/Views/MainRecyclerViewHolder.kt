@@ -24,6 +24,7 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     init {
         disposeBag += LocalPreferences.currentIndexesChanged.subscribe {
+
             if (LocalPreferences.isBaseGradeSystem(this.grade)) {
                 // BaseGradeSystem initiated the change, so don't react to the change you started.
                 return@subscribe
@@ -36,6 +37,8 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
             viewPagerAdapter?.currentPosition?.let {
                 itemView.viewPager.setCurrentItem(it, false)
             }
+
+            configureLeftRightButton()
         }
 
         disposeBag += LocalPreferences.baseGradeSystemChanged.subscribe {
@@ -76,15 +79,14 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
             viewPagerAdapter?.currentPositionUpdated(position)
 
-            if (viewPagerAdapter?.rewindNeeded(position) == true) {
+            if (viewPagerAdapter?.isInPositionForRewind(position) == true) {
                 if (viewPagerAdapter?.rewindData() == true) {
                     jumpPosition = 1
                 } else {
                     jumpPosition = position
                 }
-            } else if (viewPagerAdapter?.forwardNeeded(position) == true) {
+            } else if (viewPagerAdapter?.isInPositionForForwarding(position) == true) {
                 if (viewPagerAdapter?.forwardData() == true) {
-                    //prepare to jump to the first page
                     jumpPosition = 1
                 } else {
                     jumpPosition = position
@@ -100,9 +102,9 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
                 itemView.viewPager.adapter = null
                 itemView.viewPager.adapter = viewPagerAdapter
 
-                //Jump without animation so the user is not aware what happened.
                 itemView.viewPager.setCurrentItem(jumpPosition, false)
-                //Reset jump position.
+                configureLeftRightButton()
+
                 jumpPosition = -1
             } else if (state == ViewPager.SCROLL_STATE_DRAGGING) {
                 grade?.let {
@@ -129,6 +131,7 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
             viewPagerAdapter?.currentPosition?.let {
                 itemView.viewPager.setCurrentItem(it, false)
             }
+            configureLeftRightButton()
         }
     }
 
@@ -159,6 +162,24 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
             itemView.background = AppCompatResources.getDrawable(GCApp.getInstance().applicationContext, R.drawable.rounded_rect_with_border)
         } else {
             itemView.background = AppCompatResources.getDrawable(GCApp.getInstance().applicationContext, R.drawable.rounded_rect_shape)
+        }
+    }
+
+    private fun configureLeftRightButton() {
+        if (viewPagerAdapter?.hasLowerGrades() == true) {
+            itemView.leftArrow.isEnabled = true
+            itemView.leftArrow.alpha = 1.0f
+        } else {
+            itemView.leftArrow.isEnabled = false
+            itemView.leftArrow.alpha = 0.2f
+        }
+
+        if (viewPagerAdapter?.hasHigherGrades() == true) {
+            itemView.rightArrow.isEnabled = true
+            itemView.rightArrow.alpha = 1.0f
+        } else {
+            itemView.rightArrow.isEnabled = false
+            itemView.rightArrow.alpha = 0.2f
         }
     }
 }

@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.view_pager_view_holder.view.*
 
 class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
 
-    private var dataList: MutableList<String>
+    private var dataList: MutableList<List<Int>>
 
     var currentPosition: Int = 1
         private set
@@ -27,12 +27,30 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
         return grade != otherGrade
     }
 
-    fun rewindNeeded(position: Int): Boolean {
+    fun isInPositionForRewind(position: Int): Boolean {
         return position == 0
     }
 
-    fun forwardNeeded(position: Int): Boolean {
+    fun isInPositionForForwarding(position: Int): Boolean {
         return position == dataList.count() - 1
+    }
+
+    fun hasLowerGrades(): Boolean {
+        if (dataList.size == 0) {
+            return false
+        }
+
+        val currentGradeIndexes = dataList.get(currentPosition)
+        return grade.lowerGradeFromIndexes(currentGradeIndexes) != null
+    }
+
+    fun hasHigherGrades(): Boolean {
+        if (dataList.size == 0) {
+            return false
+        }
+
+        val currentGradeIndexes = dataList.get(currentPosition)
+        return grade.higherGradeFromIndexes(currentGradeIndexes) != null
     }
 
     fun rewindData(): Boolean {
@@ -40,14 +58,11 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
             return false
         }
 
-        val gradeForP1 = dataList.get(0)
-        val indexesForP1 = grade.indexesForGrade(gradeForP1)
+        val firstGradeIndexes = dataList.get(0)
 
-        val dataListAndCurrentPosition = dataListForIndexes(indexesForP1)
+        val dataListAndCurrentPosition = dataListForIndexes(firstGradeIndexes)
         dataList = dataListAndCurrentPosition.first
         currentPosition = dataListAndCurrentPosition.second
-
-//        notifyDataSetChanged()
 
         return dataListAndCurrentPosition.second == 1
     }
@@ -57,14 +72,11 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
             return false
         }
 
-        val gradeForP1 = dataList.last()
-        val indexesForP1 = grade.indexesForGrade(gradeForP1)
+        val lastGradeIndexes = dataList.last()
 
-        val dataListAndCurrentPosition = dataListForIndexes(indexesForP1)
+        val dataListAndCurrentPosition = dataListForIndexes(lastGradeIndexes)
         dataList = dataListAndCurrentPosition.first
         currentPosition = dataListAndCurrentPosition.second
-
-//        notifyDataSetChanged()
 
         return dataListAndCurrentPosition.second == 1
     }
@@ -73,8 +85,6 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
         val dataListAndCurrentPosition = dataListFromCurrentIndex()
         dataList = dataListAndCurrentPosition.first
         currentPosition = dataListAndCurrentPosition.second
-
-//        notifyDataSetChanged()
     }
 
     fun currentPositionUpdated(currentPosition: Int) {
@@ -82,18 +92,15 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
             return
         }
 
-        val selectedGrade = dataList.get(currentPosition)
-        val selectedIndexes = grade.indexesForGrade(selectedGrade)
+        val selectedIndexes = dataList.get(currentPosition)
 
         if (LocalPreferences.isBaseGradeSystem(grade)) {
             LocalPreferences.setCurrentIndexes(selectedIndexes)
         }
     }
 
-    private fun dataListForIndexes(indexes: List<Int>): Pair<MutableList<String>, Int> {
-        var data = mutableListOf<String>()
-
-        val context = GCApp.getInstance().applicationContext
+    private fun dataListForIndexes(indexes: List<Int>): Pair<MutableList<List<Int>>, Int> {
+        var data = mutableListOf<List<Int>>()
 
         val indexesForP2 = indexes
 
@@ -101,13 +108,13 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
         var hasHigherGrade = false
         grade.lowerGradeFromIndexes(indexesForP2)?.let {
             val indexesForP1 = grade.indexesForGrade(it)
-            data.add(grade.localizedGradeAtIndexes(indexesForP1, context)) // 1 page
+            data.add(indexesForP1) // 1 page
             hasLowerGrade = true
         }
-        data.add(grade.localizedGradeAtIndexes(indexesForP2, context)) // 2 page
+        data.add(indexesForP2) // 2 page
         grade.higherGradeFromIndexes(indexesForP2)?.let {
             val indexesForP3 = grade.indexesForGrade(it)
-            data.add(grade.localizedGradeAtIndexes(indexesForP3, context)) // 3 page
+            data.add(indexesForP3) // 3 page
             hasHigherGrade = true
         }
 
@@ -123,7 +130,7 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
         return Pair(data, currentPosition)
     }
 
-    private fun dataListFromCurrentIndex(): Pair<MutableList<String>, Int> {
+    private fun dataListFromCurrentIndex(): Pair<MutableList<List<Int>>, Int> {
         return dataListForIndexes(LocalPreferences.currentIndexes())
     }
 
@@ -136,11 +143,13 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): View {
-        val view = LayoutInflater.from(GCApp.getInstance().applicationContext)
+        val context = GCApp.getInstance().applicationContext
+        val view = LayoutInflater.from(context)
                 .inflate(R.layout.view_pager_view_holder, container, false)
 
         if (dataList.count() > position) {
-            view.gradeValueTextView.text = dataList.get(position)!!
+            val indexes = dataList.get(position)!!
+            view.gradeValueTextView.text = grade.localizedGradeAtIndexes(indexes, context)
         }
 
         container.addView(view)
