@@ -25,7 +25,10 @@ class MainActivityFragment : Fragment() {
     private var disposable = CompositeDisposable()
 
     private val itemTouchHelper by lazy {
-        val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, LEFT or RIGHT) {
+        val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, 0) {
+            override fun onSwiped(p0: RecyclerView.ViewHolder, p1: Int) {
+                // We don't support swipe
+            }
 
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                                 target: RecyclerView.ViewHolder): Boolean {
@@ -43,16 +46,6 @@ class MainActivityFragment : Fragment() {
                 return true
             }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                val mainRecyclerViewAdapter = recyclerView.adapter as MainRecyclerViewAdapter
-                if (direction == LEFT) {
-                    mainRecyclerViewAdapter.swipeLeft(viewHolder, position)
-                } else {
-                    mainRecyclerViewAdapter.swipeRight(viewHolder, position)
-                }
-            }
-
             override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
                 return when (AppState.mainViewMode) {
                     AppState.MainViewMode.edit -> ItemTouchHelper.Callback.makeMovementFlags(
@@ -60,7 +53,7 @@ class MainActivityFragment : Fragment() {
                             0)
                     AppState.MainViewMode.normal -> ItemTouchHelper.Callback.makeMovementFlags(
                             0,
-                            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+                            0)
                 }
             }
 
@@ -73,10 +66,6 @@ class MainActivityFragment : Fragment() {
 
             override fun isLongPressDragEnabled(): Boolean {
                 return false
-            }
-
-            override fun isItemViewSwipeEnabled(): Boolean {
-                return AppState.mainViewMode == AppState.MainViewMode.normal
             }
 
             override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
@@ -106,15 +95,15 @@ class MainActivityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.setLayoutManager(LinearLayoutManager(context))
-        recyclerView.adapter = MainRecyclerViewAdapter(activity as MainActivity)
-        addSwipeHandler(recyclerView)
+        recyclerView.adapter = MainRecyclerViewAdapter()
+        addTouchHandler(recyclerView)
 
         disposable += LocalPreferences.selectedGradeSystemsChanged.subscribe {
             (recyclerView.adapter as MainRecyclerViewAdapter).notifyDataSetChanged()
         }
     }
 
-    private fun addSwipeHandler(recyclerView: RecyclerView) {
+    private fun addTouchHandler(recyclerView: RecyclerView) {
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
