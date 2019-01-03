@@ -10,6 +10,7 @@ import io.reactivex.subjects.PublishSubject
 object LocalPreferences {
     val CURRENT_INDEXES_KEY = "com.yfujiki.gradeConverter.currentIndexes"
     val SELECTED_GRADE_SYSTEMS_KEY = "com.yfujiki.gradeConverter.selectedGradeSystems"
+    val BASE_GRADE_SYSTEM_KEY = "com.yfujiki.gradeConverter.baseGradeSystem"
     val GRADE_NAME_KEY = "gradeName"
     val GRADE_CATEGORY_KEY = "gradeCategory"
 
@@ -145,5 +146,50 @@ object LocalPreferences {
             string += it.name
         }
         return string
+    }
+
+    fun setBaseGradeSystem(gradeSystem: GradeSystem) {
+        val name = gradeSystem.name
+        val category = gradeSystem.category
+        val map = hashMapOf(
+                GRADE_NAME_KEY to name,
+                GRADE_CATEGORY_KEY to category
+        )
+
+        val gsonString = gson.toJson(map)
+        body.edit()
+                .putString(BASE_GRADE_SYSTEM_KEY, gsonString)
+                .apply()
+    }
+
+    fun baseGradeSystem(): GradeSystem? {
+        val gsonString = body.getString(BASE_GRADE_SYSTEM_KEY, null)
+        if (gsonString == null) {
+            return null
+        }
+
+        val type = object : TypeToken<Map<String, String>>() {}.type
+        val baseGradeSystem = gson.fromJson<Map<String, String>?>(gsonString, type)
+
+        if (baseGradeSystem == null) {
+            return null
+        }
+
+        val name = baseGradeSystem[GRADE_NAME_KEY]
+        val category = baseGradeSystem[GRADE_CATEGORY_KEY]
+
+        if (name == null || category == null) {
+            return null
+        } else {
+            return GradeSystemTable.gradeSystemForNameCategory(name, category)
+        }
+    }
+
+    fun isBaseGradeSystem(gradeSystem: GradeSystem?): Boolean {
+        if (gradeSystem == null) {
+            return false
+        }
+
+        return baseGradeSystem() == gradeSystem
     }
 }
