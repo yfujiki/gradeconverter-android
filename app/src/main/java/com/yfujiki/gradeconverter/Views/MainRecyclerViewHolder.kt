@@ -3,14 +3,16 @@ package com.yfujiki.gradeconverter.Views
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.support.v4.view.ViewPager
+import android.support.v7.content.res.AppCompatResources
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.yfujiki.gradeconverter.Adapters.ViewPagerAdapter
+import com.yfujiki.gradeconverter.GCApp
 import com.yfujiki.gradeconverter.Models.GradeSystem
 import com.yfujiki.gradeconverter.Models.LocalPreferences
 import com.yfujiki.gradeconverter.R
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.recycler_view_holder.view.*
 
 class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -20,7 +22,7 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     private var disposeBag = CompositeDisposable()
 
     init {
-        LocalPreferences.currentIndexesChanged.subscribe {
+        disposeBag += LocalPreferences.currentIndexesChanged.subscribe {
             if (LocalPreferences.isBaseGradeSystem(this.grade)) {
                 // BaseGradeSystem initiated the change, so don't react to the change you started.
                 return@subscribe
@@ -33,7 +35,15 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
             viewPagerAdapter?.currentPosition?.let {
                 itemView.viewPager.setCurrentItem(it, false)
             }
-        }.addTo(disposeBag)
+        }
+
+        disposeBag += LocalPreferences.baseGradeSystemChanged.subscribe {
+            if (grade == LocalPreferences.baseGradeSystem()) {
+                itemView.background = AppCompatResources.getDrawable(GCApp.getInstance().applicationContext, R.drawable.rounded_rect_with_border)
+            } else {
+                itemView.background = AppCompatResources.getDrawable(GCApp.getInstance().applicationContext, R.drawable.rounded_rect_shape)
+            }
+        }
     }
 
     var viewPagerAdapter: ViewPagerAdapter? = null
@@ -47,9 +57,6 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
                 positionOffset: Float,
                 positionOffsetPixels: Int
         ) {
-            grade?.let {
-                LocalPreferences.setBaseGradeSystem(it)
-            }
         }
 
         override fun onPageSelected(position: Int) {
@@ -87,7 +94,12 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
                 itemView.viewPager.setCurrentItem(jumpPosition, false)
                 //Reset jump position.
                 jumpPosition = -1
+            } else if (state == ViewPager.SCROLL_STATE_DRAGGING) {
+                grade?.let {
+                    LocalPreferences.setBaseGradeSystem(it)
+                }
             }
+
             viewPagerAdapter?.notifyDataSetChanged()
         }
     }

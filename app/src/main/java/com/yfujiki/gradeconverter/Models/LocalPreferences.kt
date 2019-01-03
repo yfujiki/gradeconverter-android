@@ -35,8 +35,9 @@ object LocalPreferences {
     private lateinit var body: SharedPreferences
     private val gson = GsonBuilder().create()
 
-    public var selectedGradeSystemsChanged = PublishSubject.create<List<GradeSystem>>()
-    public var currentIndexesChanged = PublishSubject.create<List<Int>>()
+    var selectedGradeSystemsChanged = PublishSubject.create<List<GradeSystem>>()
+    var currentIndexesChanged = PublishSubject.create<List<Int>>()
+    var baseGradeSystemChanged = PublishSubject.create<GradeSystem>()
 
     fun init(context: Context) {
         this.body = context.getSharedPreferences(KEY, Context.MODE_PRIVATE)
@@ -148,7 +149,7 @@ object LocalPreferences {
         return string
     }
 
-    fun setBaseGradeSystem(gradeSystem: GradeSystem) {
+    fun setBaseGradeSystem(gradeSystem: GradeSystem, notify: Boolean = true) {
         val name = gradeSystem.name
         val category = gradeSystem.category
         val map = hashMapOf(
@@ -160,6 +161,8 @@ object LocalPreferences {
         body.edit()
                 .putString(BASE_GRADE_SYSTEM_KEY, gsonString)
                 .apply()
+
+        baseGradeSystemChanged.onNext(gradeSystem)
     }
 
     fun baseGradeSystem(): GradeSystem? {
