@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import com.yfujiki.gradeconverter.GCApp
 import com.yfujiki.gradeconverter.Models.AppState
-import com.yfujiki.gradeconverter.Models.GradeSystem
 import com.yfujiki.gradeconverter.Models.LocalPreferences
 import com.yfujiki.gradeconverter.R
 import com.yfujiki.gradeconverter.Utilities.Screen
@@ -47,11 +46,11 @@ class MainRecyclerViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
                 viewHolder.itemView.rightArrow.visibility = View.VISIBLE
 
                 viewHolder.itemView.rightArrow.setOnClickListener {
-                    swipeLeft(p0, p1)
+                    viewHolder.scrollRight()
                 }
 
                 viewHolder.itemView.leftArrow.setOnClickListener {
-                    swipeRight(p0, p1)
+                    viewHolder.scrollLeft()
                 }
 
                 viewHolder.itemView.clearAnimation()
@@ -89,29 +88,6 @@ class MainRecyclerViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
                 viewHolder.itemView.startAnimation(animation)
             }
         }
-    }
-
-    fun swipeLeft(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        val gradeSystem = LocalPreferences.selectedGradeSystems()[position]
-        val currentIndexes = LocalPreferences.currentIndexes()
-        val nextGrade = gradeSystem.higherGradeFromIndexes(currentIndexes)
-        moveToNextGrade(nextGrade, gradeSystem)
-    }
-
-    fun swipeRight(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        val gradeSystem = LocalPreferences.selectedGradeSystems()[position]
-        val currentIndexes = LocalPreferences.currentIndexes()
-        val nextGrade = gradeSystem.lowerGradeFromIndexes(currentIndexes)
-        moveToNextGrade(nextGrade, gradeSystem)
-    }
-
-    private fun moveToNextGrade(nextGrade: String?, gradeSystem: GradeSystem) {
-        if (nextGrade != null) {
-            val nextIndexes = gradeSystem.indexesForGrade(nextGrade)
-            LocalPreferences.setCurrentIndexes(nextIndexes)
-        }
-
-        notifyDataSetChanged()
     }
 
     private fun deleteItemAt(index: Int) {

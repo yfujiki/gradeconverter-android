@@ -31,6 +31,7 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
             }
 
             viewPagerAdapter?.reloadDataList()
+            viewPagerAdapter?.notifyDataSetChanged()
             itemView.viewPager.adapter = null
             itemView.viewPager.adapter = viewPagerAdapter
 
@@ -97,22 +98,23 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
         override fun onPageScrollStateChanged(state: Int) {
             //Let's wait for the animation to be completed then do the jump (if we do this in
             //onPageSelected(int position) scroll animation will be canceled).
-            if (state == ViewPager.SCROLL_STATE_IDLE && jumpPosition >= 0) {
-                // Work around of some kind of a bug in ViewPager. Won't reload contents otherwise.
-                itemView.viewPager.adapter = null
-                itemView.viewPager.adapter = viewPagerAdapter
+            if (state == ViewPager.SCROLL_STATE_IDLE) {
+                if (jumpPosition >= 0) {
+                    // Work around of some kind of a bug in ViewPager. Won't reload contents otherwise.
+                    viewPagerAdapter?.notifyDataSetChanged()
+                    itemView.viewPager.adapter = null
+                    itemView.viewPager.adapter = viewPagerAdapter
 
-                itemView.viewPager.setCurrentItem(jumpPosition, false)
+                    itemView.viewPager.setCurrentItem(jumpPosition, false)
+
+                    jumpPosition = -1
+                }
                 configureLeftRightButton()
-
-                jumpPosition = -1
             } else if (state == ViewPager.SCROLL_STATE_DRAGGING) {
                 grade?.let {
                     LocalPreferences.setBaseGradeSystem(it)
                 }
             }
-
-            viewPagerAdapter?.notifyDataSetChanged()
         }
     }
 
@@ -180,6 +182,28 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
         } else {
             itemView.rightArrow.isEnabled = false
             itemView.rightArrow.alpha = 0.2f
+        }
+    }
+
+    fun scrollRight() {
+        grade?.let {
+            LocalPreferences.setBaseGradeSystem(it, true)
+        }
+
+        if (viewPagerAdapter?.hasHigherGrades() == true) {
+            val rightItem = viewPagerAdapter!!.currentPosition + 1
+            itemView.viewPager.setCurrentItem(rightItem, true)
+        }
+    }
+
+    fun scrollLeft() {
+        grade?.let {
+            LocalPreferences.setBaseGradeSystem(it, true)
+        }
+
+        if (viewPagerAdapter?.hasLowerGrades() == true) {
+            val leftItem = viewPagerAdapter!!.currentPosition - 1
+            itemView.viewPager.setCurrentItem(leftItem, true)
         }
     }
 }

@@ -92,6 +92,8 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
             return
         }
 
+        this.currentPosition = currentPosition
+
         val selectedIndexes = dataList.get(currentPosition)
 
         if (LocalPreferences.isBaseGradeSystem(grade)) {
@@ -104,16 +106,20 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
 
         val indexesForP2 = indexes
 
+        val gradeForP1 = grade.lowerGradeFromIndexes(indexesForP2)
+        val indexesForP1 = if (gradeForP1 != null) grade.indexesForGrade(gradeForP1) else null
         var hasLowerGrade = false
-        var hasHigherGrade = false
-        grade.lowerGradeFromIndexes(indexesForP2)?.let {
-            val indexesForP1 = grade.indexesForGrade(it)
+        if (indexesForP1 != null) {
             data.add(indexesForP1) // 1 page
             hasLowerGrade = true
         }
+
         data.add(indexesForP2) // 2 page
-        grade.higherGradeFromIndexes(indexesForP2)?.let {
-            val indexesForP3 = grade.indexesForGrade(it)
+
+        val gradeForP3 = grade.higherGradeFromIndexes(indexesForP2)
+        val indexesForP3 = if (gradeForP3 != null) grade.indexesForGrade(gradeForP3) else null
+        var hasHigherGrade = false
+        if (indexesForP3 != null) {
             data.add(indexesForP3) // 3 page
             hasHigherGrade = true
         }
@@ -123,8 +129,19 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
             currentPosition = 0
         } else if (!hasHigherGrade) {
             currentPosition = 1
+            if (indexesForP1 != null) {
+                grade.lowerGradeFromIndexes(indexesForP1)?.let {
+                    data.add(0, grade.indexesForGrade(it))
+                    currentPosition = 2
+                }
+            }
         } else if (!hasLowerGrade) {
             currentPosition = 0
+            if (indexesForP3 != null) {
+                grade.higherGradeFromIndexes(indexesForP3)?.let {
+                    data.add(grade.indexesForGrade(it))
+                }
+            }
         }
 
         return Pair(data, currentPosition)
