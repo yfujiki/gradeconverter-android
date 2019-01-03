@@ -8,7 +8,6 @@ class GradeSystem : Comparable<GradeSystem> {
     val category: String
     val countryCodes: List<String>
     var grades: List<String> = listOf<String>()
-    var isBaseSystem: Boolean = false
 
     constructor(name: String, category: String, countryCodes: List<String>) {
         this.name = name
@@ -52,6 +51,10 @@ class GradeSystem : Comparable<GradeSystem> {
     }
 
     fun localizedGradeAtIndexes(indexes: List<Int>, context: Context): String {
+        if (indexes.count() == 0) {
+            return ""
+        }
+
         val sortedIndexes = indexes.sorted()
 
         val lowGrade = gradeAtIndex(sortedIndexes[0], false)
@@ -146,6 +149,10 @@ class GradeSystem : Comparable<GradeSystem> {
 
     private fun nextGradeFromIndexes(indexes: List<Int>, higher: Boolean): String? {
         val sortedIndexes = indexes.sorted()
+
+        if (sortedIndexes.count() == 0) {
+            return null
+        }
 
         val lowGrade = gradeAtIndex(sortedIndexes[0], false)
         val highGrade = gradeAtIndex(sortedIndexes[indexes.count() - 1], true)
