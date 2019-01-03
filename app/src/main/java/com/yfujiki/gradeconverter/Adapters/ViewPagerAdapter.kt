@@ -45,6 +45,7 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
 
         val dataListAndCurrentPosition = dataListForIndexes(indexesForP1)
         dataList = dataListAndCurrentPosition.first
+        currentPosition = dataListAndCurrentPosition.second
 
 //        notifyDataSetChanged()
 
@@ -61,6 +62,7 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
 
         val dataListAndCurrentPosition = dataListForIndexes(indexesForP1)
         dataList = dataListAndCurrentPosition.first
+        currentPosition = dataListAndCurrentPosition.second
 
 //        notifyDataSetChanged()
 

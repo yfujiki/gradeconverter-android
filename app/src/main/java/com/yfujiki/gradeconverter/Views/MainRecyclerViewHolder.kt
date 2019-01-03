@@ -62,11 +62,15 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
             if (viewPagerAdapter?.rewindNeeded(position) == true) {
                 if (viewPagerAdapter?.rewindData() == true) {
                     jumpPosition = 1
+                } else {
+                    jumpPosition = position
                 }
             } else if (viewPagerAdapter?.forwardNeeded(position) == true) {
                 if (viewPagerAdapter?.forwardData() == true) {
                     //prepare to jump to the first page
                     jumpPosition = 1
+                } else {
+                    jumpPosition = position
                 }
             }
         }
