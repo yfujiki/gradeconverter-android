@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.yfujiki.gradeconverter.Adapters.ViewPagerAdapter
 import com.yfujiki.gradeconverter.GCApp
+import com.yfujiki.gradeconverter.Models.AppState
 import com.yfujiki.gradeconverter.Models.GradeSystem
 import com.yfujiki.gradeconverter.Models.LocalPreferences
 import com.yfujiki.gradeconverter.R
@@ -38,11 +39,20 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
         }
 
         disposeBag += LocalPreferences.baseGradeSystemChanged.subscribe {
-            if (grade == LocalPreferences.baseGradeSystem()) {
-                itemView.background = AppCompatResources.getDrawable(GCApp.getInstance().applicationContext, R.drawable.rounded_rect_with_border)
+            configureBackground()
+        }
+
+        disposeBag += AppState.mainViewModeSubject.subscribe {
+            itemView.viewPager.clearOnPageChangeListeners()
+
+            if (it == AppState.MainViewMode.normal) {
+                itemView.viewPager.swipeLocked = false
+                itemView.viewPager.addOnPageChangeListener(valueChangedListener)
             } else {
-                itemView.background = AppCompatResources.getDrawable(GCApp.getInstance().applicationContext, R.drawable.rounded_rect_shape)
+                itemView.viewPager.swipeLocked = true
             }
+
+            configureBackground()
         }
     }
 
@@ -142,5 +152,13 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
             }
         }
         itemView.gradeNameTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
+    }
+
+    private fun configureBackground() {
+        if (AppState.mainViewMode == AppState.MainViewMode.normal && grade == LocalPreferences.baseGradeSystem()) {
+            itemView.background = AppCompatResources.getDrawable(GCApp.getInstance().applicationContext, R.drawable.rounded_rect_with_border)
+        } else {
+            itemView.background = AppCompatResources.getDrawable(GCApp.getInstance().applicationContext, R.drawable.rounded_rect_shape)
+        }
     }
 }
