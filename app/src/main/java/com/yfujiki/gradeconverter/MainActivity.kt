@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.action_bar_title_view.view.*
 import kotlinx.android.synthetic.main.activity_add.view.*
 
 import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
@@ -76,6 +77,10 @@ class MainActivity : AppCompatActivity() {
             R.id.info_menu_item -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    protected fun finalize() {
+        Timber.i("Activity disposed")
     }
 
     private fun customizeTitleView() {

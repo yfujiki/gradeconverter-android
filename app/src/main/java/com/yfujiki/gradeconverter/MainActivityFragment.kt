@@ -95,7 +95,7 @@ class MainActivityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.setLayoutManager(LinearLayoutManager(context))
-        recyclerView.adapter = MainRecyclerViewAdapter()
+        recyclerView.adapter = MainRecyclerViewAdapter((activity as MainActivity).disposable)
         addTouchHandler(recyclerView)
 
         disposable += LocalPreferences.selectedGradeSystemsChanged.subscribe {

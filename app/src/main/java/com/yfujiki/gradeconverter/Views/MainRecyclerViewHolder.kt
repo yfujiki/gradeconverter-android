@@ -15,50 +15,13 @@ import com.yfujiki.gradeconverter.R
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.recycler_view_holder.view.*
+import java.lang.ref.WeakReference
 
-class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDisposable) : RecyclerView.ViewHolder(itemView) {
 
     private var grade: GradeSystem? = null
 
-    private var disposeBag = CompositeDisposable()
-
-    init {
-        disposeBag += LocalPreferences.currentIndexesChanged.subscribe {
-
-            if (LocalPreferences.isBaseGradeSystem(this.grade)) {
-                // BaseGradeSystem initiated the change, so don't react to the change you started.
-                return@subscribe
-            }
-
-            viewPagerAdapter?.reloadDataList()
-            viewPagerAdapter?.notifyDataSetChanged()
-            itemView.viewPager.adapter = null
-            itemView.viewPager.adapter = viewPagerAdapter
-
-            viewPagerAdapter?.currentPosition?.let {
-                itemView.viewPager.setCurrentItem(it, false)
-            }
-
-            configureLeftRightButton()
-        }
-
-        disposeBag += LocalPreferences.baseGradeSystemChanged.subscribe {
-            configureBackground()
-        }
-
-        disposeBag += AppState.mainViewModeSubject.subscribe {
-            itemView.viewPager.clearOnPageChangeListeners()
-
-            if (it == AppState.MainViewMode.normal) {
-                itemView.viewPager.swipeLocked = false
-                itemView.viewPager.addOnPageChangeListener(valueChangedListener)
-            } else {
-                itemView.viewPager.swipeLocked = true
-            }
-
-            configureBackground()
-        }
-    }
+    private var disposable = CompositeDisposable()
 
     var viewPagerAdapter: ViewPagerAdapter? = null
 
@@ -119,7 +82,53 @@ class MainRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     }
 
     init {
+        val weakSelf = WeakReference(this)
+        val weakItemView = WeakReference(itemView)
+
+        disposable += LocalPreferences.currentIndexesChanged.subscribe {
+
+            if (LocalPreferences.isBaseGradeSystem(this.grade)) {
+                // BaseGradeSystem initiated the change, so don't react to the change you started.
+                return@subscribe
+            }
+
+            weakSelf.get()?.viewPagerAdapter?.reloadDataList()
+            weakSelf.get()?.viewPagerAdapter?.notifyDataSetChanged()
+            weakItemView.get()?.viewPager?.adapter = viewPagerAdapter
+
+            weakSelf.get()?.viewPagerAdapter?.currentPosition?.let {
+                weakItemView.get()?.viewPager?.setCurrentItem(it, false)
+            }
+
+            weakSelf.get()?.configureLeftRightButton()
+        }
+
+        disposable += LocalPreferences.baseGradeSystemChanged.subscribe {
+            weakSelf.get()?.configureBackground()
+        }
+
+        disposable += AppState.mainViewModeSubject.subscribe {
+            weakItemView.get()?.viewPager?.clearOnPageChangeListeners()
+
+            if (it == AppState.MainViewMode.normal) {
+                weakItemView.get()?.viewPager?.swipeLocked = false
+                weakItemView.get()?.viewPager?.addOnPageChangeListener(valueChangedListener)
+            } else {
+                weakItemView.get()?.viewPager?.swipeLocked = true
+            }
+
+            weakSelf.get()?.configureBackground()
+        }
+
+        activityDisposable += disposable
+
         itemView.viewPager.addOnPageChangeListener(valueChangedListener)
+    }
+
+    protected fun finalize() {
+        if (!disposable.isDisposed()) {
+            disposable.dispose()
+        }
     }
 
     fun setGrade(grade: GradeSystem) {

@@ -12,9 +12,10 @@ import com.yfujiki.gradeconverter.Models.LocalPreferences
 import com.yfujiki.gradeconverter.R
 import com.yfujiki.gradeconverter.Utilities.Screen
 import com.yfujiki.gradeconverter.Views.MainRecyclerViewHolder
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.recycler_view_holder.view.*
 
-class MainRecyclerViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val animation by lazy {
         AnimationUtils.loadAnimation(GCApp.getInstance().applicationContext, R.anim.wobble)
@@ -23,7 +24,7 @@ class MainRecyclerViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
         val itemView = LayoutInflater.from(p0.context).inflate(R.layout.recycler_view_holder, p0, false)
 
-        return MainRecyclerViewHolder(itemView)
+        return MainRecyclerViewHolder(itemView, activityDisposable)
     }
 
     override fun getItemCount(): Int {
