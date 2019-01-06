@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.content.res.AppCompatResources
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
+import android.widget.TextView
 import com.yfujiki.gradeconverter.Adapters.AddRecyclerViewAdapter
 import com.yfujiki.gradeconverter.Models.AppState
 import io.reactivex.disposables.CompositeDisposable
@@ -16,6 +17,9 @@ import kotlinx.android.synthetic.main.activity_info.view.*
 
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
+import android.content.Intent
+import android.net.Uri
+import android.net.Uri.fromParts
 
 class MainActivity : AppCompatActivity() {
 
@@ -138,8 +142,21 @@ class MainActivity : AppCompatActivity() {
         dialogView.infoCloseButton.setOnClickListener {
             infoDialog?.dismiss()
         }
+
+        dialogView.emailTextView.setOnClickListener {
+            val email = (it as TextView).text.toString()
+            openEmail(email)
+        }
+
         infoDialog?.setView(dialogView)
         infoDialog?.show()
+    }
+
+    private fun openEmail(mailTo: String) {
+        val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", mailTo, null))
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.support_title))
+        startActivity(Intent.createChooser(emailIntent, "Send email to support..."))
     }
 
     private fun subscribeToAppState() {
