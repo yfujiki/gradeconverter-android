@@ -2,7 +2,6 @@
     <string name="app_name">Grade Converter</string>
     <string name="edit">Edit</string>
     <string name="info">Info</string>
-    <string name="hello">Hello World</string>
 
     <string name="sports">sports</string>
     <string name="boulder">boulder</string>
@@ -55,4 +54,8 @@
     <string name="close">Close</string>
     <string name="delete_button">Delete button</string>
     <string name="handle">Handle</string>
+
+    <string name="thankyou">Thank you!</string>
+    <string name="info_text">As both an avid climber and a mobile developer, I wanted to make a handy tool to compare grades across different systems. You may find it useful when climbing abroad or reading news.\nPlease let me know if you notice anything about the app. Happy climbing!</string>
+    <string name="email" translatable="false">support@responsivebyt.es</string>
 </resources>

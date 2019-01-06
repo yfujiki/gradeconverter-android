@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.yfujiki.gradeconverter.GCApp
-import com.yfujiki.gradeconverter.MainActivity
 import com.yfujiki.gradeconverter.Models.GradeSystemTable
 import com.yfujiki.gradeconverter.Models.LocalPreferences
 import com.yfujiki.gradeconverter.R

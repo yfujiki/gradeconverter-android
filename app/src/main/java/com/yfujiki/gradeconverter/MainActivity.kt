@@ -12,13 +12,15 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.action_bar_title_view.view.*
 import kotlinx.android.synthetic.main.activity_add.view.*
+import kotlinx.android.synthetic.main.activity_info.view.*
 
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
-    var dialog: AlertDialog? = null
+    var addDialog: AlertDialog? = null
+    var infoDialog: AlertDialog? = null
 
     val disposable: CompositeDisposable = CompositeDisposable()
 
@@ -38,8 +40,12 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
 
-        if (dialog != null && dialog?.isShowing == true) {
-            dialog?.dismiss()
+        if (addDialog != null && addDialog?.isShowing == true) {
+            addDialog?.dismiss()
+        }
+
+        if (infoDialog != null && infoDialog?.isShowing == true) {
+            infoDialog?.dismiss()
         }
 
         if (!disposable.isDisposed) {
@@ -74,7 +80,10 @@ class MainActivity : AppCompatActivity() {
                 AppState.toggleMainViewMode()
                 true
             }
-            R.id.info_menu_item -> true
+            R.id.info_menu_item -> {
+                openInfoAlertDialog()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -96,22 +105,41 @@ class MainActivity : AppCompatActivity() {
     private fun openAddAlertDialog() {
         val builder = AlertDialog.Builder(this)
 
-        if (dialog != null && dialog?.isShowing == true) {
+        if (addDialog != null && addDialog?.isShowing == true) {
             return
         }
 
-        dialog = builder.create()
+        addDialog = builder.create()
 
         val dialogView = LayoutInflater.from(this)
                 .inflate(R.layout.activity_add, null, false)
 
         dialogView.recyclerView.layoutManager = LinearLayoutManager(this)
         dialogView.recyclerView.adapter = AddRecyclerViewAdapter()
-        dialogView.closeButton.setOnClickListener {
-            dialog?.dismiss()
+        dialogView.addCloseButton.setOnClickListener {
+            addDialog?.dismiss()
         }
-        dialog?.setView(dialogView)
-        dialog?.show()
+        addDialog?.setView(dialogView)
+        addDialog?.show()
+    }
+
+    private fun openInfoAlertDialog() {
+        val builder = AlertDialog.Builder(this)
+
+        if (infoDialog != null && infoDialog?.isShowing == true) {
+            return
+        }
+
+        infoDialog = builder.create()
+
+        val dialogView = LayoutInflater.from(this)
+                .inflate(R.layout.activity_info, null, false)
+
+        dialogView.infoCloseButton.setOnClickListener {
+            infoDialog?.dismiss()
+        }
+        infoDialog?.setView(dialogView)
+        infoDialog?.show()
     }
 
     private fun subscribeToAppState() {
