@@ -34,6 +34,14 @@ class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : Rec
         }
     }
 
+    private var disposeBag = CompositeDisposable()
+
+    init {
+        disposeBag += AppState.mainViewModeSubject.subscribe {
+            notifyDataSetChanged()
+        }
+    }
+
     private val animation by lazy {
         AnimationUtils.loadAnimation(GCApp.getInstance().applicationContext, R.anim.wobble)
     }
