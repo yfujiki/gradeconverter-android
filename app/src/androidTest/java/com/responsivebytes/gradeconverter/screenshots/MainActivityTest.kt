@@ -57,16 +57,20 @@ class MainActivityTest {
 
         Screengrab.screenshot("1-Main")
 
+        Thread.sleep(500)
+
         val addButton = onView(withId(R.id.fab))
         addButton.perform(click())
 
         Thread.sleep(1000)
         Screengrab.screenshot("2-Add")
 
+        Thread.sleep(500)
+
         val closeButton = onView(withId(R.id.addCloseButton))
         closeButton.perform(click())
 
-        Thread.sleep(500)
+        Thread.sleep(1000)
 
         val editButton = onView(withId(R.id.edit_menu_item))
         editButton.perform(click())
@@ -74,7 +78,8 @@ class MainActivityTest {
         Thread.sleep(1000)
         Screengrab.screenshot("3-Edit")
 
-        val closeButton2 = onView(withId(R.id.edit_menu_item))
+        Thread.sleep(500)
+
         editButton.perform(click())
     }
 
