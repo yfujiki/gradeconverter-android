@@ -18,30 +18,6 @@ import kotlinx.android.synthetic.main.recycler_view_holder.view.*
 
 class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var disposable = CompositeDisposable()
-
-    init {
-        disposable += AppState.mainViewModeSubject.subscribe {
-            notifyDataSetChanged()
-        }
-
-        activityDisposable += disposable
-    }
-
-    protected fun finalize() {
-        if (!disposable.isDisposed) {
-            disposable.dispose()
-        }
-    }
-
-    private var disposeBag = CompositeDisposable()
-
-    init {
-        disposeBag += AppState.mainViewModeSubject.subscribe {
-            notifyDataSetChanged()
-        }
-    }
-
     private val animation by lazy {
         AnimationUtils.loadAnimation(GCApp.getInstance().applicationContext, R.anim.wobble)
     }
