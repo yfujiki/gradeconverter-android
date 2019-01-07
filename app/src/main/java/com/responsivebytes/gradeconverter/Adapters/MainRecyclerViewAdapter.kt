@@ -87,6 +87,7 @@ class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : Rec
                 }
 
                 viewHolder.itemView.startAnimation(animation)
+                // ToDo : use dagger to switch this off for ui testing
             }
         }
     }
