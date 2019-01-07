@@ -1,6 +1,6 @@
 package com.responsivebytes.gradeconverter.Adapters
 
-import android.support.v4.view.PagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +10,7 @@ import com.responsivebytes.gradeconverter.Models.LocalPreferences
 import com.responsivebytes.gradeconverter.R
 import kotlinx.android.synthetic.main.view_pager_view_holder.view.*
 
-class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
+class ViewPagerAdapter(val grade: GradeSystem) : androidx.viewpager.widget.PagerAdapter() {
 
     private var dataList: MutableList<List<Int>>
 

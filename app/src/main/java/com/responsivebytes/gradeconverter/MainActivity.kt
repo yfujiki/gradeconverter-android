@@ -1,10 +1,10 @@
 package com.responsivebytes.gradeconverter
 
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.content.res.AppCompatResources
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.*
 import android.widget.TextView
 import com.responsivebytes.gradeconverter.Adapters.AddRecyclerViewAdapter
@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
         val dialogView = LayoutInflater.from(this)
                 .inflate(R.layout.activity_add, null, false)
 
-        dialogView.recyclerView.layoutManager = LinearLayoutManager(this)
+        dialogView.recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         dialogView.recyclerView.adapter = AddRecyclerViewAdapter()
         dialogView.addCloseButton.setOnClickListener {
             addDialog?.dismiss()

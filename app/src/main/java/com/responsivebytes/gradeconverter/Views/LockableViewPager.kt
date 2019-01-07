@@ -2,10 +2,10 @@ package com.responsivebytes.gradeconverter.Views
 
 import android.content.Context
 import android.view.MotionEvent
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 
-class LockableViewPager : ViewPager {
+class LockableViewPager : androidx.viewpager.widget.ViewPager {
 
     var swipeLocked: Boolean = false
 

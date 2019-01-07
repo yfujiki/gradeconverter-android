@@ -1,12 +1,12 @@
 package com.responsivebytes.gradeconverter
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
-import android.support.v7.widget.helper.ItemTouchHelper.LEFT
-import android.support.v7.widget.helper.ItemTouchHelper.RIGHT
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.LEFT
+import androidx.recyclerview.widget.ItemTouchHelper.RIGHT
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,18 +20,18 @@ import kotlinx.android.synthetic.main.fragment_main.*
 /**
  * A placeholder fragment containing a simple view.
  */
-class MainActivityFragment : Fragment() {
+class MainActivityFragment : androidx.fragment.app.Fragment() {
 
     private var disposable = CompositeDisposable()
 
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, 0) {
-            override fun onSwiped(p0: RecyclerView.ViewHolder, p1: Int) {
+            override fun onSwiped(p0: androidx.recyclerview.widget.RecyclerView.ViewHolder, p1: Int) {
                 // We don't support swipe
             }
 
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                                target: RecyclerView.ViewHolder): Boolean {
+            override fun onMove(recyclerView: androidx.recyclerview.widget.RecyclerView, viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder,
+                                target: androidx.recyclerview.widget.RecyclerView.ViewHolder): Boolean {
                 if (viewHolder == target) {
                     return false
                 }
@@ -46,7 +46,7 @@ class MainActivityFragment : Fragment() {
                 return true
             }
 
-            override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+            override fun getMovementFlags(recyclerView: androidx.recyclerview.widget.RecyclerView, viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder): Int {
                 return when (AppState.mainViewMode) {
                     AppState.MainViewMode.edit -> ItemTouchHelper.Callback.makeMovementFlags(
                             ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,
@@ -57,7 +57,7 @@ class MainActivityFragment : Fragment() {
                 }
             }
 
-            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+            override fun onSelectedChanged(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder?, actionState: Int) {
                 if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
                     viewHolder?.itemView?.alpha = 0.8f
                 }
@@ -68,7 +68,7 @@ class MainActivityFragment : Fragment() {
                 return false
             }
 
-            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            override fun clearView(recyclerView: androidx.recyclerview.widget.RecyclerView, viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder) {
                 viewHolder.itemView.alpha = 1.0f
                 AppState.stopDraggingOnMainViewHolder(viewHolder)
                 super.clearView(recyclerView, viewHolder)
@@ -94,7 +94,7 @@ class MainActivityFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView.setLayoutManager(LinearLayoutManager(context))
+        recyclerView.setLayoutManager(androidx.recyclerview.widget.LinearLayoutManager(context))
         recyclerView.adapter = MainRecyclerViewAdapter((activity as MainActivity).disposable)
         addTouchHandler(recyclerView)
 
@@ -103,7 +103,7 @@ class MainActivityFragment : Fragment() {
         }
     }
 
-    private fun addTouchHandler(recyclerView: RecyclerView) {
+    private fun addTouchHandler(recyclerView: androidx.recyclerview.widget.RecyclerView) {
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 

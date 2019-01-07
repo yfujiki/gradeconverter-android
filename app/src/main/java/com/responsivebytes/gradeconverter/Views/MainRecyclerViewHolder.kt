@@ -2,9 +2,9 @@ package com.responsivebytes.gradeconverter.Views
 
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.support.v4.view.ViewPager
-import android.support.v7.content.res.AppCompatResources
-import android.support.v7.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.responsivebytes.gradeconverter.Adapters.ViewPagerAdapter
 import com.responsivebytes.gradeconverter.GCApp
@@ -17,7 +17,7 @@ import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.recycler_view_holder.view.*
 import java.lang.ref.WeakReference
 
-class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDisposable) : RecyclerView.ViewHolder(itemView) {
+class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDisposable) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
     private var grade: GradeSystem? = null
 
@@ -25,7 +25,7 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
 
     var viewPagerAdapter: ViewPagerAdapter? = null
 
-    val valueChangedListener = object : ViewPager.OnPageChangeListener {
+    val valueChangedListener = object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
 
         private var jumpPosition = -1
 
@@ -61,7 +61,7 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
         override fun onPageScrollStateChanged(state: Int) {
             //Let's wait for the animation to be completed then do the jump (if we do this in
             //onPageSelected(int position) scroll animation will be canceled).
-            if (state == ViewPager.SCROLL_STATE_IDLE) {
+            if (state == androidx.viewpager.widget.ViewPager.SCROLL_STATE_IDLE) {
                 if (jumpPosition >= 0) {
                     // Work around of some kind of a bug in ViewPager. Won't reload contents otherwise.
                     viewPagerAdapter?.notifyDataSetChanged()
@@ -73,7 +73,7 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
                     jumpPosition = -1
                 }
                 configureLeftRightButton()
-            } else if (state == ViewPager.SCROLL_STATE_DRAGGING) {
+            } else if (state == androidx.viewpager.widget.ViewPager.SCROLL_STATE_DRAGGING) {
                 grade?.let {
                     LocalPreferences.setBaseGradeSystem(it)
                 }
