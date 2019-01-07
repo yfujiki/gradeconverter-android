@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "187694500504",
+    "firebase_url": "https://responsivebytes.firebaseio.com",
+    "project_id": "responsivebytes",
+    "storage_bucket": "responsivebytes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187694500504:android:6edbfaa9bf76555e",
+        "android_client_info": {
+          "package_name": "com.responsivebytes.gradeconverter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187694500504-pkh4lbo78gpc9ujj4jjmhq1lf1mdr601.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGpNSoxC5OZqwY7O8_LBskYQJIwrvQ8Q8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
