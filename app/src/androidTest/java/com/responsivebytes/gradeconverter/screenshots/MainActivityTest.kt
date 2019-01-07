@@ -8,6 +8,7 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.View
 import android.view.ViewGroup
+import com.responsivebytes.gradeconverter.DemoModeEnabler
 import com.responsivebytes.gradeconverter.MainActivity
 import com.responsivebytes.gradeconverter.R
 import org.hamcrest.Description
@@ -39,6 +40,9 @@ class MainActivityTest {
     fun mainActivityTest() {
         Screengrab.setDefaultScreenshotStrategy(UiAutomatorScreenshotStrategy())
 
+        val enabler = DemoModeEnabler()
+        enabler.enable()
+
         Thread.sleep(3000)
 
         Screengrab.screenshot("1-Main")
@@ -67,6 +71,8 @@ class MainActivityTest {
         Thread.sleep(500)
 
         editButton.perform(click())
+
+        enabler.disable()
     }
 
     private fun childAtPosition(
