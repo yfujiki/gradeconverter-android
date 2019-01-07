@@ -168,7 +168,7 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
         itemView.gradeNameTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
     }
 
-    fun configureBackground() {
+    private fun configureBackground() {
         if (AppState.mainViewMode == AppState.MainViewMode.normal && grade == LocalPreferences.baseGradeSystem()) {
             itemView.background = AppCompatResources.getDrawable(GCApp.getInstance().applicationContext, R.drawable.rounded_rect_with_border)
         } else {
@@ -176,7 +176,7 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
         }
     }
 
-    fun configureLeftRightButton() {
+    private fun configureLeftRightButton() {
         if (viewPagerAdapter?.hasLowerGrades() == true) {
             itemView.leftArrow.isEnabled = true
             itemView.leftArrow.alpha = 1.0f

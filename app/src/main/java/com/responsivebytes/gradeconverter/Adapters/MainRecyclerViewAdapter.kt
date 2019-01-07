@@ -38,8 +38,6 @@ class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : Rec
         viewHolder.setGrade(grade)
 
         setInterItemSpace(viewHolder, p1)
-        viewHolder.configureBackground()
-        viewHolder.configureLeftRightButton()
 
         when (AppState.mainViewMode) {
             AppState.MainViewMode.normal -> {
