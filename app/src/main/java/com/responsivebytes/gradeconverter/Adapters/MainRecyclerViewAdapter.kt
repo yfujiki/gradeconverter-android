@@ -13,9 +13,26 @@ import com.responsivebytes.gradeconverter.R
 import com.responsivebytes.gradeconverter.Utilities.Screen
 import com.responsivebytes.gradeconverter.Views.MainRecyclerViewHolder
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.recycler_view_holder.view.*
 
 class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var disposable = CompositeDisposable()
+
+    init {
+        disposable += AppState.mainViewModeSubject.subscribe {
+            notifyDataSetChanged()
+        }
+
+        activityDisposable += disposable
+    }
+
+    protected fun finalize() {
+        if (!disposable.isDisposed) {
+            disposable.dispose()
+        }
+    }
 
     private val animation by lazy {
         AnimationUtils.loadAnimation(GCApp.getInstance().applicationContext, R.anim.wobble)
