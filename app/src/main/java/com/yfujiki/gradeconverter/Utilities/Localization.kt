@@ -99,7 +99,8 @@ class Localization {
         fun typefaceForCurrentLang(context: Context): Typeface? {
             val resourceId = when (currentLang()) {
                 Lang.EN -> R.font.rounded_mplus_2p_light
-                Lang.JA -> R.font.nicomoji_plus
+//                Lang.JA -> R.font.nicomoji_plus
+                Lang.JA -> R.font.rounded_mplus_2p_light
                 Lang.OTHERS -> R.font.rounded_mplus_2p_light
             }
             return ResourcesCompat.getFont(context, resourceId)
@@ -108,7 +109,8 @@ class Localization {
         fun boldTypefaceForCurrentLang(context: Context): Typeface? {
             val resourceId = when (currentLang()) {
                 Lang.EN -> R.font.rounded_mplus_2p_heavy
-                Lang.JA -> R.font.nicomoji_plus
+//                Lang.JA -> R.font.nicomoji_plus
+                Lang.JA -> R.font.rounded_mplus_2p_heavy
                 Lang.OTHERS -> R.font.rounded_mplus_2p_heavy
             }
             return ResourcesCompat.getFont(context, resourceId)
