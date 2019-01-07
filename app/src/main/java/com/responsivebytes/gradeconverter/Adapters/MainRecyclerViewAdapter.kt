@@ -34,10 +34,11 @@ class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : Rec
     override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
         val viewHolder = p0 as MainRecyclerViewHolder
         val grade = LocalPreferences.selectedGradeSystems()[p1]
-
         viewHolder.setGrade(grade)
 
         setInterItemSpace(viewHolder, p1)
+        viewHolder.configureBackground()
+        viewHolder.configureLeftRightButton()
 
         when (AppState.mainViewMode) {
             AppState.MainViewMode.normal -> {

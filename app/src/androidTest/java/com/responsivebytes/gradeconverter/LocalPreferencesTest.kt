@@ -1,8 +1,8 @@
 package com.responsivebytes.gradeconverter
 
 import android.content.Context
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
+import android.support.test.InstrumentationRegistry
+import android.support.test.runner.AndroidJUnit4
 import com.responsivebytes.gradeconverter.Models.GradeSystemTable
 import com.responsivebytes.gradeconverter.Models.LocalPreferences
 import org.junit.Test
