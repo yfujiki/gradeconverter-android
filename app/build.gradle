@@ -23,6 +23,18 @@ android {
         }
     }
     useLibrary 'android.test.runner'
+
+    bundle {
+       density {
+            enableSplit true
+        }
+        abi {
+            enableSplit true
+        }
+        language {
+            enableSplit true
+        }
+    }
 }
 
 configurations {
