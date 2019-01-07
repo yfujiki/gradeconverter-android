@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <com.yfujiki.gradeconverter.Views.GCTextView
+    <com.responsivebytes.gradeconverter.Views.GCTextView
         android:id="@+id/gradeValueTextView"
         android:layout_gravity="center"
         android:layout_width="wrap_content"

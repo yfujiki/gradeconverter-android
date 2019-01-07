@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.yfujiki.gradeconverter.Views.GCTextView
+        <com.responsivebytes.gradeconverter.Views.GCTextView
             android:id="@+id/thankYouTextView"
             android:text="@string/thankyou"
             android:layout_alignParentStart="true"
@@ -29,7 +29,7 @@
             app:srcCompat="@drawable/ic_close_primary_24dp"
             android:contentDescription="@string/close"/>
     </RelativeLayout>
-    <com.yfujiki.gradeconverter.Views.GCTextView
+    <com.responsivebytes.gradeconverter.Views.GCTextView
         android:id="@+id/contentTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
         android:text="@string/info_text"
         android:textSize="@dimen/small_text"
         />
-    <com.yfujiki.gradeconverter.Views.GCTextView
+    <com.responsivebytes.gradeconverter.Views.GCTextView
         android:id="@+id/emailTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

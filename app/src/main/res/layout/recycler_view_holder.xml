@@ -38,7 +38,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content">
 
-        <com.yfujiki.gradeconverter.Views.GCTextView
+        <com.responsivebytes.gradeconverter.Views.GCTextView
             android:id="@+id/gradeNameTextView"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
             android:drawablePadding="8dp"
             />
 
-        <com.yfujiki.gradeconverter.Views.LockableViewPager
+        <com.responsivebytes.gradeconverter.Views.LockableViewPager
             android:id="@+id/viewPager"
             android:layout_gravity="center"
             android:layout_width="wrap_content"

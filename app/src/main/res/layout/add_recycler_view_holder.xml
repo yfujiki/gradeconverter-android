@@ -27,7 +27,7 @@
         android:layout_weight="1"
         android:layout_height="wrap_content">
 
-        <com.yfujiki.gradeconverter.Views.GCTextView
+        <com.responsivebytes.gradeconverter.Views.GCTextView
             android:id="@+id/gradeNameTextView"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
             android:text="Yosemite Decimal System"
             />
 
-        <com.yfujiki.gradeconverter.Views.GCTextView
+        <com.responsivebytes.gradeconverter.Views.GCTextView
             android:id="@+id/gradeCategoryTextView"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
