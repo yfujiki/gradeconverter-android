@@ -1,6 +1,6 @@
 package com.responsivebytes.gradeconverter.Models
 
-import androidx.recyclerview.widget.RecyclerView
+import android.support.v7.widget.RecyclerView
 import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
@@ -12,9 +12,9 @@ class AppState {
 
     class DraggingViewHolder {
         var dragging: Boolean = false
-        var viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder
+        var viewHolder: RecyclerView.ViewHolder
 
-        constructor(sorting: Boolean, viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder) {
+        constructor(sorting: Boolean, viewHolder: RecyclerView.ViewHolder) {
             this.dragging = sorting
             this.viewHolder = viewHolder
         }
@@ -38,12 +38,12 @@ class AppState {
             }
         }
 
-        fun startDraggingOnMainViewHolder(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder) {
+        fun startDraggingOnMainViewHolder(viewHolder: RecyclerView.ViewHolder) {
             val draggingViewHolder = DraggingViewHolder(true, viewHolder)
             mainViewDraggingViewHolderSubject.onNext(draggingViewHolder)
         }
 
-        fun stopDraggingOnMainViewHolder(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder) {
+        fun stopDraggingOnMainViewHolder(viewHolder: RecyclerView.ViewHolder) {
             val noDraggingViewHolder = DraggingViewHolder(false, viewHolder)
             mainViewDraggingViewHolderSubject.onNext(noDraggingViewHolder)
         }

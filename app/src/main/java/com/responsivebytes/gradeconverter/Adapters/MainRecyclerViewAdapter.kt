@@ -1,6 +1,6 @@
 package com.responsivebytes.gradeconverter.Adapters
 
-import androidx.recyclerview.widget.RecyclerView
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -15,13 +15,13 @@ import com.responsivebytes.gradeconverter.Views.MainRecyclerViewHolder
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.recycler_view_holder.view.*
 
-class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
+class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val animation by lazy {
         AnimationUtils.loadAnimation(GCApp.getInstance().applicationContext, R.anim.wobble)
     }
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
         val itemView = LayoutInflater.from(p0.context).inflate(R.layout.recycler_view_holder, p0, false)
 
         return MainRecyclerViewHolder(itemView, activityDisposable)
@@ -31,7 +31,7 @@ class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : and
         return LocalPreferences.selectedGradeSystems().size
     }
 
-    override fun onBindViewHolder(p0: androidx.recyclerview.widget.RecyclerView.ViewHolder, p1: Int) {
+    override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
         val viewHolder = p0 as MainRecyclerViewHolder
         val grade = LocalPreferences.selectedGradeSystems()[p1]
 
@@ -98,7 +98,7 @@ class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : and
         notifyItemRemoved(index)
     }
 
-    private fun setInterItemSpace(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, index: Int) {
+    private fun setInterItemSpace(viewHolder: RecyclerView.ViewHolder, index: Int) {
         val marginParams = viewHolder.itemView.layoutParams as ViewGroup.MarginLayoutParams
 
         if (index == 0) {

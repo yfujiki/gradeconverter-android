@@ -7,8 +7,7 @@ import java.util.HashMap
 
 object GradeSystemTable {
 
-    var tableBody: HashMap<String, GradeSystem> = hashMapOf<String, GradeSystem>()
-        private set
+    private var tableBody: HashMap<String, GradeSystem> = hashMapOf<String, GradeSystem>()
 
     val tableSize: Int
         get() = tableBody.size

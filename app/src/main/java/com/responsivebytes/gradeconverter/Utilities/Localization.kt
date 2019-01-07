@@ -2,7 +2,7 @@ package com.responsivebytes.gradeconverter.Utilities
 
 import android.content.Context
 import android.graphics.Typeface
-import androidx.core.content.res.ResourcesCompat
+import android.support.v4.content.res.ResourcesCompat
 import com.responsivebytes.gradeconverter.R
 import java.util.*
 import kotlin.collections.HashMap

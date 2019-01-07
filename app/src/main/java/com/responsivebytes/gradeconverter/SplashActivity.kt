@@ -1,9 +1,9 @@
 package com.responsivebytes.gradeconverter
 
-import androidx.core.content.ContextCompat.startActivity
+import android.support.v4.content.ContextCompat.startActivity
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.support.v7.app.AppCompatActivity
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

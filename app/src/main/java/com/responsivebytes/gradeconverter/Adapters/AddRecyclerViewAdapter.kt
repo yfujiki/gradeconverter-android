@@ -1,6 +1,6 @@
 package com.responsivebytes.gradeconverter.Adapters
 
-import androidx.recyclerview.widget.RecyclerView
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.responsivebytes.gradeconverter.GCApp
@@ -10,9 +10,9 @@ import com.responsivebytes.gradeconverter.R
 import com.responsivebytes.gradeconverter.Utilities.Screen
 import com.responsivebytes.gradeconverter.Views.AddRecyclerViewHolder
 
-class AddRecyclerViewAdapter() : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
+class AddRecyclerViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
         val itemView = LayoutInflater.from(p0.context).inflate(R.layout.add_recycler_view_holder, p0, false)
         val viewHolder = AddRecyclerViewHolder(itemView)
         return viewHolder
@@ -24,7 +24,7 @@ class AddRecyclerViewAdapter() : androidx.recyclerview.widget.RecyclerView.Adapt
         return totalCount - selectedCount
     }
 
-    override fun onBindViewHolder(p0: androidx.recyclerview.widget.RecyclerView.ViewHolder, p1: Int) {
+    override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
         val viewHolder = p0 as AddRecyclerViewHolder
 
         setInterItemSpace(viewHolder, p1)
@@ -40,7 +40,7 @@ class AddRecyclerViewAdapter() : androidx.recyclerview.widget.RecyclerView.Adapt
         })
     }
 
-    private fun setInterItemSpace(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, index: Int) {
+    private fun setInterItemSpace(viewHolder: RecyclerView.ViewHolder, index: Int) {
         val marginParams = viewHolder.itemView.layoutParams as ViewGroup.MarginLayoutParams
         val context = GCApp.getInstance().applicationContext
 

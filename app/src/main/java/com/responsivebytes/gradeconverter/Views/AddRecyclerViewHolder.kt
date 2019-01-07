@@ -1,11 +1,11 @@
 package com.responsivebytes.gradeconverter.Views
 
-import androidx.recyclerview.widget.RecyclerView
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.responsivebytes.gradeconverter.Models.GradeSystem
 import kotlinx.android.synthetic.main.add_recycler_view_holder.view.*
 
-class AddRecyclerViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
+class AddRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun setGrade(grade: GradeSystem) {
         setGradeName(grade.name)
