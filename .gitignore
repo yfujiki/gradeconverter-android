@@ -116,3 +116,7 @@ build/
 
 # Fastlane 
 fastlane/metadata/android/
+
+# Android App Bundle
+
+app/release
