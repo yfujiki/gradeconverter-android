@@ -8,8 +8,8 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.View
 import android.view.ViewGroup
+import com.responsivebytes.gradeconverter.MainActivity
 import com.responsivebytes.gradeconverter.R
-import com.responsivebytes.gradeconverter.SplashActivity
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
@@ -33,7 +33,7 @@ class MainActivityTest {
 
     @Rule
     @JvmField
-    var mActivityTestRule = ActivityTestRule(SplashActivity::class.java)
+    var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
     fun mainActivityTest() {
