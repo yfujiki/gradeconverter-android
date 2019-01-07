@@ -1,6 +1,9 @@
 package com.responsivebytes.gradeconverter.Models
 
 import android.content.Context
+import android.graphics.drawable.Drawable
+import android.os.Build
+import com.responsivebytes.gradeconverter.R
 import com.responsivebytes.gradeconverter.Utilities.Localization
 
 class GradeSystem : Comparable<GradeSystem> {
@@ -48,6 +51,39 @@ class GradeSystem : Comparable<GradeSystem> {
         }
 
         return grade
+    }
+
+    fun localizedName(context: Context): String {
+        Localization.stringResourceFor(name)?.let {
+            return context.getString(it)
+        } ?: run {
+            return name
+        }
+    }
+
+    fun localizedCategory(context: Context): String {
+        Localization.stringResourceFor(category)?.let {
+            return context.getString(it)
+        } ?: run {
+            return category
+        }
+    }
+
+    fun categoryDrawable(context: Context): Drawable {
+        val drawable: Drawable?
+        if (category.toLowerCase() == "boulder") {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                return context.resources.getDrawable(R.drawable.boulder, null)
+            } else {
+                return context.resources.getDrawable(R.drawable.boulder)
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                return context.resources.getDrawable(R.drawable.sports, null)
+            } else {
+                return context.resources.getDrawable(R.drawable.sports)
+            }
+        }
     }
 
     fun localizedGradeAtIndexes(indexes: List<Int>, context: Context): String {

@@ -1,7 +1,6 @@
 package com.responsivebytes.gradeconverter.Views
 
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.support.v4.view.ViewPager
 import android.support.v7.content.res.AppCompatResources
 import android.support.v7.widget.RecyclerView
@@ -133,8 +132,9 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
 
     fun setGrade(grade: GradeSystem) {
         this.grade = grade
-        setGradeName(grade.name)
-        setGradeCategory(grade.category)
+        val context = GCApp.getInstance().applicationContext
+        setGradeName(grade.localizedName(context))
+        setGradeCategory(grade.categoryDrawable(context))
 
         if (viewPagerAdapter?.grade == null || viewPagerAdapter?.gradeIsDifferentFrom(grade) == true) {
             viewPagerAdapter = ViewPagerAdapter(grade)
@@ -150,22 +150,8 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
         itemView.gradeNameTextView.text = gradeName
     }
 
-    private fun setGradeCategory(gradeCategory: String) {
-        val drawable: Drawable?
-        if (gradeCategory.toLowerCase() == "boulder") {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                drawable = itemView.context.resources.getDrawable(R.drawable.boulder, null)
-            } else {
-                drawable = itemView.context.resources.getDrawable(R.drawable.boulder)
-            }
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                drawable = itemView.context.resources.getDrawable(R.drawable.sports, null)
-            } else {
-                drawable = itemView.context.resources.getDrawable(R.drawable.sports)
-            }
-        }
-        itemView.gradeNameTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
+    private fun setGradeCategory(categoryDrawable: Drawable) {
+        itemView.gradeNameTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, categoryDrawable, null)
     }
 
     private fun configureBackground() {

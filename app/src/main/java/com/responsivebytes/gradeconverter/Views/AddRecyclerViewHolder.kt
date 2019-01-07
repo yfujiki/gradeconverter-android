@@ -2,14 +2,16 @@ package com.responsivebytes.gradeconverter.Views
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.responsivebytes.gradeconverter.GCApp
 import com.responsivebytes.gradeconverter.Models.GradeSystem
 import kotlinx.android.synthetic.main.add_recycler_view_holder.view.*
 
 class AddRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun setGrade(grade: GradeSystem) {
-        setGradeName(grade.name)
-        setGradeCategory(grade.category)
+        val context = GCApp.getInstance().applicationContext
+        setGradeName(grade.localizedName(context))
+        setGradeCategory(grade.localizedCategory(context))
     }
 
     private fun setGradeName(gradeName: String) {
