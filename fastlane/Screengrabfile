@@ -1,0 +1,10 @@
+app_package_name('com.responsivebytes.gradeconverter')
+use_tests_in_packages(['com.responsivebytes.gradeconverter.screenshots'])
+
+app_apk_path('app/build/outputs/apk/debug/app-debug.apk')
+tests_apk_path('app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk')
+
+locales(['en-US', 'ja-JP'])
+
+# clear all previously generated screenshots in your local output directory before creating new ones
+clear_previous_screenshots(true)
