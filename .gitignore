@@ -113,3 +113,6 @@ fabric.properties
 
 # Custom
 build/
+
+# Fastlane 
+fastlane/metadata/android/
