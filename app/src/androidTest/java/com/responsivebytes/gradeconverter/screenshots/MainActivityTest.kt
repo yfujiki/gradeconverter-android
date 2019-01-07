@@ -39,20 +39,6 @@ class MainActivityTest {
     fun mainActivityTest() {
         Screengrab.setDefaultScreenshotStrategy(UiAutomatorScreenshotStrategy())
 
-//        for (i in 0 until 4) {
-//            val appCompatImageView = onView(
-//                    allOf(withId(R.id.rightArrow), withContentDescription("Right arrow"),
-//                            childAtPosition(
-//                                    childAtPosition(
-//                                            withId(R.id.recyclerView),
-//                                            0),
-//                                    3),
-//                            isDisplayed()))
-//            appCompatImageView.perform(click())
-//
-//            Thread.sleep(500)
-//        }
-
         Thread.sleep(3000)
 
         Screengrab.screenshot("1-Main")
