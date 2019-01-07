@@ -28,19 +28,6 @@ class GCApp : Application() {
     private fun configureData() {
         GradeSystemTable.init(applicationContext)
         LocalPreferences.init(applicationContext)
-
-        if (LocalPreferences.selectedGradeSystems().size == 0) {
-            LocalPreferences.setSelectedGradeSystems(
-                    // ToDo : Use different locale and different country code
-                    GradeSystemTable.gradeSystemsForCountryCode("US"),
-                    false
-            )
-        }
-
-        if (LocalPreferences.currentIndexes().size == 0) {
-            // ToDo : Check the number for iOS
-            LocalPreferences.setCurrentIndexes(listOf(10))
-        }
     }
 
     private fun initTimber() {

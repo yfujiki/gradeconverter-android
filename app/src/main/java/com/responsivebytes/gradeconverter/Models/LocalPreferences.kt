@@ -54,7 +54,7 @@ object LocalPreferences {
     fun currentIndexes(): List<Int> {
         val gsonString = body.getString(CURRENT_INDEXES_KEY, null)
         if (gsonString == null) {
-            return listOf()
+            return DEFAULT_INDEXES
         }
 
         val type = object : TypeToken<List<Int>>() {}.type
