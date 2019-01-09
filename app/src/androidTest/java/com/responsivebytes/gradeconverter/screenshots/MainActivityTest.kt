@@ -9,6 +9,7 @@ import android.support.test.runner.AndroidJUnit4
 import android.view.View
 import android.view.ViewGroup
 import com.responsivebytes.gradeconverter.DemoModeEnabler
+import com.responsivebytes.gradeconverter.GCApp
 import com.responsivebytes.gradeconverter.MainActivity
 import com.responsivebytes.gradeconverter.R
 import org.hamcrest.Description
@@ -38,6 +39,8 @@ class MainActivityTest {
 
     @Test
     fun mainActivityTest() {
+        GCApp.getInstance().isTesting = true
+
         Screengrab.setDefaultScreenshotStrategy(UiAutomatorScreenshotStrategy())
 
         val enabler = DemoModeEnabler()

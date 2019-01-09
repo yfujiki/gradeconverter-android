@@ -15,6 +15,8 @@ class GCApp : Application() {
         }
     }
 
+    var isTesting: Boolean = false
+
     override fun onCreate() {
         super.onCreate()
 

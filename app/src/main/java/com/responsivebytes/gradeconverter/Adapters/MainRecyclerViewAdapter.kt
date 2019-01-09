@@ -86,8 +86,9 @@ class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : Rec
                     return@setOnTouchListener true
                 }
 
-                viewHolder.itemView.startAnimation(animation)
-                // ToDo : use dagger to switch this off for ui testing
+                if (!GCApp.getInstance().isTesting) {
+                    viewHolder.itemView.startAnimation(animation)
+                }
             }
         }
     }
