@@ -1,21 +1,16 @@
 package com.responsivebytes.gradeconverter
 
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.content.res.AppCompatResources
 import android.view.*
-import android.widget.TextView
 import com.responsivebytes.gradeconverter.Models.AppState
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.action_bar_title_view.view.*
-import kotlinx.android.synthetic.main.activity_info.view.*
 
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
-import android.content.Intent
-import android.net.Uri
 import android.support.v4.app.Fragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
@@ -26,8 +21,6 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
-
-    var infoDialog: AlertDialog? = null
 
     val disposable: CompositeDisposable = CompositeDisposable()
 
@@ -52,10 +45,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     override fun onDestroy() {
         super.onDestroy()
-
-        if (infoDialog != null && infoDialog?.isShowing == true) {
-            infoDialog?.dismiss()
-        }
 
         if (!disposable.isDisposed) {
             disposable.dispose()
@@ -117,35 +106,8 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     }
 
     private fun openInfoAlertDialog() {
-        val builder = AlertDialog.Builder(this)
-
-        if (infoDialog != null && infoDialog?.isShowing == true) {
-            return
-        }
-
-        infoDialog = builder.create()
-
-        val dialogView = LayoutInflater.from(this)
-                .inflate(R.layout.activity_info, null, false)
-
-        dialogView.infoCloseButton.setOnClickListener {
-            infoDialog?.dismiss()
-        }
-
-        dialogView.emailTextView.setOnClickListener {
-            val email = (it as TextView).text.toString()
-            openEmail(email)
-        }
-
-        infoDialog?.setView(dialogView)
-        infoDialog?.show()
-    }
-
-    private fun openEmail(mailTo: String) {
-        val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto", mailTo, null))
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.support_title))
-        startActivity(Intent.createChooser(emailIntent, "Send email to support..."))
+        val infoDialogFragment = InfoDialogFragment()
+        infoDialogFragment.show(supportFragmentManager, "Info Dialog")
     }
 
     private fun subscribeToAppState() {
