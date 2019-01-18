@@ -22,6 +22,8 @@ interface LocalPreferences {
 
     fun selectedGradeSystems(): List<GradeSystem>
 
+    fun unselectedGradeSystems(): List<GradeSystem>
+
     fun selectedGradeSystemNamesCSV(): String
 
     fun setBaseGradeSystem(gradeSystem: GradeSystem, notify: Boolean = true)
@@ -29,4 +31,6 @@ interface LocalPreferences {
     fun baseGradeSystem(): GradeSystem?
 
     fun isBaseGradeSystem(gradeSystem: GradeSystem?): Boolean
+
+    fun reset()
 }

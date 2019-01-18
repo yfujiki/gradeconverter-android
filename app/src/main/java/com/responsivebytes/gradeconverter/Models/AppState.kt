@@ -2,9 +2,8 @@ package com.responsivebytes.gradeconverter.Models
 
 import android.support.v7.widget.RecyclerView
 import io.reactivex.subjects.PublishSubject
-import kotlin.properties.Delegates
 
-class AppState {
+interface AppState {
     enum class MainViewMode {
         normal,
         edit
@@ -20,32 +19,15 @@ class AppState {
         }
     }
 
-    companion object {
-        val mainViewModeSubject: PublishSubject<MainViewMode> = PublishSubject.create()
+    val mainViewModeSubject: PublishSubject<MainViewMode>
 
-        val mainViewDraggingViewHolderSubject: PublishSubject<DraggingViewHolder> = PublishSubject.create()
+    val mainViewDraggingViewHolderSubject: PublishSubject<DraggingViewHolder>
 
-        var mainViewMode: MainViewMode by Delegates.observable(MainViewMode.normal) {
-            property, oldValue, newValue ->
-            mainViewModeSubject.onNext(newValue)
-        }
-            private set
+    var mainViewMode: MainViewMode
 
-        fun toggleMainViewMode() {
-            mainViewMode = when (mainViewMode) {
-                MainViewMode.normal -> MainViewMode.edit
-                MainViewMode.edit -> MainViewMode.normal
-            }
-        }
+    fun toggleMainViewMode()
 
-        fun startDraggingOnMainViewHolder(viewHolder: RecyclerView.ViewHolder) {
-            val draggingViewHolder = DraggingViewHolder(true, viewHolder)
-            mainViewDraggingViewHolderSubject.onNext(draggingViewHolder)
-        }
+    fun startDraggingOnMainViewHolder(viewHolder: RecyclerView.ViewHolder)
 
-        fun stopDraggingOnMainViewHolder(viewHolder: RecyclerView.ViewHolder) {
-            val noDraggingViewHolder = DraggingViewHolder(false, viewHolder)
-            mainViewDraggingViewHolderSubject.onNext(noDraggingViewHolder)
-        }
-    }
+    fun stopDraggingOnMainViewHolder(viewHolder: RecyclerView.ViewHolder)
 }

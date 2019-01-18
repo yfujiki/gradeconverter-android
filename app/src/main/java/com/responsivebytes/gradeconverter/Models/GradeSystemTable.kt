@@ -1,7 +1,6 @@
 package com.responsivebytes.gradeconverter.Models
 
 import android.content.Context
-import com.responsivebytes.gradeconverter.GCApp
 import java.io.File
 import java.io.InputStream
 import java.util.HashMap
@@ -96,18 +95,6 @@ object GradeSystemTable {
     fun forEach(action: (GradeSystem) -> Unit) {
         tableBody.values.forEach {
             action(it)
-        }
-    }
-
-    fun gradeSystemsToAdd(): List<GradeSystem> {
-        return tableBody.values.mapNotNull {
-            if (GCApp.getInstance().localPreferences.selectedGradeSystems().contains(it)) {
-                null
-            } else {
-                it
-            }
-        }.sortedBy {
-            "${it.category}-${it.name}"
         }
     }
 }

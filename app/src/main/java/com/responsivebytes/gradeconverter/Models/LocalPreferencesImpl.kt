@@ -45,6 +45,12 @@ class LocalPreferencesImpl : LocalPreferences {
         this.body = context.getSharedPreferences(key, Context.MODE_PRIVATE)
     }
 
+    override fun reset() {
+        val editor = this.body.edit()
+        editor.clear()
+        editor.apply()
+    }
+
     override fun setCurrentIndexes(indexes: List<Int>) {
         val gsonString = gson.toJson(indexes)
         body.edit()
@@ -137,6 +143,18 @@ class LocalPreferencesImpl : LocalPreferences {
             } else {
                 GradeSystemTable.gradeSystemForNameCategory(name, category)
             }
+        }
+    }
+
+    override fun unselectedGradeSystems(): List<GradeSystem> {
+        return GradeSystemTable.tableBody.values.mapNotNull {
+            if (selectedGradeSystems().contains(it)) {
+                null
+            } else {
+                it
+            }
+        }.sortedBy {
+            "${it.category}-${it.name}"
         }
     }
 

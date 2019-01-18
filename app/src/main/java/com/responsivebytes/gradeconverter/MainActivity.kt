@@ -22,6 +22,9 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
+    @Inject
+    lateinit var appState: AppState
+
     val disposable: CompositeDisposable = CompositeDisposable()
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
@@ -59,7 +62,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         val editMenuItem = menu?.findItem(R.id.edit_menu_item)
-        when (AppState.mainViewMode) {
+        when (appState.mainViewMode) {
             AppState.MainViewMode.normal ->
                 editMenuItem?.setIcon(AppCompatResources.getDrawable(this, R.drawable.ic_edit_white_24dp))
             AppState.MainViewMode.edit ->
@@ -75,7 +78,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.edit_menu_item -> {
-                AppState.toggleMainViewMode()
+                appState.toggleMainViewMode()
                 true
             }
             R.id.info_menu_item -> {
@@ -111,7 +114,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     }
 
     private fun subscribeToAppState() {
-        disposable += AppState.mainViewModeSubject.subscribe {
+        disposable += appState.mainViewModeSubject.subscribe {
             invalidateOptionsMenu()
         }
     }

@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.responsivebytes.gradeconverter.GCApp
 import com.responsivebytes.gradeconverter.Models.GradeSystemTable
+import com.responsivebytes.gradeconverter.Models.LocalPreferences
 import com.responsivebytes.gradeconverter.R
 import com.responsivebytes.gradeconverter.Utilities.Screen
 import com.responsivebytes.gradeconverter.Views.AddRecyclerViewHolder
 
-class AddRecyclerViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AddRecyclerViewAdapter(val localPreferences: LocalPreferences) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
         val itemView = LayoutInflater.from(p0.context).inflate(R.layout.add_recycler_view_holder, p0, false)
@@ -19,7 +20,7 @@ class AddRecyclerViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 
     override fun getItemCount(): Int {
         val totalCount = GradeSystemTable.tableSize
-        val selectedCount = GCApp.getInstance().localPreferences.selectedGradeSystems().size
+        val selectedCount = localPreferences.selectedGradeSystems().size
         return totalCount - selectedCount
     }
 
@@ -29,12 +30,12 @@ class AddRecyclerViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>()
         setInterItemSpace(viewHolder, p1)
 
         viewHolder.itemView.requestLayout()
-        val gradeSystem = GradeSystemTable.gradeSystemsToAdd()[p1]
+        val gradeSystem = localPreferences.unselectedGradeSystems()[p1]
         viewHolder.setGrade(gradeSystem)
 
         viewHolder.itemView.setOnClickListener({
-            val position = GradeSystemTable.gradeSystemsToAdd().indexOf(gradeSystem)
-            GCApp.getInstance().localPreferences.addSelectedGradeSystem(gradeSystem)
+            val position = localPreferences.unselectedGradeSystems().indexOf(gradeSystem)
+            localPreferences.addSelectedGradeSystem(gradeSystem)
             notifyItemRemoved(position)
         })
     }

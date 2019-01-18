@@ -28,6 +28,9 @@ class MainActivityFragment : Fragment() {
     @Inject
     lateinit var localPreferences: LocalPreferences
 
+    @Inject
+    lateinit var appState: AppState
+
     private val itemTouchHelper by lazy {
         val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, 0) {
             override fun onSwiped(p0: RecyclerView.ViewHolder, p1: Int) {
@@ -51,7 +54,7 @@ class MainActivityFragment : Fragment() {
             }
 
             override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-                return when (AppState.mainViewMode) {
+                return when (appState.mainViewMode) {
                     AppState.MainViewMode.edit -> ItemTouchHelper.Callback.makeMovementFlags(
                             ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,
                             0)
@@ -74,7 +77,7 @@ class MainActivityFragment : Fragment() {
 
             override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
                 viewHolder.itemView.alpha = 1.0f
-                AppState.stopDraggingOnMainViewHolder(viewHolder)
+                appState.stopDraggingOnMainViewHolder(viewHolder)
                 super.clearView(recyclerView, viewHolder)
             }
         }
@@ -104,7 +107,7 @@ class MainActivityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.setLayoutManager(LinearLayoutManager(context))
-        recyclerView.adapter = MainRecyclerViewAdapter((activity as MainActivity).disposable)
+        recyclerView.adapter = MainRecyclerViewAdapter(localPreferences, appState, (activity as MainActivity).disposable)
         addTouchHandler(recyclerView)
 
         disposable += localPreferences.selectedGradeSystemsChanged.subscribe {
@@ -117,11 +120,11 @@ class MainActivityFragment : Fragment() {
     }
 
     private fun subscribeToAppState() {
-        disposable += AppState.mainViewModeSubject.subscribe {
+        disposable += appState.mainViewModeSubject.subscribe {
             recyclerView.adapter?.notifyDataSetChanged()
         }
 
-        disposable += AppState.mainViewDraggingViewHolderSubject.subscribe {
+        disposable += appState.mainViewDraggingViewHolderSubject.subscribe {
             if (it.dragging) {
                 itemTouchHelper.startDrag(it.viewHolder!!)
             }

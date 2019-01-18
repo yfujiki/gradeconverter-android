@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import com.responsivebytes.gradeconverter.GCApp
 import com.responsivebytes.gradeconverter.Models.AppState
+import com.responsivebytes.gradeconverter.Models.LocalPreferences
 import com.responsivebytes.gradeconverter.R
 import com.responsivebytes.gradeconverter.Utilities.Screen
 import com.responsivebytes.gradeconverter.Views.MainRecyclerViewHolder
@@ -15,7 +16,9 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.recycler_view_holder.view.*
 
-class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MainRecyclerViewAdapter(val localPreferences: LocalPreferences,
+                              var appState: AppState,
+                              val activityDisposable: CompositeDisposable) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val animation by lazy {
         AnimationUtils.loadAnimation(GCApp.getInstance().applicationContext, R.anim.wobble)
@@ -24,21 +27,21 @@ class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : Rec
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
         val itemView = LayoutInflater.from(p0.context).inflate(R.layout.recycler_view_holder, p0, false)
 
-        return MainRecyclerViewHolder(itemView, activityDisposable)
+        return MainRecyclerViewHolder(itemView, localPreferences, appState, activityDisposable)
     }
 
     override fun getItemCount(): Int {
-        return GCApp.getInstance().localPreferences.selectedGradeSystems().size
+        return localPreferences.selectedGradeSystems().size
     }
 
     override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
         val viewHolder = p0 as MainRecyclerViewHolder
-        val grade = GCApp.getInstance().localPreferences.selectedGradeSystems()[p1]
+        val grade = localPreferences.selectedGradeSystems()[p1]
         viewHolder.setGrade(grade)
 
         setInterItemSpace(viewHolder, p1)
 
-        when (AppState.mainViewMode) {
+        when (appState.mainViewMode) {
             AppState.MainViewMode.normal -> {
                 viewHolder.itemView.deleteButton.visibility = View.GONE
                 viewHolder.itemView.handle.visibility = View.GONE
@@ -66,21 +69,21 @@ class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : Rec
                 }
 
                 viewHolder.itemView.handle.setOnTouchListener { view, event ->
-                    if (AppState.mainViewMode == AppState.MainViewMode.normal) {
+                    if (appState.mainViewMode == AppState.MainViewMode.normal) {
                         return@setOnTouchListener true
                     }
                     if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                        AppState.startDraggingOnMainViewHolder(viewHolder)
+                        appState.startDraggingOnMainViewHolder(viewHolder)
                     }
                     return@setOnTouchListener true
                 }
 
                 viewHolder.itemView.setOnTouchListener { view, event ->
-                    if (AppState.mainViewMode == AppState.MainViewMode.normal) {
+                    if (appState.mainViewMode == AppState.MainViewMode.normal) {
                         return@setOnTouchListener true
                     }
                     if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                        AppState.startDraggingOnMainViewHolder(viewHolder)
+                        appState.startDraggingOnMainViewHolder(viewHolder)
                     }
                     return@setOnTouchListener true
                 }
@@ -93,8 +96,8 @@ class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : Rec
     }
 
     private fun deleteItemAt(index: Int) {
-        val gradeSystemToDelete = GCApp.getInstance().localPreferences.selectedGradeSystems()[index]
-        GCApp.getInstance().localPreferences.removeSelectedGradeSystem(gradeSystemToDelete, false)
+        val gradeSystemToDelete = localPreferences.selectedGradeSystems()[index]
+        localPreferences.removeSelectedGradeSystem(gradeSystemToDelete, false)
 
         notifyItemRemoved(index)
     }

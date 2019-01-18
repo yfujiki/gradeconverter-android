@@ -5,8 +5,6 @@ import android.app.Application
 import com.responsivebytes.gradeconverter.Dagger.DaggerAppComponent
 import com.squareup.leakcanary.LeakCanary
 import com.responsivebytes.gradeconverter.Models.GradeSystemTable
-import com.responsivebytes.gradeconverter.Models.LocalPreferences
-import com.responsivebytes.gradeconverter.Models.LocalPreferencesImpl
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -32,8 +30,6 @@ class GCApp : Application(), HasActivityInjector {
 
     var isTesting: Boolean = false
 
-    lateinit var localPreferences: LocalPreferences
-
     override fun onCreate() {
         super.onCreate()
 
@@ -53,7 +49,6 @@ class GCApp : Application(), HasActivityInjector {
 
     private fun configureData() {
         GradeSystemTable.init(applicationContext)
-        localPreferences = LocalPreferencesImpl(applicationContext)
     }
 
     private fun initTimber() {
