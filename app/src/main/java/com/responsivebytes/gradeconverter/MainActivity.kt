@@ -4,22 +4,18 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.content.res.AppCompatResources
-import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import android.widget.TextView
-import com.responsivebytes.gradeconverter.Adapters.AddRecyclerViewAdapter
 import com.responsivebytes.gradeconverter.Models.AppState
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.action_bar_title_view.view.*
-import kotlinx.android.synthetic.main.activity_add.view.*
 import kotlinx.android.synthetic.main.activity_info.view.*
 
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 import android.content.Intent
 import android.net.Uri
-import android.net.Uri.fromParts
 import android.support.v4.app.Fragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
@@ -31,7 +27,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
-    var addDialog: AlertDialog? = null
     var infoDialog: AlertDialog? = null
 
     val disposable: CompositeDisposable = CompositeDisposable()
@@ -57,10 +52,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     override fun onDestroy() {
         super.onDestroy()
-
-        if (addDialog != null && addDialog?.isShowing == true) {
-            addDialog?.dismiss()
-        }
 
         if (infoDialog != null && infoDialog?.isShowing == true) {
             infoDialog?.dismiss()
@@ -121,24 +112,8 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     }
 
     private fun openAddAlertDialog() {
-        val builder = AlertDialog.Builder(this)
-
-        if (addDialog != null && addDialog?.isShowing == true) {
-            return
-        }
-
-        addDialog = builder.create()
-
-        val dialogView = LayoutInflater.from(this)
-                .inflate(R.layout.activity_add, null, false)
-
-        dialogView.recyclerView.layoutManager = LinearLayoutManager(this)
-        dialogView.recyclerView.adapter = AddRecyclerViewAdapter()
-        dialogView.addCloseButton.setOnClickListener {
-            addDialog?.dismiss()
-        }
-        addDialog?.setView(dialogView)
-        addDialog?.show()
+        val addDialogFragment = AddDialogFragment()
+        addDialogFragment.show(supportFragmentManager, "Add Dialog")
     }
 
     private fun openInfoAlertDialog() {
