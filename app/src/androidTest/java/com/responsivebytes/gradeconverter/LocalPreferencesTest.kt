@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.responsivebytes.gradeconverter.Models.GradeSystemTable
+import com.responsivebytes.gradeconverter.Models.LocalPreferencesImpl
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.Assert.*
@@ -16,7 +17,7 @@ class LocalPreferencesTest {
     fun setup() {
         appContext = InstrumentationRegistry.getInstrumentation().targetContext
         GradeSystemTable.init(appContext!!)
-        GCApp.getInstance().localPreferences.init(appContext!!)
+        GCApp.getInstance().localPreferences = LocalPreferencesImpl(appContext!!)
         GCApp.getInstance().localPreferences.setCurrentIndexes(listOf())
         GCApp.getInstance().localPreferences.setSelectedGradeSystems(listOf(), false)
     }
