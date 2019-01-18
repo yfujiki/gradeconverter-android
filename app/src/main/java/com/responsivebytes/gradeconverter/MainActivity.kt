@@ -20,15 +20,29 @@ import timber.log.Timber
 import android.content.Intent
 import android.net.Uri
 import android.net.Uri.fromParts
+import android.support.v4.app.Fragment
+import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
+    @Inject
+    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
     var addDialog: AlertDialog? = null
     var infoDialog: AlertDialog? = null
 
     val disposable: CompositeDisposable = CompositeDisposable()
 
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
+        return fragmentInjector
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)

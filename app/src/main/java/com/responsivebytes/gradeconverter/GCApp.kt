@@ -1,13 +1,27 @@
 package com.responsivebytes.gradeconverter
 
+import android.app.Activity
 import android.app.Application
+import com.responsivebytes.gradeconverter.Dagger.DaggerAppComponent
 import com.squareup.leakcanary.LeakCanary
 import com.responsivebytes.gradeconverter.Models.GradeSystemTable
 import com.responsivebytes.gradeconverter.Models.LocalPreferences
 import com.responsivebytes.gradeconverter.Models.LocalPreferencesImpl
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import kotlinx.android.synthetic.main.fragment_main.*
 import timber.log.Timber
+import javax.inject.Inject
 
-class GCApp : Application() {
+class GCApp : Application(), HasActivityInjector {
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+
+    override fun activityInjector(): AndroidInjector<Activity> {
+        return dispatchingAndroidInjector
+    }
+
     companion object {
         private lateinit var instance: GCApp
 
@@ -23,11 +37,18 @@ class GCApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        initDagger()
         initTimber()
         initLeakCanary()
         configureData()
 
         instance = this
+    }
+
+    private fun initDagger() {
+        DaggerAppComponent.builder()
+                .create(this)
+                .inject(this)
     }
 
     private fun configureData() {
