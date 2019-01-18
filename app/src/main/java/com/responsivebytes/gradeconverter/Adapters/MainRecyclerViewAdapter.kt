@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import com.responsivebytes.gradeconverter.GCApp
 import com.responsivebytes.gradeconverter.Models.AppState
-import com.responsivebytes.gradeconverter.Models.LocalPreferences
 import com.responsivebytes.gradeconverter.R
 import com.responsivebytes.gradeconverter.Utilities.Screen
 import com.responsivebytes.gradeconverter.Views.MainRecyclerViewHolder
@@ -29,12 +28,12 @@ class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : Rec
     }
 
     override fun getItemCount(): Int {
-        return LocalPreferences.selectedGradeSystems().size
+        return GCApp.getInstance().localPreferences.selectedGradeSystems().size
     }
 
     override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
         val viewHolder = p0 as MainRecyclerViewHolder
-        val grade = LocalPreferences.selectedGradeSystems()[p1]
+        val grade = GCApp.getInstance().localPreferences.selectedGradeSystems()[p1]
         viewHolder.setGrade(grade)
 
         setInterItemSpace(viewHolder, p1)
@@ -94,8 +93,8 @@ class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : Rec
     }
 
     private fun deleteItemAt(index: Int) {
-        val gradeSystemToDelete = LocalPreferences.selectedGradeSystems()[index]
-        LocalPreferences.removeSelectedGradeSystem(gradeSystemToDelete, false)
+        val gradeSystemToDelete = GCApp.getInstance().localPreferences.selectedGradeSystems()[index]
+        GCApp.getInstance().localPreferences.removeSelectedGradeSystem(gradeSystemToDelete, false)
 
         notifyItemRemoved(index)
     }

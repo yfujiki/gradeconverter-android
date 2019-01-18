@@ -1,6 +1,7 @@
 package com.responsivebytes.gradeconverter.Models
 
 import android.content.Context
+import com.responsivebytes.gradeconverter.GCApp
 import java.io.File
 import java.io.InputStream
 import java.util.HashMap
@@ -100,7 +101,7 @@ object GradeSystemTable {
 
     fun gradeSystemsToAdd(): List<GradeSystem> {
         return tableBody.values.mapNotNull {
-            if (LocalPreferences.selectedGradeSystems().contains(it)) {
+            if (GCApp.getInstance().localPreferences.selectedGradeSystems().contains(it)) {
                 null
             } else {
                 it

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.responsivebytes.gradeconverter.GCApp
 import com.responsivebytes.gradeconverter.Models.GradeSystem
-import com.responsivebytes.gradeconverter.Models.LocalPreferences
 import com.responsivebytes.gradeconverter.R
 import kotlinx.android.synthetic.main.view_pager_view_holder.view.*
 
@@ -96,8 +95,8 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
 
         val selectedIndexes = dataList.get(currentPosition)
 
-        if (LocalPreferences.isBaseGradeSystem(grade)) {
-            LocalPreferences.setCurrentIndexes(selectedIndexes)
+        if (GCApp.getInstance().localPreferences.isBaseGradeSystem(grade)) {
+            GCApp.getInstance().localPreferences.setCurrentIndexes(selectedIndexes)
         }
     }
 
@@ -148,7 +147,7 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
     }
 
     private fun dataListFromCurrentIndex(): Pair<MutableList<List<Int>>, Int> {
-        return dataListForIndexes(LocalPreferences.currentIndexes())
+        return dataListForIndexes(GCApp.getInstance().localPreferences.currentIndexes())
     }
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {

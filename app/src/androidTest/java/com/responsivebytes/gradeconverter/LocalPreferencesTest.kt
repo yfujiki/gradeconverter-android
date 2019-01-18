@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.responsivebytes.gradeconverter.Models.GradeSystemTable
-import com.responsivebytes.gradeconverter.Models.LocalPreferences
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.Assert.*
@@ -17,9 +16,9 @@ class LocalPreferencesTest {
     fun setup() {
         appContext = InstrumentationRegistry.getInstrumentation().targetContext
         GradeSystemTable.init(appContext!!)
-        LocalPreferences.init(appContext!!)
-        LocalPreferences.setCurrentIndexes(listOf())
-        LocalPreferences.setSelectedGradeSystems(listOf(), false)
+        GCApp.getInstance().localPreferences.init(appContext!!)
+        GCApp.getInstance().localPreferences.setCurrentIndexes(listOf())
+        GCApp.getInstance().localPreferences.setSelectedGradeSystems(listOf(), false)
     }
 
     fun tearDown() {
@@ -30,8 +29,8 @@ class LocalPreferencesTest {
         setup()
 
         val indexes = listOf(1, 2, 3)
-        LocalPreferences.setCurrentIndexes(indexes)
-        val currentIndexes = LocalPreferences.currentIndexes()
+        GCApp.getInstance().localPreferences.setCurrentIndexes(indexes)
+        val currentIndexes = GCApp.getInstance().localPreferences.currentIndexes()
 
         assertEquals(indexes, currentIndexes)
     }
@@ -41,10 +40,10 @@ class LocalPreferencesTest {
         setup()
 
         val gradeSystem1 = GradeSystemTable.gradeSystemForNameCategory("Brazil", "Sports")!!
-        LocalPreferences.addSelectedGradeSystem(gradeSystem1)
+        GCApp.getInstance().localPreferences.addSelectedGradeSystem(gradeSystem1)
 
-        assertEquals(1, LocalPreferences.selectedGradeSystems().size)
-        assertEquals(gradeSystem1, LocalPreferences.selectedGradeSystems()[0])
+        assertEquals(1, GCApp.getInstance().localPreferences.selectedGradeSystems().size)
+        assertEquals(gradeSystem1, GCApp.getInstance().localPreferences.selectedGradeSystems()[0])
     }
 
     @Test
@@ -52,20 +51,20 @@ class LocalPreferencesTest {
         setup()
 
         val gradeSystem1 = GradeSystemTable.gradeSystemForNameCategory("Brazil", "Sports")!!
-        LocalPreferences.addSelectedGradeSystem(gradeSystem1)
+        GCApp.getInstance().localPreferences.addSelectedGradeSystem(gradeSystem1)
 
         val gradeSystem2 = GradeSystemTable.gradeSystemForNameCategory("Brazil", "Boulder")!!
-        LocalPreferences.addSelectedGradeSystem(gradeSystem2)
+        GCApp.getInstance().localPreferences.addSelectedGradeSystem(gradeSystem2)
 
-        assertEquals(2, LocalPreferences.selectedGradeSystems().size)
+        assertEquals(2, GCApp.getInstance().localPreferences.selectedGradeSystems().size)
 
-        LocalPreferences.removeSelectedGradeSystem(gradeSystem1)
+        GCApp.getInstance().localPreferences.removeSelectedGradeSystem(gradeSystem1)
 
-        assertEquals(1, LocalPreferences.selectedGradeSystems().size)
-        assertEquals(gradeSystem2, LocalPreferences.selectedGradeSystems()[0])
+        assertEquals(1, GCApp.getInstance().localPreferences.selectedGradeSystems().size)
+        assertEquals(gradeSystem2, GCApp.getInstance().localPreferences.selectedGradeSystems()[0])
 
-        LocalPreferences.removeSelectedGradeSystem(gradeSystem2)
-        assertEquals(0, LocalPreferences.selectedGradeSystems().size)
+        GCApp.getInstance().localPreferences.removeSelectedGradeSystem(gradeSystem2)
+        assertEquals(0, GCApp.getInstance().localPreferences.selectedGradeSystems().size)
     }
 
     @Test
@@ -73,12 +72,12 @@ class LocalPreferencesTest {
         setup()
 
         val gradeSystem1 = GradeSystemTable.gradeSystemForNameCategory("Brazil", "Sports")!!
-        LocalPreferences.addSelectedGradeSystem(gradeSystem1)
+        GCApp.getInstance().localPreferences.addSelectedGradeSystem(gradeSystem1)
 
         val gradeSystem2 = GradeSystemTable.gradeSystemForNameCategory("Brazil", "Boulder")!!
-        LocalPreferences.addSelectedGradeSystem(gradeSystem2)
+        GCApp.getInstance().localPreferences.addSelectedGradeSystem(gradeSystem2)
 
-        val gradeSystemNamesCSV = LocalPreferences.selectedGradeSystemNamesCSV()
+        val gradeSystemNamesCSV = GCApp.getInstance().localPreferences.selectedGradeSystemNamesCSV()
         assertEquals("Brazil, Brazil", gradeSystemNamesCSV)
     }
 }

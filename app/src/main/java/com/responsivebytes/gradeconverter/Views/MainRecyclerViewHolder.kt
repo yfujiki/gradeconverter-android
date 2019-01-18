@@ -9,7 +9,6 @@ import com.responsivebytes.gradeconverter.Adapters.ViewPagerAdapter
 import com.responsivebytes.gradeconverter.GCApp
 import com.responsivebytes.gradeconverter.Models.AppState
 import com.responsivebytes.gradeconverter.Models.GradeSystem
-import com.responsivebytes.gradeconverter.Models.LocalPreferences
 import com.responsivebytes.gradeconverter.R
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
@@ -36,7 +35,7 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
         }
 
         override fun onPageSelected(position: Int) {
-            if (!LocalPreferences.isBaseGradeSystem(grade)) {
+            if (!GCApp.getInstance().localPreferences.isBaseGradeSystem(grade)) {
                 return
             }
 
@@ -74,7 +73,7 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
                 configureLeftRightButton()
             } else if (state == ViewPager.SCROLL_STATE_DRAGGING) {
                 grade?.let {
-                    LocalPreferences.setBaseGradeSystem(it)
+                    GCApp.getInstance().localPreferences.setBaseGradeSystem(it)
                 }
             }
         }
@@ -84,9 +83,9 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
         val weakSelf = WeakReference(this)
         val weakItemView = WeakReference(itemView)
 
-        disposable += LocalPreferences.currentIndexesChanged.subscribe {
+        disposable += GCApp.getInstance().localPreferences.currentIndexesChanged.subscribe {
 
-            if (LocalPreferences.isBaseGradeSystem(this.grade)) {
+            if (GCApp.getInstance().localPreferences.isBaseGradeSystem(this.grade)) {
                 // BaseGradeSystem initiated the change, so don't react to the change you started.
                 return@subscribe
             }
@@ -102,7 +101,7 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
             weakSelf.get()?.configureLeftRightButton()
         }
 
-        disposable += LocalPreferences.baseGradeSystemChanged.subscribe {
+        disposable += GCApp.getInstance().localPreferences.baseGradeSystemChanged.subscribe {
             weakSelf.get()?.configureBackground()
         }
 
@@ -155,7 +154,7 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
     }
 
     private fun configureBackground() {
-        if (AppState.mainViewMode == AppState.MainViewMode.normal && grade == LocalPreferences.baseGradeSystem()) {
+        if (AppState.mainViewMode == AppState.MainViewMode.normal && grade == GCApp.getInstance().localPreferences.baseGradeSystem()) {
             itemView.background = AppCompatResources.getDrawable(GCApp.getInstance().applicationContext, R.drawable.rounded_rect_with_border)
         } else {
             itemView.background = AppCompatResources.getDrawable(GCApp.getInstance().applicationContext, R.drawable.rounded_rect_shape)
@@ -182,7 +181,7 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
 
     fun scrollRight() {
         grade?.let {
-            LocalPreferences.setBaseGradeSystem(it, true)
+            GCApp.getInstance().localPreferences.setBaseGradeSystem(it, true)
         }
 
         if (viewPagerAdapter?.hasHigherGrades() == true) {
@@ -193,7 +192,7 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
 
     fun scrollLeft() {
         grade?.let {
-            LocalPreferences.setBaseGradeSystem(it, true)
+            GCApp.getInstance().localPreferences.setBaseGradeSystem(it, true)
         }
 
         if (viewPagerAdapter?.hasLowerGrades() == true) {

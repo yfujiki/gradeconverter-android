@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.responsivebytes.gradeconverter.GCApp
 import com.responsivebytes.gradeconverter.Models.GradeSystemTable
-import com.responsivebytes.gradeconverter.Models.LocalPreferences
 import com.responsivebytes.gradeconverter.R
 import com.responsivebytes.gradeconverter.Utilities.Screen
 import com.responsivebytes.gradeconverter.Views.AddRecyclerViewHolder
@@ -20,7 +19,7 @@ class AddRecyclerViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 
     override fun getItemCount(): Int {
         val totalCount = GradeSystemTable.tableSize
-        val selectedCount = LocalPreferences.selectedGradeSystems().size
+        val selectedCount = GCApp.getInstance().localPreferences.selectedGradeSystems().size
         return totalCount - selectedCount
     }
 
@@ -35,7 +34,7 @@ class AddRecyclerViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 
         viewHolder.itemView.setOnClickListener({
             val position = GradeSystemTable.gradeSystemsToAdd().indexOf(gradeSystem)
-            LocalPreferences.addSelectedGradeSystem(gradeSystem)
+            GCApp.getInstance().localPreferences.addSelectedGradeSystem(gradeSystem)
             notifyItemRemoved(position)
         })
     }

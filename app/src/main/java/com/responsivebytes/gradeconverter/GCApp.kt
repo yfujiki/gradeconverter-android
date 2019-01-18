@@ -4,6 +4,7 @@ import android.app.Application
 import com.squareup.leakcanary.LeakCanary
 import com.responsivebytes.gradeconverter.Models.GradeSystemTable
 import com.responsivebytes.gradeconverter.Models.LocalPreferences
+import com.responsivebytes.gradeconverter.Models.LocalPreferencesImpl
 import timber.log.Timber
 
 class GCApp : Application() {
@@ -17,6 +18,8 @@ class GCApp : Application() {
 
     var isTesting: Boolean = false
 
+    lateinit var localPreferences: LocalPreferences
+
     override fun onCreate() {
         super.onCreate()
 
@@ -29,7 +32,7 @@ class GCApp : Application() {
 
     private fun configureData() {
         GradeSystemTable.init(applicationContext)
-        LocalPreferences.init(applicationContext)
+        localPreferences = LocalPreferencesImpl(applicationContext)
     }
 
     private fun initTimber() {

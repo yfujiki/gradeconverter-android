@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.responsivebytes.gradeconverter.Adapters.MainRecyclerViewAdapter
 import com.responsivebytes.gradeconverter.Models.AppState
-import com.responsivebytes.gradeconverter.Models.LocalPreferences
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -39,7 +38,7 @@ class MainActivityFragment : Fragment() {
                 val fromPosition = viewHolder.layoutPosition
                 val toPosition = target.layoutPosition
 
-                LocalPreferences.moveGradeSystem(fromPosition, toPosition, false)
+                GCApp.getInstance().localPreferences.moveGradeSystem(fromPosition, toPosition, false)
 
                 recyclerView.adapter?.notifyItemMoved(fromPosition, toPosition)
 
@@ -98,7 +97,7 @@ class MainActivityFragment : Fragment() {
         recyclerView.adapter = MainRecyclerViewAdapter((activity as MainActivity).disposable)
         addTouchHandler(recyclerView)
 
-        disposable += LocalPreferences.selectedGradeSystemsChanged.subscribe {
+        disposable += GCApp.getInstance().localPreferences.selectedGradeSystemsChanged.subscribe {
             (recyclerView.adapter as MainRecyclerViewAdapter).notifyDataSetChanged()
         }
     }
