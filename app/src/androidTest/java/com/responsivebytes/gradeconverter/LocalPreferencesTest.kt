@@ -6,9 +6,11 @@ import android.support.test.runner.AndroidJUnit4
 import com.responsivebytes.gradeconverter.Models.GradeSystemTable
 import com.responsivebytes.gradeconverter.Models.LocalPreferences
 import com.responsivebytes.gradeconverter.Models.LocalPreferencesImpl
+import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.Assert.*
+import org.junit.Before
 
 @RunWith(AndroidJUnit4::class)
 class LocalPreferencesTest {
@@ -16,7 +18,8 @@ class LocalPreferencesTest {
     var appContext: Context? = null
     var localPreferences: LocalPreferences? = null
 
-    fun setup() {
+    @Before
+    fun setUp() {
         appContext = InstrumentationRegistry.getInstrumentation().targetContext
         GradeSystemTable.init(appContext!!)
 
@@ -25,14 +28,13 @@ class LocalPreferencesTest {
         localPreferences!!.setSelectedGradeSystems(listOf(), false)
     }
 
+    @After
     fun tearDown() {
         localPreferences!!.reset()
     }
 
     @Test
     fun testCurrentIndexes() {
-        setup()
-
         val indexes = listOf(1, 2, 3)
         localPreferences!!.setCurrentIndexes(indexes)
         val currentIndexes = localPreferences!!.currentIndexes()
@@ -42,8 +44,6 @@ class LocalPreferencesTest {
 
     @Test
     fun testAddGradeSystem() {
-        setup()
-
         val gradeSystem1 = GradeSystemTable.gradeSystemForNameCategory("Brazil", "Sports")!!
         localPreferences!!.addSelectedGradeSystem(gradeSystem1)
 
@@ -53,8 +53,6 @@ class LocalPreferencesTest {
 
     @Test
     fun testRemoveGradeSystem() {
-        setup()
-
         val gradeSystem1 = GradeSystemTable.gradeSystemForNameCategory("Brazil", "Sports")!!
         localPreferences!!.addSelectedGradeSystem(gradeSystem1)
 
@@ -74,8 +72,6 @@ class LocalPreferencesTest {
 
     @Test
     fun testSelectedGradeSystemNamesCsv() {
-        setup()
-
         val gradeSystem1 = GradeSystemTable.gradeSystemForNameCategory("Brazil", "Sports")!!
         localPreferences!!.addSelectedGradeSystem(gradeSystem1)
 

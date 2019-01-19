@@ -1,5 +1,6 @@
 package com.responsivebytes.gradeconverter.screenshots
 
+import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.matcher.ViewMatchers.*
@@ -9,18 +10,16 @@ import android.support.test.runner.AndroidJUnit4
 import android.view.View
 import android.view.ViewGroup
 import com.responsivebytes.gradeconverter.DemoModeEnabler
-import com.responsivebytes.gradeconverter.GCApp
 import com.responsivebytes.gradeconverter.MainActivity
+import com.responsivebytes.gradeconverter.Models.LocalPreferencesImpl
 import com.responsivebytes.gradeconverter.R
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.runner.RunWith
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
-import org.junit.ClassRule
 import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy
 
 @LargeTest
@@ -37,10 +36,20 @@ class MainActivityTest {
     @JvmField
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
 
+    @Before
+    fun setUp() {
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        LocalPreferencesImpl(appContext!!, "UITest").reset()
+    }
+
+    @After
+    fun tearDown() {
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        LocalPreferencesImpl(appContext!!, "UITest").reset()
+    }
+
     @Test
     fun mainActivityTest() {
-        GCApp.getInstance().isTesting = true
-
         Screengrab.setDefaultScreenshotStrategy(UiAutomatorScreenshotStrategy())
 
         val enabler = DemoModeEnabler()

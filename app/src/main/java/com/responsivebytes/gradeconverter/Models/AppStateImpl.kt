@@ -4,7 +4,9 @@ import android.support.v7.widget.RecyclerView
 import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-class AppStateImpl : AppState {
+open class AppStateImpl : AppState {
+    override val isTesting = false
+
     override val mainViewModeSubject: PublishSubject<AppState.MainViewMode> = PublishSubject.create()
 
     override val mainViewDraggingViewHolderSubject: PublishSubject<AppState.DraggingViewHolder> = PublishSubject.create()

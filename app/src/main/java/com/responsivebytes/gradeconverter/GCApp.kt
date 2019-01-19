@@ -3,8 +3,10 @@ package com.responsivebytes.gradeconverter
 import android.app.Activity
 import android.app.Application
 import com.responsivebytes.gradeconverter.Dagger.DaggerAppComponent
+import com.responsivebytes.gradeconverter.Dagger.DaggerAppComponentUITest
 import com.squareup.leakcanary.LeakCanary
 import com.responsivebytes.gradeconverter.Models.GradeSystemTable
+import com.responsivebytes.gradeconverter.Utilities.TestDetector
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -28,8 +30,6 @@ class GCApp : Application(), HasActivityInjector {
         }
     }
 
-    var isTesting: Boolean = false
-
     override fun onCreate() {
         super.onCreate()
 
@@ -42,9 +42,15 @@ class GCApp : Application(), HasActivityInjector {
     }
 
     private fun initDagger() {
-        DaggerAppComponent.builder()
+        if (TestDetector.isRunningUITest()) {
+            DaggerAppComponentUITest.builder()
+                    .create(this)
+                    .inject(this)
+        } else {
+            DaggerAppComponent.builder()
                 .create(this)
                 .inject(this)
+        }
     }
 
     private fun configureData() {

@@ -19,6 +19,8 @@ interface AppState {
         }
     }
 
+    val isTesting: Boolean
+
     val mainViewModeSubject: PublishSubject<MainViewMode>
 
     val mainViewDraggingViewHolderSubject: PublishSubject<DraggingViewHolder>

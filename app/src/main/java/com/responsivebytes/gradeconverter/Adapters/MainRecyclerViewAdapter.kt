@@ -88,7 +88,7 @@ class MainRecyclerViewAdapter(val localPreferences: LocalPreferences,
                     return@setOnTouchListener true
                 }
 
-                if (!GCApp.getInstance().isTesting) {
+                if (!appState.isTesting) {
                     viewHolder.itemView.startAnimation(animation)
                 }
             }
