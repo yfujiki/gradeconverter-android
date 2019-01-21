@@ -117,6 +117,9 @@ build/
 # Fastlane 
 fastlane/metadata/android/
 
+# Screengrab
+captures/
+
 # Android App Bundle
 
 app/release
