@@ -1,6 +1,5 @@
 package com.responsivebytes.gradeconverter.Dagger
 
-import com.responsivebytes.gradeconverter.Adapters.AddRecyclerViewAdapter
 import com.responsivebytes.gradeconverter.GCApp
 import dagger.Component
 import dagger.android.AndroidInjector
