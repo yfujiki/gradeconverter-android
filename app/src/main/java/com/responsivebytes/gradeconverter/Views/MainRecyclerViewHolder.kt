@@ -16,7 +16,10 @@ import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.recycler_view_holder.view.*
 import java.lang.ref.WeakReference
 
-class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDisposable) : RecyclerView.ViewHolder(itemView) {
+class MainRecyclerViewHolder(itemView: View,
+                             val localPreferences: LocalPreferences,
+                             val appState: AppState,
+                             val activityDisposable: CompositeDisposable) : RecyclerView.ViewHolder(itemView) {
 
     private var grade: GradeSystem? = null
 
@@ -36,7 +39,7 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
         }
 
         override fun onPageSelected(position: Int) {
-            if (!LocalPreferences.isBaseGradeSystem(grade)) {
+            if (!localPreferences.isBaseGradeSystem(grade)) {
                 return
             }
 
@@ -74,7 +77,7 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
                 configureLeftRightButton()
             } else if (state == ViewPager.SCROLL_STATE_DRAGGING) {
                 grade?.let {
-                    LocalPreferences.setBaseGradeSystem(it)
+                    localPreferences.setBaseGradeSystem(it)
                 }
             }
         }
@@ -84,9 +87,9 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
         val weakSelf = WeakReference(this)
         val weakItemView = WeakReference(itemView)
 
-        disposable += LocalPreferences.currentIndexesChanged.subscribe {
+        disposable += localPreferences.currentIndexesChanged.subscribe {
 
-            if (LocalPreferences.isBaseGradeSystem(this.grade)) {
+            if (localPreferences.isBaseGradeSystem(this.grade)) {
                 // BaseGradeSystem initiated the change, so don't react to the change you started.
                 return@subscribe
             }
@@ -102,11 +105,11 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
             weakSelf.get()?.configureLeftRightButton()
         }
 
-        disposable += LocalPreferences.baseGradeSystemChanged.subscribe {
+        disposable += localPreferences.baseGradeSystemChanged.subscribe {
             weakSelf.get()?.configureBackground()
         }
 
-        disposable += AppState.mainViewModeSubject.subscribe {
+        disposable += appState.mainViewModeSubject.subscribe {
             weakItemView.get()?.viewPager?.clearOnPageChangeListeners()
 
             if (it == AppState.MainViewMode.normal) {
@@ -137,7 +140,7 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
         setGradeCategory(grade.categoryDrawable(context))
 
         if (viewPagerAdapter?.grade == null || viewPagerAdapter?.gradeIsDifferentFrom(grade) == true) {
-            viewPagerAdapter = ViewPagerAdapter(grade)
+            viewPagerAdapter = ViewPagerAdapter(localPreferences, grade)
             itemView.viewPager.adapter = viewPagerAdapter
             viewPagerAdapter?.currentPosition?.let {
                 itemView.viewPager.setCurrentItem(it, false)
@@ -154,8 +157,8 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
         itemView.gradeNameTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, categoryDrawable, null)
     }
 
-    private fun configureBackground() {
-        if (AppState.mainViewMode == AppState.MainViewMode.normal && grade == LocalPreferences.baseGradeSystem()) {
+    fun configureBackground() {
+        if (appState.mainViewMode == AppState.MainViewMode.normal && grade == localPreferences.baseGradeSystem()) {
             itemView.background = AppCompatResources.getDrawable(GCApp.getInstance().applicationContext, R.drawable.rounded_rect_with_border)
         } else {
             itemView.background = AppCompatResources.getDrawable(GCApp.getInstance().applicationContext, R.drawable.rounded_rect_shape)
@@ -182,7 +185,7 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
 
     fun scrollRight() {
         grade?.let {
-            LocalPreferences.setBaseGradeSystem(it, true)
+            localPreferences.setBaseGradeSystem(it, true)
         }
 
         if (viewPagerAdapter?.hasHigherGrades() == true) {
@@ -193,7 +196,7 @@ class MainRecyclerViewHolder(itemView: View, val activityDisposable: CompositeDi
 
     fun scrollLeft() {
         grade?.let {
-            LocalPreferences.setBaseGradeSystem(it, true)
+            localPreferences.setBaseGradeSystem(it, true)
         }
 
         if (viewPagerAdapter?.hasLowerGrades() == true) {

@@ -16,7 +16,9 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.recycler_view_holder.view.*
 
-class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MainRecyclerViewAdapter(val localPreferences: LocalPreferences,
+                              var appState: AppState,
+                              val activityDisposable: CompositeDisposable) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val animation by lazy {
         AnimationUtils.loadAnimation(GCApp.getInstance().applicationContext, R.anim.wobble)
@@ -25,21 +27,22 @@ class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : Rec
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
         val itemView = LayoutInflater.from(p0.context).inflate(R.layout.recycler_view_holder, p0, false)
 
-        return MainRecyclerViewHolder(itemView, activityDisposable)
+        return MainRecyclerViewHolder(itemView, localPreferences, appState, activityDisposable)
     }
 
     override fun getItemCount(): Int {
-        return LocalPreferences.selectedGradeSystems().size
+        return localPreferences.selectedGradeSystems().size
     }
 
     override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
         val viewHolder = p0 as MainRecyclerViewHolder
-        val grade = LocalPreferences.selectedGradeSystems()[p1]
+        val grade = localPreferences.selectedGradeSystems()[p1]
         viewHolder.setGrade(grade)
+        viewHolder.configureBackground()
 
         setInterItemSpace(viewHolder, p1)
 
-        when (AppState.mainViewMode) {
+        when (appState.mainViewMode) {
             AppState.MainViewMode.normal -> {
                 viewHolder.itemView.deleteButton.visibility = View.GONE
                 viewHolder.itemView.handle.visibility = View.GONE
@@ -67,26 +70,26 @@ class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : Rec
                 }
 
                 viewHolder.itemView.handle.setOnTouchListener { view, event ->
-                    if (AppState.mainViewMode == AppState.MainViewMode.normal) {
+                    if (appState.mainViewMode == AppState.MainViewMode.normal) {
                         return@setOnTouchListener true
                     }
                     if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                        AppState.startDraggingOnMainViewHolder(viewHolder)
+                        appState.startDraggingOnMainViewHolder(viewHolder)
                     }
                     return@setOnTouchListener true
                 }
 
                 viewHolder.itemView.setOnTouchListener { view, event ->
-                    if (AppState.mainViewMode == AppState.MainViewMode.normal) {
+                    if (appState.mainViewMode == AppState.MainViewMode.normal) {
                         return@setOnTouchListener true
                     }
                     if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                        AppState.startDraggingOnMainViewHolder(viewHolder)
+                        appState.startDraggingOnMainViewHolder(viewHolder)
                     }
                     return@setOnTouchListener true
                 }
 
-                if (!GCApp.getInstance().isTesting) {
+                if (!appState.isTesting) {
                     viewHolder.itemView.startAnimation(animation)
                 }
             }
@@ -94,8 +97,8 @@ class MainRecyclerViewAdapter(val activityDisposable: CompositeDisposable) : Rec
     }
 
     private fun deleteItemAt(index: Int) {
-        val gradeSystemToDelete = LocalPreferences.selectedGradeSystems()[index]
-        LocalPreferences.removeSelectedGradeSystem(gradeSystemToDelete, false)
+        val gradeSystemToDelete = localPreferences.selectedGradeSystems()[index]
+        localPreferences.removeSelectedGradeSystem(gradeSystemToDelete)
 
         notifyItemRemoved(index)
     }

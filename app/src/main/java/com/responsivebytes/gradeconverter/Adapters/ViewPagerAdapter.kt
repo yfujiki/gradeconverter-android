@@ -10,7 +10,7 @@ import com.responsivebytes.gradeconverter.Models.LocalPreferences
 import com.responsivebytes.gradeconverter.R
 import kotlinx.android.synthetic.main.view_pager_view_holder.view.*
 
-class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
+class ViewPagerAdapter(val localPreferences: LocalPreferences, val grade: GradeSystem) : PagerAdapter() {
 
     private var dataList: MutableList<List<Int>>
 
@@ -96,8 +96,8 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
 
         val selectedIndexes = dataList.get(currentPosition)
 
-        if (LocalPreferences.isBaseGradeSystem(grade)) {
-            LocalPreferences.setCurrentIndexes(selectedIndexes)
+        if (localPreferences.isBaseGradeSystem(grade)) {
+            localPreferences.setCurrentIndexes(selectedIndexes)
         }
     }
 
@@ -148,7 +148,7 @@ class ViewPagerAdapter(val grade: GradeSystem) : PagerAdapter() {
     }
 
     private fun dataListFromCurrentIndex(): Pair<MutableList<List<Int>>, Int> {
-        return dataListForIndexes(LocalPreferences.currentIndexes())
+        return dataListForIndexes(localPreferences.currentIndexes())
     }
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {

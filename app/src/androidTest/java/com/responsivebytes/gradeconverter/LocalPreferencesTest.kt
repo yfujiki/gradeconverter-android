@@ -5,80 +5,80 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.responsivebytes.gradeconverter.Models.GradeSystemTable
 import com.responsivebytes.gradeconverter.Models.LocalPreferences
+import com.responsivebytes.gradeconverter.Models.LocalPreferencesImpl
+import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.Assert.*
+import org.junit.Before
 
 @RunWith(AndroidJUnit4::class)
 class LocalPreferencesTest {
 
     var appContext: Context? = null
+    var localPreferences: LocalPreferences? = null
 
-    fun setup() {
+    @Before
+    fun setUp() {
         appContext = InstrumentationRegistry.getInstrumentation().targetContext
         GradeSystemTable.init(appContext!!)
-        LocalPreferences.init(appContext!!)
-        LocalPreferences.setCurrentIndexes(listOf())
-        LocalPreferences.setSelectedGradeSystems(listOf(), false)
+
+        localPreferences = LocalPreferencesImpl(appContext!!, "Unit Test")
+        localPreferences!!.setCurrentIndexes(listOf())
+        localPreferences!!.setSelectedGradeSystems(listOf(), false)
     }
 
+    @After
     fun tearDown() {
+        localPreferences!!.reset()
     }
 
     @Test
     fun testCurrentIndexes() {
-        setup()
-
         val indexes = listOf(1, 2, 3)
-        LocalPreferences.setCurrentIndexes(indexes)
-        val currentIndexes = LocalPreferences.currentIndexes()
+        localPreferences!!.setCurrentIndexes(indexes)
+        val currentIndexes = localPreferences!!.currentIndexes()
 
         assertEquals(indexes, currentIndexes)
     }
 
     @Test
     fun testAddGradeSystem() {
-        setup()
-
         val gradeSystem1 = GradeSystemTable.gradeSystemForNameCategory("Brazil", "Sports")!!
-        LocalPreferences.addSelectedGradeSystem(gradeSystem1)
+        localPreferences!!.addSelectedGradeSystem(gradeSystem1)
 
-        assertEquals(1, LocalPreferences.selectedGradeSystems().size)
-        assertEquals(gradeSystem1, LocalPreferences.selectedGradeSystems()[0])
+        assertEquals(1, localPreferences!!.selectedGradeSystems().size)
+        assertEquals(gradeSystem1, localPreferences!!.selectedGradeSystems()[0])
     }
 
     @Test
     fun testRemoveGradeSystem() {
-        setup()
-
         val gradeSystem1 = GradeSystemTable.gradeSystemForNameCategory("Brazil", "Sports")!!
-        LocalPreferences.addSelectedGradeSystem(gradeSystem1)
+        localPreferences!!.addSelectedGradeSystem(gradeSystem1)
 
         val gradeSystem2 = GradeSystemTable.gradeSystemForNameCategory("Brazil", "Boulder")!!
-        LocalPreferences.addSelectedGradeSystem(gradeSystem2)
+        localPreferences!!.addSelectedGradeSystem(gradeSystem2)
 
-        assertEquals(2, LocalPreferences.selectedGradeSystems().size)
+        assertEquals(2, localPreferences!!.selectedGradeSystems().size)
 
-        LocalPreferences.removeSelectedGradeSystem(gradeSystem1)
+        localPreferences!!.removeSelectedGradeSystem(gradeSystem1)
 
-        assertEquals(1, LocalPreferences.selectedGradeSystems().size)
-        assertEquals(gradeSystem2, LocalPreferences.selectedGradeSystems()[0])
+        assertEquals(1, localPreferences!!.selectedGradeSystems().size)
+        assertEquals(gradeSystem2, localPreferences!!.selectedGradeSystems()[0])
 
-        LocalPreferences.removeSelectedGradeSystem(gradeSystem2)
-        assertEquals(0, LocalPreferences.selectedGradeSystems().size)
+        localPreferences!!.removeSelectedGradeSystem(gradeSystem2)
+        assertEquals(0, localPreferences!!.selectedGradeSystems().size)
     }
 
     @Test
     fun testSelectedGradeSystemNamesCsv() {
-        setup()
-
         val gradeSystem1 = GradeSystemTable.gradeSystemForNameCategory("Brazil", "Sports")!!
-        LocalPreferences.addSelectedGradeSystem(gradeSystem1)
+        localPreferences!!.addSelectedGradeSystem(gradeSystem1)
 
         val gradeSystem2 = GradeSystemTable.gradeSystemForNameCategory("Brazil", "Boulder")!!
-        LocalPreferences.addSelectedGradeSystem(gradeSystem2)
+        localPreferences!!.addSelectedGradeSystem(gradeSystem2)
 
-        val gradeSystemNamesCSV = LocalPreferences.selectedGradeSystemNamesCSV()
+        val gradeSystemNamesCSV = localPreferences!!.selectedGradeSystemNamesCSV()
         assertEquals("Brazil, Brazil", gradeSystemNamesCSV)
     }
 }

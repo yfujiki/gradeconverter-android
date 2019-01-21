@@ -97,16 +97,4 @@ object GradeSystemTable {
             action(it)
         }
     }
-
-    fun gradeSystemsToAdd(): List<GradeSystem> {
-        return tableBody.values.mapNotNull {
-            if (LocalPreferences.selectedGradeSystems().contains(it)) {
-                null
-            } else {
-                it
-            }
-        }.sortedBy {
-            "${it.category}-${it.name}"
-        }
-    }
 }

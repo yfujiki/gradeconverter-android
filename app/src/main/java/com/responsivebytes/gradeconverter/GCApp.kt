@@ -1,12 +1,27 @@
 package com.responsivebytes.gradeconverter
 
+import android.app.Activity
 import android.app.Application
+import com.responsivebytes.gradeconverter.Dagger.DaggerAppComponent
+import com.responsivebytes.gradeconverter.Dagger.DaggerAppComponentUITest
 import com.squareup.leakcanary.LeakCanary
 import com.responsivebytes.gradeconverter.Models.GradeSystemTable
-import com.responsivebytes.gradeconverter.Models.LocalPreferences
+import com.responsivebytes.gradeconverter.Utilities.TestDetector
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import kotlinx.android.synthetic.main.fragment_main.*
 import timber.log.Timber
+import javax.inject.Inject
 
-class GCApp : Application() {
+class GCApp : Application(), HasActivityInjector {
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+
+    override fun activityInjector(): AndroidInjector<Activity> {
+        return dispatchingAndroidInjector
+    }
+
     companion object {
         private lateinit var instance: GCApp
 
@@ -15,11 +30,10 @@ class GCApp : Application() {
         }
     }
 
-    var isTesting: Boolean = false
-
     override fun onCreate() {
         super.onCreate()
 
+        initDagger()
         initTimber()
         initLeakCanary()
         configureData()
@@ -27,9 +41,20 @@ class GCApp : Application() {
         instance = this
     }
 
+    private fun initDagger() {
+        if (TestDetector.isRunningUITest()) {
+            DaggerAppComponentUITest.builder()
+                    .create(this)
+                    .inject(this)
+        } else {
+            DaggerAppComponent.builder()
+                .create(this)
+                .inject(this)
+        }
+    }
+
     private fun configureData() {
         GradeSystemTable.init(applicationContext)
-        LocalPreferences.init(applicationContext)
     }
 
     private fun initTimber() {
