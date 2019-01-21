@@ -12,6 +12,4 @@ import javax.inject.Singleton
 interface AppComponent : AndroidInjector<GCApp> {
     @Component.Builder
     abstract class Builder : AndroidInjector.Builder<GCApp>()
-
-    fun inject(viewAdapter: AddRecyclerViewAdapter)
 }
