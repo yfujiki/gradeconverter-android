@@ -38,6 +38,7 @@ class MainRecyclerViewAdapter(val localPreferences: LocalPreferences,
         val viewHolder = p0 as MainRecyclerViewHolder
         val grade = localPreferences.selectedGradeSystems()[p1]
         viewHolder.setGrade(grade)
+        viewHolder.configureBackground()
 
         setInterItemSpace(viewHolder, p1)
 

@@ -25,7 +25,7 @@ import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class AddActivityTest {
+class MainActivityTest {
 
     companion object {
         @ClassRule

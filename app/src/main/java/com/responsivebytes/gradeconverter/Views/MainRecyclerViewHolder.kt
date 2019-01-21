@@ -157,7 +157,7 @@ class MainRecyclerViewHolder(itemView: View,
         itemView.gradeNameTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, categoryDrawable, null)
     }
 
-    private fun configureBackground() {
+    fun configureBackground() {
         if (appState.mainViewMode == AppState.MainViewMode.normal && grade == localPreferences.baseGradeSystem()) {
             itemView.background = AppCompatResources.getDrawable(GCApp.getInstance().applicationContext, R.drawable.rounded_rect_with_border)
         } else {

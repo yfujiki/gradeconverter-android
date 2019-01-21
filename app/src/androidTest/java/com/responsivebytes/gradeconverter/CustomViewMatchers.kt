@@ -1,31 +1,17 @@
 package com.responsivebytes.gradeconverter
 
 import android.graphics.drawable.GradientDrawable
-import android.support.test.espresso.matcher.BoundedMatcher
 import android.view.View
 import org.hamcrest.Description
 import org.hamcrest.Matcher
+import org.hamcrest.TypeSafeMatcher
 
 object CustomViewMatchers {
     fun backgroundHasBorder(): Matcher<View> {
-        return object : BoundedMatcher<View, View>(View::class.java!!) {
+        return object : TypeSafeMatcher<View>(View::class.java!!) {
 
             override fun describeTo(description: Description) {
                 description.appendText("to have a border")
-            }
-
-            override fun describeMismatch(item: Any?, description: Description?) {
-                super.describeMismatch(item, description)
-
-                val foundView = item as? View
-                if (foundView == null) {
-                    description?.appendText("Target is not a view")
-                }
-
-                val gradientDrawable = foundView?.background as? GradientDrawable
-                if (gradientDrawable == null) {
-                    description?.appendText("Background is not a shape")
-                }
             }
 
             override fun matchesSafely(foundView: View): Boolean {
