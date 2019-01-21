@@ -123,3 +123,6 @@ captures/
 # Android App Bundle
 
 app/release
+
+# For secure info
+keystore.properties
