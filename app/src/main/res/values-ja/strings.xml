@@ -57,5 +57,6 @@
     <string name="handle">ハンドル</string>
 
     <string name="thankyou">ありがとうございます</string>
+    <string name="please_rate">評価を頂けると嬉しいです！</string>
     <string name="info_text">日本の段グレードとアメリカの Vグレード、またルートのグレードとボルダーのグレード(など)を手軽に比較できるアプリがあまりなかったので自作してみました。 お気づきのことがあれば以下までメール宜しくお願いします。ガンバガンバ!</string>
 </resources>

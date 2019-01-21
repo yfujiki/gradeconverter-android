@@ -1,13 +1,11 @@
 package com.responsivebytes.gradeconverter
 
 import android.app.Dialog
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
-import android.widget.TextView
+import com.responsivebytes.gradeconverter.Utilities.RatingUtility
 import kotlinx.android.synthetic.main.activity_add.view.*
 import kotlinx.android.synthetic.main.activity_info.view.*
 
@@ -23,9 +21,9 @@ class InfoDialogFragment : DialogFragment() {
             dismiss()
         }
 
-        dialogView.emailTextView.setOnClickListener {
-            val email = (it as TextView).text.toString()
-            openEmail(email)
+        dialogView.rateTextView.setOnClickListener {
+            RatingUtility.rateApp()
+            dismiss()
         }
 
         builder.setView(dialogView)
@@ -37,12 +35,5 @@ class InfoDialogFragment : DialogFragment() {
         super.onActivityCreated(arg0)
         dialog.window!!
                 .attributes.windowAnimations = R.style.DialogAnimation
-    }
-
-    private fun openEmail(mailTo: String) {
-        val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto", mailTo, null))
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.support_title))
-        startActivity(Intent.createChooser(emailIntent, "Send email to support..."))
     }
 }

@@ -57,5 +57,6 @@
 
     <string name="thankyou">Thank you!</string>
     <string name="info_text">As both an avid climber and a mobile developer, I wanted to make a handy tool to compare grades across different systems. You may find it useful when climbing abroad or reading news.\nPlease let me know if you notice anything about the app. Happy climbing!</string>
+    <string name="please_rate">Please rate the app if you like it!</string>
     <string name="email" translatable="false">support@responsivebyt.es</string>
 </resources>
