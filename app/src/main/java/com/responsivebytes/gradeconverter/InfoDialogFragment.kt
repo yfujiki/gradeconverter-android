@@ -6,6 +6,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import com.responsivebytes.gradeconverter.Utilities.RatingUtility
+import com.responsivebytes.gradeconverter.Utilities.VersionUtility
 import kotlinx.android.synthetic.main.activity_add.view.*
 import kotlinx.android.synthetic.main.activity_info.view.*
 
@@ -22,9 +23,11 @@ class InfoDialogFragment : DialogFragment() {
         }
 
         dialogView.rateTextView.setOnClickListener {
-            RatingUtility.rateApp()
+            RatingUtility.rateApp(GCApp.getInstance().applicationContext)
             dismiss()
         }
+
+        dialogView.versionTextView.text = VersionUtility.getVersionName(GCApp.getInstance().applicationContext)
 
         builder.setView(dialogView)
 
