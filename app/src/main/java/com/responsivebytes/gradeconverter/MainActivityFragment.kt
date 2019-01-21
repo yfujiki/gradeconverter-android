@@ -108,10 +108,14 @@ class MainActivityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.setLayoutManager(LinearLayoutManager(context))
         recyclerView.adapter = MainRecyclerViewAdapter(localPreferences, appState, (activity as MainActivity).disposable)
+
         addTouchHandler(recyclerView)
 
         disposable += localPreferences.selectedGradeSystemsChanged.subscribe {
-            (recyclerView.adapter as MainRecyclerViewAdapter).notifyDataSetChanged()
+            if (appState.isShowingAddScreen) {
+                // We want to receive events from Add Screen
+                (recyclerView.adapter as MainRecyclerViewAdapter).notifyDataSetChanged()
+            }
         }
     }
 

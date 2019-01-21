@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         showHideFab()
 
         customizeTitleView()
+
         subscribeToAppState()
         subscribeToLocalPreference()
     }

@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import com.responsivebytes.gradeconverter.Adapters.AddRecyclerViewAdapter
+import com.responsivebytes.gradeconverter.Models.AppState
 import com.responsivebytes.gradeconverter.Models.LocalPreferences
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
@@ -20,6 +21,9 @@ class AddDialogFragment : DialogFragment() {
 
     @Inject
     lateinit var localPreferences: LocalPreferences
+
+    @Inject
+    lateinit var appState: AppState
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -50,6 +54,9 @@ class AddDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        appState.isShowingAddScreen = true
+
         subscribeToLocalPreferences()
     }
 
@@ -57,6 +64,8 @@ class AddDialogFragment : DialogFragment() {
         if (!disposable.isDisposed) {
             disposable.dispose()
         }
+
+        appState.isShowingAddScreen = false
 
         super.onDestroy()
     }

@@ -7,6 +7,8 @@ import kotlin.properties.Delegates
 open class AppStateImpl : AppState {
     override val isTesting = false
 
+    override var isShowingAddScreen: Boolean = false
+
     override val mainViewModeSubject: PublishSubject<AppState.MainViewMode> = PublishSubject.create()
 
     override val mainViewDraggingViewHolderSubject: PublishSubject<AppState.DraggingViewHolder> = PublishSubject.create()
