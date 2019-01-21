@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.responsivebytes.gradeconverter.Utilities.Localization
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class LocalPreferencesImpl : LocalPreferences {
     companion object {
@@ -37,9 +37,9 @@ class LocalPreferencesImpl : LocalPreferences {
     private var body: SharedPreferences
     private val gson = GsonBuilder().create()
 
-    override var selectedGradeSystemsChanged = PublishSubject.create<List<GradeSystem>>()
-    override var currentIndexesChanged = PublishSubject.create<List<Int>>()
-    override var baseGradeSystemChanged = PublishSubject.create<GradeSystem>()
+    override var selectedGradeSystemsChanged = BehaviorSubject.create<List<GradeSystem>>()
+    override var currentIndexesChanged = BehaviorSubject.create<List<Int>>()
+    override var baseGradeSystemChanged = BehaviorSubject.create<GradeSystem>()
 
     constructor(context: Context, key: String = KEY) {
         this.body = context.getSharedPreferences(key, Context.MODE_PRIVATE)

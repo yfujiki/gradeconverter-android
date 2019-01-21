@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.action_bar_title_view.view.*
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 import android.support.v4.app.Fragment
+import com.responsivebytes.gradeconverter.Models.LocalPreferences
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -24,6 +25,9 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var appState: AppState
+
+    @Inject
+    lateinit var localPreferences: LocalPreferences
 
     val disposable: CompositeDisposable = CompositeDisposable()
 
@@ -42,8 +46,11 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             openAddAlertDialog()
         }
 
+        showHideFab()
+
         customizeTitleView()
         subscribeToAppState()
+        subscribeToLocalPreference()
     }
 
     override fun onDestroy() {
@@ -116,6 +123,25 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     private fun subscribeToAppState() {
         disposable += appState.mainViewModeSubject.subscribe {
             invalidateOptionsMenu()
+            showHideFab()
+        }
+    }
+
+    private fun subscribeToLocalPreference() {
+        disposable += localPreferences.selectedGradeSystemsChanged
+                .subscribe {
+                    showHideFab()
+        }
+    }
+
+    private fun showHideFab() {
+        val hasSomethingToAdd = localPreferences.unselectedGradeSystems().count() > 0
+        val isNormalMode = appState.mainViewMode == AppState.MainViewMode.normal
+
+        if (hasSomethingToAdd && isNormalMode) {
+            fab.show()
+        } else {
+            fab.hide()
         }
     }
 }

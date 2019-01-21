@@ -1,12 +1,12 @@
 package com.responsivebytes.gradeconverter.Models
 
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
 
 interface LocalPreferences {
 
-    var selectedGradeSystemsChanged: PublishSubject<List<GradeSystem>>
-    var currentIndexesChanged: PublishSubject<List<Int>>
-    var baseGradeSystemChanged: PublishSubject<GradeSystem>
+    var selectedGradeSystemsChanged: BehaviorSubject<List<GradeSystem>>
+    var currentIndexesChanged: BehaviorSubject<List<Int>>
+    var baseGradeSystemChanged: BehaviorSubject<GradeSystem>
 
     fun setCurrentIndexes(indexes: List<Int>)
 

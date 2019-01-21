@@ -10,10 +10,14 @@ import android.view.LayoutInflater
 import com.responsivebytes.gradeconverter.Adapters.AddRecyclerViewAdapter
 import com.responsivebytes.gradeconverter.Models.LocalPreferences
 import dagger.android.support.AndroidSupportInjection
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.activity_add.view.*
 import javax.inject.Inject
 
 class AddDialogFragment : DialogFragment() {
+    private var disposable = CompositeDisposable()
+
     @Inject
     lateinit var localPreferences: LocalPreferences
 
@@ -42,5 +46,28 @@ class AddDialogFragment : DialogFragment() {
         super.onActivityCreated(arg0)
         dialog.window!!
                 .attributes.windowAnimations = R.style.DialogAnimation
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        subscribeToLocalPreferences()
+    }
+
+    override fun onDestroy() {
+        if (!disposable.isDisposed) {
+            disposable.dispose()
+        }
+
+        super.onDestroy()
+    }
+
+    private fun subscribeToLocalPreferences() {
+        disposable += localPreferences.selectedGradeSystemsChanged.subscribe {
+            val hasSomethingToAdd = localPreferences.unselectedGradeSystems().count() > 0
+
+            if (!hasSomethingToAdd) {
+                dismiss()
+            }
+        }
     }
 }

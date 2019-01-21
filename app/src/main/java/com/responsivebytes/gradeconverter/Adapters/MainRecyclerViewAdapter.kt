@@ -98,7 +98,7 @@ class MainRecyclerViewAdapter(val localPreferences: LocalPreferences,
 
     private fun deleteItemAt(index: Int) {
         val gradeSystemToDelete = localPreferences.selectedGradeSystems()[index]
-        localPreferences.removeSelectedGradeSystem(gradeSystemToDelete, false)
+        localPreferences.removeSelectedGradeSystem(gradeSystemToDelete)
 
         notifyItemRemoved(index)
     }

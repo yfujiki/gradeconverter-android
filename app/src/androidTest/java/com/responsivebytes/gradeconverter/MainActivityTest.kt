@@ -5,6 +5,7 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.*
 import android.support.test.espresso.assertion.ViewAssertions
+import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import android.support.test.espresso.matcher.ViewMatchers.*
@@ -56,12 +57,10 @@ class MainActivityTest {
         val moreButton = onView(withId(R.id.fab))
         moreButton.perform(click())
 
-        for (i in 0..10) {
+        val gradeSystemsToAdd = mActivityTestRule.activity.localPreferences.unselectedGradeSystems().count()
+        for (i in 0..gradeSystemsToAdd - 1) {
             onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition<AddRecyclerViewHolder>(0, click()))
         }
-
-        val closeButton = onView(withId(R.id.addCloseButton))
-        closeButton.perform(click())
 
         // Scroll to get base system
         onView(withId(R.id.recyclerView)).perform(
@@ -75,7 +74,7 @@ class MainActivityTest {
                 ))
 
         // From there on, the border should be blank
-        for (i in 1..LocalPreferencesImpl.DEFAULT_GRADE_SYSTEM.count() + 10) {
+        for (i in 1..LocalPreferencesImpl.DEFAULT_GRADE_SYSTEM.count() + gradeSystemsToAdd - 1) {
             onView(withId(R.id.recyclerView))
                     .perform(scrollToPosition<AddRecyclerViewHolder>(i))
 
@@ -88,6 +87,20 @@ class MainActivityTest {
                             )
                     )
         }
+    }
+
+    @Test
+    fun addButtonShouldBeDisabledWhenNothingToAdd() {
+        val moreButton = onView(withId(R.id.fab))
+        moreButton.perform(click())
+
+        while (mActivityTestRule.activity.localPreferences.unselectedGradeSystems().count() > 0) {
+            onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition<AddRecyclerViewHolder>(0, click()))
+        }
+
+        Thread.sleep(500)
+
+        moreButton.check(matches(not(isDisplayed())))
     }
 
     private fun childAtPosition(
