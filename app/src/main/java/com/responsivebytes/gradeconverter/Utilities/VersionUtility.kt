@@ -2,6 +2,7 @@ package com.responsivebytes.gradeconverter.Utilities
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import java.lang.StringBuilder
 
 object VersionUtility {
@@ -13,7 +14,11 @@ object VersionUtility {
             builder.append("Version : ")
             builder.append(pInfo.versionName)
             builder.append("(")
-            builder.append(pInfo.longVersionCode)
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                builder.append(pInfo.longVersionCode)
+            } else {
+                builder.append(pInfo.versionCode)
+            }
             builder.append(")")
             return builder.toString()
         } catch (e: PackageManager.NameNotFoundException) {
