@@ -79,14 +79,13 @@ class MainRecyclerViewAdapter(val localPreferences: LocalPreferences,
                     return@setOnTouchListener true
                 }
 
-                viewHolder.itemView.setOnTouchListener { view, event ->
+                viewHolder.itemView.setOnLongClickListener {
                     if (appState.mainViewMode == AppState.MainViewMode.normal) {
-                        return@setOnTouchListener true
+                        return@setOnLongClickListener true
                     }
-                    if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                        appState.startDraggingOnMainViewHolder(viewHolder)
-                    }
-                    return@setOnTouchListener true
+                    appState.startDraggingOnMainViewHolder(viewHolder)
+
+                    return@setOnLongClickListener true
                 }
 
                 if (!appState.isTesting) {
