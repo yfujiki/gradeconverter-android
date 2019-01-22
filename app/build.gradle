@@ -12,8 +12,23 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+    compileSdkVersion 28
+    defaultConfig {
+        def versionPropertiesFile = file("version.properties");
+        def versionProperties = new Properties()
+        versionProperties.load(new FileInputStream(versionPropertiesFile))
+
+        applicationId "com.responsivebytes.gradeconverter"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionName versionProperties['VERSION_NAME']
+        versionCode versionProperties['VERSION_CODE'].toInteger()
+        vectorDrawables.useSupportLibrary = true
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
     signingConfigs {
-        def keystorePropertiesFile = rootProject.file("keystore.properties");
+        def keystorePropertiesFile = file("keystore.properties");
         def keystoreProperties = new Properties()
         keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
@@ -24,20 +39,11 @@ android {
             keyPassword keystoreProperties['keyPassword']
         }
     }
-
-    compileSdkVersion 28
-    defaultConfig {
-        applicationId "com.responsivebytes.gradeconverter"
-        minSdkVersion 19
-        targetSdkVersion 28
-        vectorDrawables.useSupportLibrary = true
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         debug {
         }
