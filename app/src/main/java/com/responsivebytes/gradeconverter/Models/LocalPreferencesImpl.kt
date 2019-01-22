@@ -116,11 +116,7 @@ class LocalPreferencesImpl : LocalPreferences {
         val itemToMove = gradeSystems[fromIndex]
 
         gradeSystems.removeAt(fromIndex)
-        if (toIndex < fromIndex) {
-            gradeSystems.add(toIndex, itemToMove)
-        } else {
-            gradeSystems.add(toIndex - 1, itemToMove)
-        }
+        gradeSystems.add(toIndex, itemToMove)
 
         setSelectedGradeSystems(gradeSystems.toList(), notify)
     }
