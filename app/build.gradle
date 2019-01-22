@@ -25,8 +25,6 @@ android {
         applicationId "com.responsivebytes.gradeconverter"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 5
-        versionName "1.1"
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -64,9 +62,30 @@ task ktlintFormat(type: JavaExec, group: "formatting") {
     args "-F", "src/**/*.kt"
 }
 
+task('incrementVersionCode').doLast {
+    def versionPropsFile = file('version.properties')
+
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        def code = versionProps['VERSION_CODE'].toInteger() + 1
+
+        versionProps['VERSION_CODE'] = code.toString()
+        versionProps.store(versionPropsFile.newWriter(), null)
+    } else {
+        throw new GradleException("Could not read version.properties!")
+    }
+}
+
 tasks.whenTaskAdded { task ->
     if (task.name == 'generateDebugBuildConfig' || task.name == 'generateReleaseBuildConfig') {
         task.dependsOn('ktlintFormat')
+    }
+
+    if (task.name == 'generateReleaseBuildConfig') {
+        task.dependsOn('incrementVersionCode')
     }
 }
 
