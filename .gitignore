@@ -125,5 +125,5 @@ captures/
 app/release
 
 # For secure info
-keystore.properties
-signing/*.json
+app/keystore.properties
+app/signing/*.json
