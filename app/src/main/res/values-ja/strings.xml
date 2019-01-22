@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">グレード変換</string>
+    <string name="app_name">グレード</string>
+    <string name="activity_name">グレード変換</string>
     <string name="edit">編集</string>
     <string name="info">情報</string>
 
