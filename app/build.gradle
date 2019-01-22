@@ -25,7 +25,7 @@ android {
         applicationId "com.responsivebytes.gradeconverter"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 4
+        versionCode 5
         versionName "1.1"
         vectorDrawables.useSupportLibrary = true
 
