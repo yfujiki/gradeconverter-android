@@ -1,68 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.responsivebytes.gradeconverter.Views.GCTextView
+                android:id="@+id/thankYouTextView"
+                android:text="@string/thankyou"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textSize="@dimen/medium_text"
+                />
+            <ImageView
+                android:id="@+id/infoCloseButton"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:padding="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_close_primary_24dp"
+                android:contentDescription="@string/close"/>
+        </RelativeLayout>
         <com.responsivebytes.gradeconverter.Views.GCTextView
-            android:id="@+id/thankYouTextView"
-            android:text="@string/thankyou"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
+            android:id="@+id/contentTextView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:textSize="@dimen/medium_text"
+            android:text="@string/info_text"
+            android:justificationMode="inter_word"
+            android:textSize="@dimen/small_text"
+
             />
-        <ImageView
-            android:id="@+id/infoCloseButton"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
+
+        <com.responsivebytes.gradeconverter.Views.GCTextView
+            android:id="@+id/rateTextView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
-            android:padding="16dp"
+            android:layout_marginEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:srcCompat="@drawable/ic_close_primary_24dp"
-            android:contentDescription="@string/close"/>
-    </RelativeLayout>
-    <com.responsivebytes.gradeconverter.Views.GCTextView
-        android:id="@+id/contentTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/info_text"
-        android:justificationMode="inter_word"
-        android:textSize="@dimen/small_text"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/please_rate"
+            android:textSize="@dimen/small_text"
+            />
 
-        />
-
-    <com.responsivebytes.gradeconverter.Views.GCTextView
-        android:id="@+id/rateTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:textColor="@color/colorPrimary"
-        android:text="@string/please_rate"
-        android:textSize="@dimen/small_text"
-        />
-
-    <com.responsivebytes.gradeconverter.Views.GCTextView
-        android:id="@+id/versionTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:layout_gravity="center"
-        android:textAlignment="center"
-        android:textSize="14sp"
-        android:text="Version: 1.1(2)"
-        />
-
-</LinearLayout>
+        <com.responsivebytes.gradeconverter.Views.GCTextView
+            android:id="@+id/versionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textSize="@dimen/extra_small_text"
+            android:text="Version: 1.1(2)"
+            />
+    </LinearLayout>
+</ScrollView>
