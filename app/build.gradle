@@ -64,6 +64,7 @@ android {
 
 play {
     serviceAccountCredentials = file("signing/api-8456559488183791000-646804-967df2b098ea.json")
+    defaultToAppBundles = true
     track = "beta"
 }
 
