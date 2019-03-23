@@ -1,1 +1,1 @@
-Couple of bug fixes. Reduced binary size.
+Fixed violation of Developer Distribution Agreement.
