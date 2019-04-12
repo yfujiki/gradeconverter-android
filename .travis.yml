@@ -9,6 +9,7 @@ android:
     - android-28
 
 before_install:
+  - sdkmanager --licenses
   - sdkmanager tools
   - sdkmanager "system-images;android-28;default;x86_64"
   - echo no | android create avd --force -n test -k "system-images;android-28;default;x86_64" -c 128M
