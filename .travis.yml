@@ -12,7 +12,7 @@ before_install:
   - echo yes | sdkmanager tools
   - echo yes | sdkmanager "system-images;android-28;default;x86_64"
   - echo no | android create avd --force -n test -k "system-images;android-28;default;x86_64" -c 128M
-  - emulator -avd test -no-audio -no-window &
+  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window &
 
 before_script:
   - android-wait-for-emulator
