@@ -28,15 +28,33 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
-        def keystorePropertiesFile = file("keystore.properties");
-        def keystoreProperties = new Properties()
-        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+        def fileName
+        def password
+        def kalias
+        def kpassword
+
+        def keystorePropertiesFile = file("keystore.properties")
+
+        if (keystorePropertiesFile.exists()) {
+            def keystoreProperties = new Properties()
+            keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+            fileName = keystoreProperties['storeFile']
+            password = keystoreProperties['storePassword']
+            kalias = keystoreProperties['keyAlias']
+            kpassword = keystoreProperties['keyPassword']
+        } else {
+            fileName = System.getenv("storeFile")
+            password = System.getenv("storePassword")
+            kalias = System.getenv("keyAlias")
+            kpassword = System.getenv("keyPassword")
+        }
 
         release {
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
+            storeFile file(fileName)
+            storePassword password
+            keyAlias kalias
+            keyPassword kpassword
         }
     }
     buildTypes {
