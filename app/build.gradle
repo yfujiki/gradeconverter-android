@@ -48,6 +48,14 @@ android {
             password = System.getenv("storePassword")
             kalias = System.getenv("keyAlias")
             kpassword = System.getenv("keyPassword")
+
+            if (fileName == null ||
+                    password == null ||
+                    kalias == null ||
+                    kpassword == null
+            ) {
+                logger.error("You need to either place appropriate keystore.properties or set proper environment variables for code signing.")
+            }
         }
 
         release {
