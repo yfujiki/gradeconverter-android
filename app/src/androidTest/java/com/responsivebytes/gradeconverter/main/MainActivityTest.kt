@@ -24,6 +24,11 @@ import org.hamcrest.TypeSafeMatcher
 import org.junit.*
 import org.junit.runner.RunWith
 import tools.fastlane.screengrab.locale.LocaleTestRule
+import android.support.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
+import android.view.WindowManager
+import netscape.javascript.JSObject.getWindow
+
+
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
@@ -45,6 +50,18 @@ class MainActivityTest {
     fun setUp() {
         appContext = InstrumentationRegistry.getInstrumentation().targetContext
         LocalPreferencesImpl(appContext!!, "UITest").reset()
+
+        unlockScreen()
+    }
+
+    private fun unlockScreen() {
+        val activity = mActivityTestRule.getActivity()
+        val wakeUpDevice = Runnable {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON or
+                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+        activity.runOnUiThread(wakeUpDevice)
     }
 
     @After
