@@ -239,4 +239,18 @@ class GradeSystem : Comparable<GradeSystem> {
         result = category.compareTo(other.category)
         return result
     }
+
+    override fun equals(other: Any?): Boolean {
+        (other as? GradeSystem)?.let {
+            return key() == it.key()
+        } ?: run {
+            return false
+        }
+    }
+
+    override fun hashCode(): Int {
+        var value = super.hashCode()
+        value += key().hashCode()
+        return value
+    }
 }
