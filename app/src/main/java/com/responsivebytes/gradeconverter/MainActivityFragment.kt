@@ -130,7 +130,7 @@ class MainActivityFragment : Fragment() {
 
         disposable += appState.mainViewDraggingViewHolderSubject.subscribe {
             if (it.dragging) {
-                itemTouchHelper.startDrag(it.viewHolder!!)
+                itemTouchHelper.startDrag(it.viewHolder)
             }
         }
     }
