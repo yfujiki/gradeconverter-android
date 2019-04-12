@@ -1,4 +1,4 @@
-package com.responsivebytes.gradeconverter
+package com.responsivebytes.gradeconverter.main
 
 import android.content.Context
 import android.support.test.InstrumentationRegistry
@@ -14,6 +14,7 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.View
 import android.view.ViewGroup
+import com.responsivebytes.gradeconverter.*
 import com.responsivebytes.gradeconverter.Models.LocalPreferencesImpl
 import com.responsivebytes.gradeconverter.Views.AddRecyclerViewHolder
 import org.hamcrest.CoreMatchers.not
@@ -82,7 +83,7 @@ class MainActivityTest {
                     .check(
                             ViewAssertions.matches(
                                     not (
-                                    CustomViewMatchers.backgroundHasBorder()
+                                            CustomViewMatchers.backgroundHasBorder()
                                     )
                             )
                     )
