@@ -24,11 +24,7 @@ import org.hamcrest.TypeSafeMatcher
 import org.junit.*
 import org.junit.runner.RunWith
 import tools.fastlane.screengrab.locale.LocaleTestRule
-import android.support.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
 import android.view.WindowManager
-import netscape.javascript.JSObject.getWindow
-
-
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
