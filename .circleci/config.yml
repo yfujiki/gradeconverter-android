@@ -68,7 +68,8 @@ jobs:
               test_settings.yml:instrumentation_test \
               --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
       - run:
-          name: Install gsutil dependency and copy test results data when: always # 1
+          name: Install gsutil dependency and copy test results data
+          when: always
           command: |
             sudo pip install -U crcmod
             mkdir -p ~/gsutil/
