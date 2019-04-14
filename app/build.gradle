@@ -111,7 +111,7 @@ task('incrementVersionCode').doLast {
     def versionPropsFile = file('version.properties')
 
     if (versionPropsFile.canRead()) {
-        def Properties versionProps = new Properties()
+        Properties versionProps = new Properties()
 
         versionProps.load(new FileInputStream(versionPropsFile))
 
