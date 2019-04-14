@@ -29,6 +29,15 @@ jobs:
           when: always
       - store_test_results:
           path: ~/junit
+      - run:
+          name: Run Tests
+          command: ./gradlew jacocoTestReport
+      - run:
+          name: Run Save coverage
+          command: |
+            curl -s https://codecov.io/bash > .codecov
+            chmod +x .codecov
+            ./.codecov
 workflows:
   version: 2
   deployment_pipeline:
