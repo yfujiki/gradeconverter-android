@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  commit:
     working_directory: ~/code
     docker:
       - image: circleci/android:api-28
@@ -29,3 +29,8 @@ jobs:
           when: always
       - store_test_results:
           path: ~/junit
+workflows:
+  version: 2
+  deployment_pipeline:
+    jobs:
+      - commit
