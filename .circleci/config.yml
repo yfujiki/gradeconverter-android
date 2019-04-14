@@ -29,3 +29,8 @@ jobs:
           when: always
       - store_test_results:
           path: ~/junit
+workflows:
+  version: 2
+  - deployment_pipeline:
+    jobs:
+      - commit
