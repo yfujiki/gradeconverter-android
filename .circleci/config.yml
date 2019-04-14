@@ -73,7 +73,7 @@ jobs:
           command: |
             sudo pip install -U crcmod
             mkdir -p ~/gsutil/
-            sudo gsutil -m cp -r -U `sudo gsutil ls gs://cloud-test-responsivebytes | tail -1` ~/gsutil/ | true
+            sudo gsutil -m cp -r -U `sudo gsutil ls gs://cloud-test-${GOOGLE_PROJECT_ID} | tail -1` ~/gsutil/ | true
       - store_artifacts:
           path: ~/gsutil/
       - store_test_results:
