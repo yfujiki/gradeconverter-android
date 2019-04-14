@@ -30,6 +30,6 @@ jobs:
       - store_test_results:
           path: ~/junit
 workflows:
-  - deployment_pipeline:
-      jobs:
-        - commit
+  deployment_pipeline:
+    jobs:
+      - commit
