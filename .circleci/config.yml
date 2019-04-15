@@ -95,8 +95,7 @@ jobs:
           at: .
       - run:
           name: Store Google Play Android Developer Service Account
-          command: |
-            echo ${GOOGLE_PLAY_SERVICE_KEY} | base64 --decode > ${HOME}/app/signing/google-play-service-key.json
+          command: echo ${GOOGLE_PLAY_SERVICE_KEY} | base64 --decode > ${HOME}/app/signing/google-play-service-key.json
       - run:
           name: Decrypt keystore
           command: |
