@@ -60,6 +60,14 @@ android {
             }
         }
 
+        // debug key store
+        debug {
+            storeFile file(fileName)
+            storePassword password
+            keyAlias kalias
+            keyPassword kpassword
+        }
+
         release {
             storeFile file(fileName)
             storePassword password
@@ -74,6 +82,7 @@ android {
             signingConfig signingConfigs.release
         }
         debug {
+            signingConfig signingConfigs.debug
         }
     }
     useLibrary 'android.test.runner'
