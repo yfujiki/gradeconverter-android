@@ -1,4 +1,4 @@
-package com.responsivebytes.gradeconverter
+package com.responsivebytes.gradeconverter.main
 
 import android.content.Context
 import android.support.test.InstrumentationRegistry

@@ -127,3 +127,4 @@ app/release
 # For secure info
 app/keystore.properties
 app/signing/*.json
+app/signing/*.key

@@ -165,7 +165,7 @@ class ViewPagerAdapter(val localPreferences: LocalPreferences, val grade: GradeS
                 .inflate(R.layout.view_pager_view_holder, container, false)
 
         if (dataList.count() > position) {
-            val indexes = dataList.get(position)!!
+            val indexes = dataList.get(position)
             view.gradeValueTextView.text = grade.localizedGradeAtIndexes(indexes, context)
         }
 
