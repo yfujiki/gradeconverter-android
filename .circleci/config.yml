@@ -86,6 +86,24 @@ jobs:
           path: ~/gsutil/
       - store_test_results:
           path: ~/gsutil/
+  release:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-28
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Store Google Play Android Developer Service Account
+          command: |
+            echo ${GOOGLE_PLAY_SERVICE_KEY} | base64 --decode > ${HOME}/app/signing/google-play-service-key.json
+      - run:
+          name: Decrypt keystore
+          command: |
+            openssl aes-256-cbc -d -in app/signing/Store.key.encrypted -out app/signing/Store.key -k ${DECRYPT_KEY} -md md5
+      - run:
+          name: Run publishApkRelease
+          command: ./gradlew publishApkRelease
 workflows:
   version: 2
   deployment_pipeline:
@@ -94,3 +112,11 @@ workflows:
       - ui_test:
           requires:
             - unit_test
+      - release:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+          requires:
+            - ui_test
