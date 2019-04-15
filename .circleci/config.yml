@@ -16,6 +16,10 @@ jobs:
             - ~/.gradle
           key: jars-{{checksum "build.gradle"}}-{{checksum "app/build.gradle"}}
       - run:
+          name: Decrypt keystore
+          command: |
+            openssl aes-256-cbc -d -in app/signing/Store.key.encrypted -out app/signing/Store.key -k $DECRYPTED_KEY
+      - run:
           name: Run Compile
           command: ./gradlew assembleDebug
       - run:
@@ -59,7 +63,7 @@ jobs:
             sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
             sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
       - run:
-          name: Decrypted keystore
+          name: Decrypt keystore
           command: |
             openssl aes-256-cbc -d -in app/signing/Store.key.encrypted -out app/signing/Store.key -k $DECRYPTED_KEY
       - run:
