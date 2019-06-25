@@ -24,10 +24,6 @@ object GradeSystemTable {
     }
 
     private fun moveFileToDrive(context: Context) {
-        if (driveFile(context).exists()) {
-            return
-        }
-
         val inputStream = assetFileInputStream(context)
         val inputReader = inputStream.bufferedReader()
         val outputWriter = driveFile(context).bufferedWriter()
