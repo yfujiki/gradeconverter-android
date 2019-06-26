@@ -22,10 +22,10 @@ class GradeSystemTableTest {
 
     @Test
     fun testInit() {
-        assertEquals(16, GradeSystemTable.tableBody.count())
+        assertEquals(17, GradeSystemTable.tableBody.count())
         assertTrue(GradeSystemTable.tableBody.keys.contains("Yosemite Decimal System-Sports"))
         assertTrue(GradeSystemTable.tableBody.keys.contains("Brazil-Boulder"))
-        assertEquals(42, GradeSystemTable.tableBody["Yosemite Decimal System-Sports"]?.grades?.count())
+        assertEquals(45, GradeSystemTable.tableBody["Yosemite Decimal System-Sports"]?.grades?.count())
     }
 
     @Test
@@ -57,7 +57,7 @@ class GradeSystemTableTest {
     fun testGradeAtIndex() {
         val yosemiteGrade = GradeSystemTable.gradeSystemForNameCategory("Yosemite Decimal System", "Sports")
         assertEquals("Lowest grade should be 5.1", "5.1", yosemiteGrade?.gradeAtIndex(0, true))
-        assertEquals("Highest grade should be 5.15c", "5.15c", yosemiteGrade?.gradeAtIndex(yosemiteGrade?.grades.count() - 1, false))
+        assertEquals("Highest grade should be 5.15d", "5.15d", yosemiteGrade?.gradeAtIndex(yosemiteGrade?.grades.count() - 1, false))
 
         val britishTechnical = GradeSystemTable.gradeSystemForNameCategory("British Technical", "Sports")
         assertEquals("Lowest grade should be 2", "2", britishTechnical?.gradeAtIndex(0, true))
@@ -79,7 +79,7 @@ class GradeSystemTableTest {
         val huecoGrade = GradeSystemTable.gradeSystemForNameCategory("Hueco", "Boulder")
 
         assertEquals((0..14).toList(), huecoGrade?.indexesForGrade("VB"))
-        assertEquals((28..29).toList(), huecoGrade?.indexesForGrade("V6"))
+        assertEquals((30..31).toList(), huecoGrade?.indexesForGrade("V6"))
     }
 
     @Test
@@ -96,6 +96,6 @@ class GradeSystemTableTest {
         assertEquals("V4", huecoGrade?.higherGradeFromIndexes((21..24).toList()))
 
         assertEquals("V3", huecoGrade?.lowerGradeFromIndexes((21..25).toList()))
-        assertEquals("V5", huecoGrade?.higherGradeFromIndexes((21..25).toList()))
+        assertEquals("V5", huecoGrade?.higherGradeFromIndexes((21..26).toList()))
     }
 }
