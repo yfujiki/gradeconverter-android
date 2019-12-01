@@ -3,7 +3,7 @@
     <color name="colorPrimary">#0098ff</color>
     <color name="colorPrimaryDark">#007bd6</color>
     <color name="colorAccent">#ff6700</color>
-    <color name="colorMainBackground">#EEEEEE</color>
-    <color name="colorCardBackground">#FFFFFF</color>
-    <color name="colorText">#202020</color>
+    <color name="colorMainBackground">#202020</color>
+    <color name="colorCardBackground">#000000</color>
+    <color name="colorText">#FFFFFF</color>
 </resources>
