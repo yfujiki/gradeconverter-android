@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="?attr/selectableItemBackgroundBorderless"
-        app:srcCompat="@drawable/ic_chevron_left_black_24dp"
+        app:srcCompat="@drawable/ic_chevron_left_24dp"
         android:contentDescription="@string/left_arrow"/>
 
     <LinearLayout
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/small_text"
-            android:textColor="#000000"
+            android:textColor="@color/colorText"
             android:textAlignment="center"
             android:text="Yosemite Decimal System"
             android:drawableEnd="@drawable/boulder"
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="?attr/selectableItemBackgroundBorderless"
-        app:srcCompat="@drawable/ic_chevron_right_black_24dp"
+        app:srcCompat="@drawable/ic_chevron_right_24dp"
         android:contentDescription="@string/right_arrow"
         />
 
@@ -79,6 +79,7 @@
         android:layout_gravity="center"
         app:srcCompat="@drawable/handle"
         android:visibility="gone"
+        android:tint="@color/colorText"
         android:contentDescription="@string/handle"
         />
 </LinearLayout>

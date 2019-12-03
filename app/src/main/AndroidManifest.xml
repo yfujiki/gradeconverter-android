@@ -26,7 +26,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/activity_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
         </activity>
 
         <uses-library android:name="android.test.runner"

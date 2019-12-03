@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/medium_text"
-            android:textColor="#000000"
+            android:textColor="@color/colorText"
             android:textAlignment="center"
             android:text="Yosemite Decimal System"
             />
@@ -43,7 +43,7 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
+            android:textColor="@color/colorText"
             android:textSize="@dimen/extra_small_text"
             android:text="(Boulder)"
             />
