@@ -14,7 +14,7 @@ apply plugin: 'kotlin-kapt'
 //apply plugin: 'jacoco-android'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         def versionPropertiesFile = file("version.properties")
         def versionProperties = new Properties()
@@ -22,7 +22,7 @@ android {
 
         applicationId "com.responsivebytes.gradeconverter"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionName versionProperties['VERSION_NAME']
         versionCode versionProperties['VERSION_CODE'].toInteger()
         vectorDrawables.useSupportLibrary = true
