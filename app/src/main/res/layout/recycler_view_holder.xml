@@ -79,6 +79,7 @@
         android:layout_gravity="center"
         app:srcCompat="@drawable/handle"
         android:visibility="gone"
+        android:tint="@color/colorText"
         android:contentDescription="@string/handle"
         />
 </LinearLayout>
